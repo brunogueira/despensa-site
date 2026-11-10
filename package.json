@@ -1,0 +1,23 @@
+{
+  "name": "despensa-site",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && npm run lint:colors",
+    "preview": "astro preview",
+    "astro": "astro",
+    "og": "node scripts/gerar-og.mjs",
+    "lint:colors": "node scripts/lint-colors.mjs"
+  },
+  "dependencies": {
+    "astro": "7.4.8"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5"
+  }
+}
