@@ -1,0 +1,122 @@
+---
+import Base from '../layouts/Base.astro';
+import StoreButtons from '../components/StoreButtons.astro';
+
+const precos = [
+  { nome: 'Mensal', valor: 'R$ 12,90', per: 'por mês', nota: 'Para experimentar, sem compromisso longo.' },
+  { nome: 'Semestral', valor: 'R$ 59,90', per: 'a cada 6 meses', nota: 'Cerca de R$ 10 por mês. 22% de desconto sobre o mensal.' },
+  { nome: 'Anual', valor: 'R$ 89,90', per: 'por ano', nota: 'Cerca de R$ 7,49 por mês. 42% de desconto sobre o mensal.', destaque: true },
+];
+const linhas: [string, string, string][] = [
+  ['Casas', '1', 'Até 3'],
+  ['Pessoas na casa', 'Até 3', 'Até 10'],
+  ['Listas ativas (as arquivadas não contam)', 'Até 5', 'Ilimitadas'],
+  ['Itens por lista', 'Sem limite', 'Sem limite'],
+  ['Convidados de fora por lista', 'Até 5', 'Até 50'],
+  ['Listas só suas', 'Sim', 'Sim'],
+  ['Leitura de notas fiscais (NFC-e)', 'Ilimitada', 'Ilimitada'],
+  ['Compras e gasto do mês', 'Sim', 'Sim'],
+  ['Preço atual por produto e por mercado', 'Sim', 'Sim'],
+  ['Histórico de preços', 'Últimos 3 meses', 'Completo'],
+  ['Tendência e comparação entre mercados', 'Resumo (melhor preço recente)', 'Completa, com gráficos'],
+  ['Alertas de preço', 'Não', 'Sim'],
+  ['Exportar suas compras em CSV', 'Tudo', 'Tudo'],
+  ['Cor e fundo da lista', '2 cores e 2 fundos', 'Todos (6 cores e 8 fundos)'],
+  ['Tema claro e escuro, VoiceOver e texto grande', 'Sim', 'Sim'],
+  ['Anúncios', 'Nenhum', 'Nenhum'],
+];
+const promessas = [
+  { t: 'Nada é apagado.', d: 'Se você passar do limite ou cancelar, tudo continua visível. Só deixa de poder criar mais.' },
+  { t: 'Seus dados são seus.', d: 'Exportar tudo em CSV é grátis, em qualquer plano.' },
+  { t: 'Ler nota não tem limite.', d: 'É o coração da Despensa, e fica livre no plano grátis.' },
+  { t: 'Sem anúncios.', d: 'Em nenhum plano.' },
+];
+---
+<Base title="Planos e preços | Despensa" description="Comece de graça. O plano completo traz histórico de preços completo, comparação com gráficos, mais casas e mais listas. R$ 12,90 por mês, R$ 59,90 por semestre ou R$ 89,90 por ano." path="/planos">
+  <section>
+    <div class="wrap">
+      <h1 class="center">Planos e preços</h1>
+      <p class="sub center" style="max-width:52ch;margin-inline:auto">Comece de graça, com a casa toda na mesma lista. O plano completo é para quem quer o histórico de preços inteiro e mais espaço.</p>
+      <p class="center"><span class="pill">Em breve nas lojas</span></p>
+
+      <div class="plans three">
+        <div class="plan">
+          <h2 class="h3">Grátis</h2>
+          <p class="price-big">R$ 0</p>
+          <p class="muted">Para a casa se apaixonar.</p>
+          <ul class="check">
+            <li>Lista compartilhada com até 3 pessoas</li>
+            <li>Até 5 listas ativas e 5 convidados por lista</li>
+            <li>Leitura de notas sem limite</li>
+            <li>Histórico dos últimos 3 meses</li>
+            <li>Exportar tudo em CSV</li>
+          </ul>
+        </div>
+        <div class="plan full">
+          <h2 class="h3">Completo</h2>
+          <p class="price-big">a partir de R$ 7,49<small> por mês</small></p>
+          <p class="muted">No plano anual (R$ 89,90 por ano).</p>
+          <ul class="check">
+            <li>Tudo do plano grátis</li>
+            <li>Histórico de preços completo</li>
+            <li>Comparação entre mercados, com gráficos</li>
+            <li>Alertas de preço</li>
+            <li>Até 3 casas, 10 pessoas e listas ilimitadas</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap">
+      <h2 class="center">Plano completo: escolha como pagar</h2>
+      <div class="prices">
+        {precos.map((p) => (
+          <div class={`price${p.destaque ? ' best' : ''}`}>
+            {p.destaque && <span class="pill sm">Melhor preço</span>}
+            <h3>{p.nome}</h3>
+            <p class="price-big">{p.valor}</p>
+            <p class="muted small" style="margin:0">{p.per}</p>
+            <p class="small" style="margin:12px 0 0">{p.nota}</p>
+          </div>
+        ))}
+      </div>
+      <p class="center" style="margin-top:20px"><strong>7 dias grátis do plano completo.</strong> Depois, o plano anual (R$ 89,90 por ano). Cancele durante o teste e nada é cobrado.</p>
+      <p class="center muted small">Os preços e as regras do teste grátis serão confirmados nas lojas no lançamento e podem mudar até lá. Quem cancela fica no plano grátis, sem perder nada.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2 class="center">Compare os planos</h2>
+      <div class="table-wrap">
+        <table class="compare">
+          <caption class="sr">Comparação entre o plano grátis e o plano completo</caption>
+          <thead><tr><th scope="col">Recurso</th><th scope="col">Grátis</th><th scope="col">Completo</th></tr></thead>
+          <tbody>
+            {linhas.map(([r, g, c]) => <tr><th scope="row">{r}</th><td>{g}</td><td>{c}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="privacy">
+    <div class="wrap">
+      <h2 class="center">Nossa promessa, em qualquer plano</h2>
+      <ul>
+        {promessas.map((i) => <li><strong>{i.t}</strong>{i.d}</li>)}
+      </ul>
+      <p class="center"><a href="/termos">Ler os termos de uso</a> · <a href="/privacidade">Política de privacidade</a></p>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap">
+      <h2>Comece de graça, quando chegar às lojas.</h2>
+      <StoreButtons center />
+      <p class="muted small" style="margin-top:12px">Em breve nas lojas.</p>
+    </div>
+  </section>
+</Base>
