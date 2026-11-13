@@ -2,7 +2,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://despensa.brunocnog.com.br',
+  site: 'https://despensa.online',
   trailingSlash: 'ignore',
   build: { format: 'directory' },
 });

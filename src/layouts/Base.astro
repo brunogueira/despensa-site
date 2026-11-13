@@ -3,7 +3,7 @@ import '../styles/global.css';
 import Glyph from '../components/Glyph.astro';
 interface Props { title: string; description: string; path?: string; noindex?: boolean; jsonLd?: object }
 const { title, description, path = '/', noindex = false, jsonLd } = Astro.props;
-const site = 'https://despensa.brunocnog.com.br';
+const site = 'https://despensa.online';
 const url = new URL(path, site).href;
 const og = `${site}/og.png`;
 const email = 'despensa.lista@gmail.com';
