@@ -9,9 +9,10 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
 <rect width="1200" height="630" fill="${bg}"/>
 <rect x="80" y="165" width="300" height="300" rx="64" fill="${soft}"/>
 <g transform="translate(160 200) scale(.2)"><path d="${path}" transform="translate(-212 -140)" fill="${primary}" fill-rule="evenodd"/></g>
-<text x="440" y="285" font-family="Helvetica, Arial, sans-serif" font-size="92" font-weight="700" fill="${text}">Despensa</text>
-<text x="440" y="360" font-family="Helvetica, Arial, sans-serif" font-size="38" fill="${text2}">A lista da casa que aprende</text>
-<text x="440" y="410" font-family="Helvetica, Arial, sans-serif" font-size="38" fill="${text2}">os preços sozinha.</text>
+<text x="440" y="250" font-family="Helvetica, Arial, sans-serif" font-size="92" font-weight="700" fill="${text}">Despensa</text>
+<text x="440" y="330" font-family="Helvetica, Arial, sans-serif" font-size="42" font-weight="700" fill="${primary}">Compre melhor.</text>
+<text x="440" y="385" font-family="Helvetica, Arial, sans-serif" font-size="36" fill="${text2}">Escaneie a nota, a Despensa</text>
+<text x="440" y="430" font-family="Helvetica, Arial, sans-serif" font-size="36" fill="${text2}">guarda os preços.</text>
 </svg>`;
 await sharp(Buffer.from(svg)).png().toFile(new URL('../public/og.png', import.meta.url).pathname);
 const fav = readFileSync(new URL('../public/favicon.svg', import.meta.url));

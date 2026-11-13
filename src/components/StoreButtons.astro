@@ -11,7 +11,7 @@ const lojas = [
 <div class={`stores${center ? ' center-stores' : ''}`}>
   {lojas.map((l) => {
     const Tag = l.url ? 'a' : 'span';
-    const props = l.url ? { href: l.url } : { role: 'img', 'aria-label': `${l.nome}: em breve` };
+    const props = l.url ? { href: l.url } : { role: 'img', 'aria-label': `${l.nome}: em breve`, 'aria-disabled': 'true' };
     return (
       <Tag class={`store${l.url ? '' : ' soon'}`} {...props}>
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">

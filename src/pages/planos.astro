@@ -33,14 +33,14 @@ const promessas = [
 ];
 ---
 <Base title="Planos e preços | Despensa" description="Comece de graça. O plano completo traz histórico de preços completo, comparação com gráficos, mais casas e mais listas. R$ 12,90 por mês, R$ 59,90 por semestre ou R$ 89,90 por ano." path="/planos">
-  <section>
+  <section class="page-head" style="padding-bottom:clamp(40px,6vw,72px)">
     <div class="wrap">
       <h1 class="center">Planos e preços</h1>
-      <p class="sub center" style="max-width:52ch;margin-inline:auto">Comece de graça, com a casa toda na mesma lista. O plano completo é para quem quer o histórico de preços inteiro e mais espaço.</p>
+      <p class="lead center">Comece de graça, com a casa toda na mesma lista. O plano completo é para quem quer o histórico de preços inteiro e mais espaço.</p>
       <p class="center"><span class="pill">Em breve nas lojas</span></p>
 
       <div class="plans three">
-        <div class="plan">
+        <div class="card plan">
           <h2 class="h3">Grátis</h2>
           <p class="price-big">R$ 0</p>
           <p class="muted">Para a casa se apaixonar.</p>
@@ -52,7 +52,7 @@ const promessas = [
             <li>Exportar tudo em CSV</li>
           </ul>
         </div>
-        <div class="plan full">
+        <div class="card plan full">
           <h2 class="h3">Completo</h2>
           <p class="price-big">a partir de R$ 7,49<small> por mês</small></p>
           <p class="muted">No plano anual (R$ 89,90 por ano).</p>
@@ -73,7 +73,7 @@ const promessas = [
       <h2 class="center">Plano completo: escolha como pagar</h2>
       <div class="prices">
         {precos.map((p) => (
-          <div class={`price${p.destaque ? ' best' : ''}`}>
+          <div class={`card price${p.destaque ? ' best' : ''}`}>
             {p.destaque && <span class="pill sm">Melhor preço</span>}
             <h3>{p.nome}</h3>
             <p class="price-big">{p.valor}</p>
@@ -90,12 +90,12 @@ const promessas = [
   <section>
     <div class="wrap">
       <h2 class="center">Compare os planos</h2>
-      <div class="table-wrap">
+      <div>
         <table class="compare">
           <caption class="sr">Comparação entre o plano grátis e o plano completo</caption>
           <thead><tr><th scope="col">Recurso</th><th scope="col">Grátis</th><th scope="col">Completo</th></tr></thead>
           <tbody>
-            {linhas.map(([r, g, c]) => <tr><th scope="row">{r}</th><td>{g}</td><td>{c}</td></tr>)}
+            {linhas.map(([r, g, c]) => <tr><th scope="row">{r}</th><td data-label="Grátis">{g}</td><td data-label="Completo">{c}</td></tr>)}
           </tbody>
         </table>
       </div>
@@ -104,19 +104,20 @@ const promessas = [
 
   <section class="privacy">
     <div class="wrap">
-      <h2 class="center">Nossa promessa, em qualquer plano</h2>
-      <ul>
-        {promessas.map((i) => <li><strong>{i.t}</strong>{i.d}</li>)}
-      </ul>
-      <p class="center"><a href="/termos">Ler os termos de uso</a> · <a href="/privacidade">Política de privacidade</a></p>
+      <div class="sec-head"><h2>Nossa promessa, em qualquer plano</h2></div>
+      <div class="pgrid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+        {promessas.map((i) => <div class="card"><h3>{i.t}</h3><p>{i.d}</p></div>)}
+      </div>
+      <p class="after"><a href="/termos">Ler os termos de uso</a> · <a href="/privacidade">Política de privacidade</a></p>
     </div>
   </section>
 
-  <section class="cta">
+  <section class="cta-sec" style="padding-top:clamp(48px, 6vw, 72px)">
     <div class="wrap">
-      <h2>Comece de graça, quando chegar às lojas.</h2>
-      <StoreButtons center />
-      <p class="muted small" style="margin-top:12px">Em breve nas lojas.</p>
+      <div class="cta-card">
+        <h2>Comece de graça, quando chegar às lojas.</h2>
+        <StoreButtons center />
+      </div>
     </div>
   </section>
 </Base>
