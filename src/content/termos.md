@@ -136,4 +136,4 @@ continuar usando depois do aviso, entendemos que concorda; se não concordar, po
 ## 12. Lei e contato
 
 Estes termos seguem as leis do Brasil. Responsável: Bruno Costa Nogueira, pessoa física. Dúvidas ou pedidos:
-brunocostanog@gmail.com. Foro: comarca de São Paulo/SP.
+despensa.lista@gmail.com. Foro: comarca de São Paulo/SP.
