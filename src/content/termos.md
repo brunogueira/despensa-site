@@ -2,7 +2,7 @@
 
 Última atualização: 10 de novembro de 2026
 
-Estes termos ficam publicados em https://despensa.brunocnog.com.br/termos.
+Estes termos ficam publicados em https://despensa.online/termos.
 
 ## 1. O que é a Despensa
 

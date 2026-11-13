@@ -2,7 +2,7 @@
 
 Última atualização: 10 de novembro de 2026
 
-Esta política fica publicada em https://despensa.brunocnog.com.br/privacidade.
+Esta política fica publicada em https://despensa.online/privacidade.
 
 ## Resumo em poucas linhas
 
@@ -261,7 +261,7 @@ contato da seção 1.
 
 Se mudarmos algo importante (por exemplo, coletar um dado novo), atualizamos esta página, mudamos
 a data do topo e avisamos no app antes da mudança valer. A versão em vigor fica sempre em
-https://despensa.brunocnog.com.br/privacidade.
+https://despensa.online/privacidade.
 
 ## 12. Contato
 

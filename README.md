@@ -1,6 +1,6 @@
 # despensa-site
 
-Landing page da Despensa: https://despensa.brunocnog.com.br
+Landing page da Despensa: https://despensa.online
 
 Astro 7.4.8, site estático, sem rastreadores, cookies nem scripts de terceiros.
 
