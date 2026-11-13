@@ -21,8 +21,8 @@ Esta política fica publicada em https://despensa.brunocnog.com.br/privacidade.
 O controlador dos dados, na linguagem da LGPD (Lei 13.709/2018), é:
 
 - **Bruno Costa Nogueira**, pessoa física, desenvolvedor da Despensa.
-- **Contato para assuntos de privacidade:** brunocostanog@gmail.com
-- **Encarregado (DPO):** o próprio controlador, no mesmo contato acima (brunocostanog@gmail.com).
+- **Contato para assuntos de privacidade:** despensa.lista@gmail.com
+- **Encarregado (DPO):** o próprio controlador, no mesmo contato acima (despensa.lista@gmail.com).
 
 ## 2. Quais dados tratamos e para quê
 
@@ -265,4 +265,4 @@ https://despensa.brunocnog.com.br/privacidade.
 
 ## 12. Contato
 
-brunocostanog@gmail.com
+despensa.lista@gmail.com
