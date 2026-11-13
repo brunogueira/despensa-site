@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+const email = 'despensa.lista@gmail.com';
+const assunto = encodeURIComponent('Excluir minha conta da Despensa');
+const corpo = encodeURIComponent('Quero excluir minha conta e todos os meus dados da Despensa.\n\nE-mail da conta: \n');
+---
+<Base title="Excluir conta e dados | Despensa" description="Como apagar sua conta da Despensa e todos os dados dela, pelo app ou por e-mail, sem precisar do app." path="/excluir-conta">
+  <div class="wrap">
+    <article class="prose">
+      <h1>Excluir conta e dados da Despensa</h1>
+      <p>Você pode apagar a sua conta e tudo o que está ligado a ela quando quiser. É de graça, não tem pegadinha e não pedimos CPF nem senha em nenhum momento.</p>
+
+      <h2>Pelo app (o jeito mais rápido)</h2>
+      <ol>
+        <li>Abra a Despensa e entre na aba <strong>Você</strong>.</li>
+        <li>Role até o fim da página, na seção <strong>Conta</strong>.</li>
+        <li>Toque em <strong>Apagar conta e dados</strong>.</li>
+        <li>Leia o aviso e confirme em <strong>Apagar tudo</strong>.</li>
+      </ol>
+      <p>Precisa de internet. Sem conexão, nada é apagado e o app avisa para você tentar de novo.</p>
+
+      <h2>O que é apagado</h2>
+      <ul>
+        <li><strong>Sua conta:</strong> o login e o seu perfil (nome e foto).</li>
+        <li><strong>Seus dados no servidor:</strong> listas, itens, compras, mercados e preços ligados à sua casa. Se você é o único membro, a casa inteira é apagada. Se há outros membros, a casa continua para eles e você sai dela; o que você criou lá pode permanecer para eles, a menos que você peça a remoção pelo e-mail abaixo.</li>
+        <li><strong>Os dados do aparelho:</strong> listas, itens, compras, preços, foto, preferências e a sessão guardados neste celular. O app volta ao começo, como se tivesse acabado de ser instalado.</li>
+      </ul>
+      <p><strong>É definitivo.</strong> Não dá para desfazer nem recuperar depois. Se quiser guardar o histórico, exporte suas compras em CSV antes, na aba <strong>Casa</strong>.</p>
+      <p>Cópias de segurança do nosso fornecedor de banco de dados podem levar um curto período para sumir por completo; os detalhes estão na <a href="/privacidade">Política de Privacidade</a>.</p>
+
+      <h2>Não tem mais o app? Peça por e-mail</h2>
+      <p>Se você desinstalou o app, trocou de celular ou não consegue entrar, peça a exclusão por e-mail para <a href={`mailto:${email}?subject=${assunto}&body=${corpo}`}>{email}</a>.</p>
+      <ul>
+        <li><strong>Assunto sugerido:</strong> Excluir minha conta da Despensa</li>
+        <li><strong>Informe:</strong> o e-mail da conta (o mesmo do login com Google ou Apple). Se você usou "Ocultar e-mail" da Apple, diga isso na mensagem.</li>
+        <li><strong>Escreva do mesmo e-mail da conta,</strong> quando possível, para sabermos que o pedido é seu.</li>
+      </ul>
+      <p><strong>Nunca peça nem envie CPF ou senha.</strong> A Despensa não guarda o CPF do consumidor e nunca vai pedir a sua senha por e-mail.</p>
+      <p><strong>Prazo:</strong> respondemos e atendemos o pedido em até 15 dias, como prevê a política de privacidade e a LGPD, e sempre em menos de 30 dias. Quando terminarmos, avisamos você por e-mail.</p>
+
+      <h2>Quer só sair, sem apagar?</h2>
+      <p>Na mesma seção <strong>Conta</strong>, <strong>Sair da conta</strong> encerra a sessão e mantém suas listas e compras no aparelho. Para outros pedidos sobre seus dados (acessar, corrigir, exportar), veja a <a href="/privacidade">Política de Privacidade</a>.</p>
+    </article>
+  </div>
+</Base>

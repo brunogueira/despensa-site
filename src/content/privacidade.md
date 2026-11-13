@@ -2,13 +2,14 @@
 
 Última atualização: 10 de novembro de 2026
 
-Esta política fica publicada em https://despensa.online/privacidade.
+Esta política fica publicada em https://despensa.online/privacidade. Como apagar a conta e os
+dados, com ou sem o app, está em [despensa.online/excluir-conta](/excluir-conta/).
 
 ## Resumo em poucas linhas
 
 - A Despensa é uma lista de compras da casa que lê a nota fiscal do mercado (NFC-e) e guarda o
   histórico de preços.
-- **O CPF do consumidor nunca é guardado.** Nem no seu iPhone, nem na nuvem, nem em registros
+- **O CPF do consumidor nunca é guardado.** Nem no seu aparelho, nem na nuvem, nem em registros
   técnicos.
 - Você pode usar o app sem internet. Os dados ficam primeiro no seu aparelho.
 - Com login, os dados da sua casa são sincronizados com os outros membros.
@@ -28,7 +29,7 @@ O controlador dos dados, na linguagem da LGPD (Lei 13.709/2018), é:
 
 ### 2.1 No seu aparelho (sempre)
 
-Guardamos no armazenamento do próprio app (MMKV), sem sair do aparelho (iPhone ou Android), a menos que você entre
+Guardamos no armazenamento do próprio app (MMKV), sem sair do aparelho, a menos que você entre
 com uma conta (ver 2.2):
 
 | Dado | Para quê |
@@ -136,8 +137,8 @@ não o guarda.
 
 ### 2.6 Exportar CSV
 
-Ao exportar suas compras, o arquivo é criado no aparelho e entregue à folha de compartilhamento
-do iOS. Para onde ele vai (Arquivos, e-mail, outro app) é escolha sua; a partir daí vale a
+Ao exportar suas compras, o arquivo é criado no aparelho e entregue ao menu de compartilhamento
+do sistema. Para onde ele vai (Arquivos, e-mail, outro app) é escolha sua; a partir daí vale a
 política do destino.
 
 ## 3. O CPF do consumidor nunca é guardado
@@ -173,8 +174,8 @@ Não vendemos nem alugamos dados. Compartilhamos só com quem é necessário par
 | Quem | O que recebe | Para quê |
 |---|---|---|
 | **Supabase** (banco de dados e login), projeto na região São Paulo | Conta e dados da casa (2.2) e os contadores (2.3) | Guardar, sincronizar e proteger os dados |
-| **Apple** | Dados do login com Apple; informações padrão da App Store e do TestFlight | Entrar no app, distribuir o app |
-| **Google** | Dados do login com Google | Entrar no app |
+| **Apple** | Dados do login com Apple; informações padrão da loja de apps, quando você baixa o app por ela | Entrar no app, distribuir o app |
+| **Google** | Dados do login com Google; informações padrão do Google Play, quando você baixa o app por ele | Entrar no app, distribuir o app |
 | **Apple e Google (assinatura)**, quando houver plano pago | Eles processam o pagamento e nos informam só o estado da assinatura (2.3.1) | Cobrar e liberar o plano |
 | **Serviço de assinaturas**, se for usado (a definir) | Identificador da conta e estado da assinatura | Validar compras; entra aqui antes do lançamento |
 | **Secretarias da Fazenda do RJ e de SP** | Chave de acesso da nota | Consultar a nota (2.5) |
@@ -200,7 +201,7 @@ permite no art. 33.
 | Dados no aparelho | Até você apagar o app ou apagar o item |
 | Convites de lista | Vencem em 30 minutos e somem sozinhos. Pedidos recusados são apagados na hora |
 | Participação em lista compartilhada | Até o convidado sair, o dono remover, a lista ser excluída ou a conta de um deles ser apagada |
-| Conta e dados da casa na nuvem | Enquanto a conta existir. Ao apagar a conta, os dados dela são removidos (ver seção 8) |
+| Conta e dados da casa na nuvem | Enquanto a conta existir. Ao apagar a conta, os dados dela são removidos da nuvem e do aparelho (ver seção 8) |
 | Itens, listas e compras que você exclui | Na nuvem, ficam marcados como excluídos (não aparecem mais para ninguém), para a exclusão chegar aos outros aparelhos. Essa marcação permanece guardada até a casa ou a conta ser apagada, e então tudo é removido de vez |
 | Pedidos de entrada em lista sem resposta | Somem sozinhos depois de 7 dias |
 | Cópias de segurança do fornecedor | O Supabase pode manter cópias por um período curto depois da exclusão, conforme a política dele. Não controlamos esse prazo |
@@ -217,7 +218,7 @@ Pela LGPD (art. 18) você pode:
   receber os demais dados da sua conta, peça no contato da seção 1.
 - **Apagar** seus dados:
   - **No aparelho:** apague itens, listas e compras no app, ou apague o app.
-  - **A conta e tudo que está na nuvem:** pelo app, em "apagar conta". Isso remove sua conta e os dados ligados a ela. Se você é o único
+  - **A conta e tudo que está na nuvem:** pelo app, na aba Você, em "Apagar conta e dados". Isso remove sua conta e os dados ligados a ela e, em seguida, apaga também tudo o que está neste aparelho (listas, itens, compras, preços, foto, preferências e sessão), e o app volta ao começo. Precisa de internet: sem conexão, nada é apagado. Se você é o único
     membro da casa, a casa e seus dados também são apagados. Se há outros membros, a casa continua
     para eles e você sai dela; o que você criou na casa pode permanecer para os outros membros,
     a menos que você peça a remoção no contato.
@@ -228,7 +229,8 @@ Pela LGPD (art. 18) você pode:
     quais levar para a casa, uma a uma.
   - **Listas compartilhadas:** convidado sai pelo menu da lista; o dono remove pessoas em "Pessoas
     nesta lista" (ver 2.2.1).
-  - Se não conseguir pelo app, peça no contato da seção 1.
+  - **Sem o app, ou se não conseguir pelo app:** siga [despensa.online/excluir-conta](/excluir-conta/) ou peça no contato da seção 1.
+    Informe o e-mail da conta; nunca pedimos CPF nem senha.
 - **Retirar o consentimento** da câmera nos Ajustes do iPhone ou nas configurações do Android, quando quiser.
 - **Pedir informações** sobre com quem compartilhamos (seção 5).
 - **Reclamar** à Autoridade Nacional de Proteção de Dados (ANPD).

@@ -6,7 +6,7 @@ Estes termos ficam publicados em https://despensa.online/termos.
 
 ## 1. O que é a Despensa
 
-A Despensa é um app de lista de compras da casa, para iPhone e, em breve, também para Android. Ela lê a nota fiscal do mercado
+A Despensa é um app de lista de compras da casa, para iPhone e Android. Ela lê a nota fiscal do mercado
 (NFC-e) e guarda o histórico de preços. Ao usar o app, você concorda com estes termos e com a
 [política de privacidade](/privacidade).
 
@@ -21,7 +21,8 @@ quando uma nota é de um estado que ainda não lemos.
 - O login é com Apple ou Google. Você é responsável por manter sua conta Apple ou Google segura.
 - Você pode usar o app sem conta, só no aparelho. Sem conta não há sincronização nem cópia na
   nuvem.
-- Você pode apagar sua conta e seus dados a qualquer momento, pelo app ou pelo contato da política de privacidade.
+- Você pode apagar sua conta e seus dados a qualquer momento, pelo app ou pelo contato da política de privacidade. Quem não tem mais o app pode seguir o passo a passo em
+  [despensa.online/excluir-conta](/excluir-conta/). Pelo app, a exclusão é definitiva e também limpa os dados guardados neste aparelho.
 
 ## 4. Casa compartilhada
 
