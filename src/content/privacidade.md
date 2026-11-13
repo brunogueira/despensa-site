@@ -1,15 +1,8 @@
 # Política de privacidade da Despensa
 
-Última atualização: [A PREENCHER: data de publicação]
-Versão: rascunho para o TestFlight (cartão #12)
+Última atualização: 10 de novembro de 2026
 
-> **Nota para o Bruno (apagar antes de publicar):** este texto foi escrito pela PM, em linguagem
-> simples, e descreve o que o app faz hoje e o que o MVP fará (login, sincronização da casa,
-> contadores). **Não passou por revisão jurídica.** Para o TestFlight com amigos e família ele
-> serve. **Antes de abrir a App Store ao público, peça a revisão de um advogado** (LGPD e regras
-> da Apple). Os trechos marcados com [A PREENCHER] dependem de você. Trechos marcados com
-> "(quando a conta e a sincronização estiverem no ar)" só passam a valer com os cartões #7 e #8;
-> confira cada um quando eles forem entregues.
+Esta política fica publicada em https://despensa.brunocnog.com.br/privacidade.
 
 ## Resumo em poucas linhas
 
@@ -20,22 +13,22 @@ Versão: rascunho para o TestFlight (cartão #12)
 - Você pode usar o app sem internet. Os dados ficam primeiro no seu aparelho.
 - Com login, os dados da sua casa são sincronizados com os outros membros.
 - Não vendemos dados, não temos publicidade e não rastreamos você entre apps.
+- Quando houver plano pago, **cartão e pagamento ficam com a Apple ou o Google**; nós não vemos dados de cartão.
 - Você pode pedir seus dados, corrigi-los e apagar sua conta e tudo que está nela.
 
 ## 1. Quem é o responsável
 
 O controlador dos dados, na linguagem da LGPD (Lei 13.709/2018), é:
 
-- **Bruno Gueira**, pessoa física, desenvolvedor da Despensa. [A PREENCHER: nome completo, se
-  quiser que conste]
+- **Bruno Costa Nogueira**, pessoa física, desenvolvedor da Despensa.
 - **Contato para assuntos de privacidade:** brunocostanog@gmail.com
-- **Encarregado (DPO):** o próprio controlador, no mesmo contato acima. [A PREENCHER: confirmar]
+- **Encarregado (DPO):** o próprio controlador, no mesmo contato acima (brunocostanog@gmail.com).
 
 ## 2. Quais dados tratamos e para quê
 
 ### 2.1 No seu aparelho (sempre)
 
-Guardamos no armazenamento do próprio app (MMKV), sem sair do iPhone, a menos que você entre
+Guardamos no armazenamento do próprio app (MMKV), sem sair do aparelho (iPhone ou Android), a menos que você entre
 com uma conta (ver 2.2):
 
 | Dado | Para quê |
@@ -47,7 +40,7 @@ com uma conta (ver 2.2):
 | Casa: nome da casa e nome dos membros | Organizar a lista compartilhada |
 | Preferências (tema, onboarding) e a escolha de categoria que você faz | Lembrar como você usa o app |
 
-### 2.2 Na nuvem (quando a conta e a sincronização estiverem no ar)
+### 2.2 Na nuvem (quando você entra com uma conta)
 
 - **Conta:** identificador da conta e, conforme o login escolhido, o nome e o e-mail que a Apple
   ou o Google informarem ao app. Usamos só para identificar você e vincular você à sua casa. Se
@@ -103,6 +96,31 @@ valores, chave de acesso); nomes de produtos, listas ou mercados; CPF; hora exat
 O app envia apenas contagens somadas por dia, ação e versão. No servidor, não há nada que ligue
 uma contagem a uma pessoa. Detalhes técnicos: `docs/privacidade-contadores.md`.
 
+Quando você lê uma nota de um estado que o app ainda não lê e toca em "Avisar quando disponível",
+guardamos um contador à parte: **só o dia (sem hora) e a UF do estado**, somados com os de outras
+pessoas. Nada da nota, da sua conta ou do seu aparelho vai junto, e esse contador também não
+permite identificar ninguém.
+
+### 2.3.1 Assinatura do plano pago (quando estiver à venda)
+
+Hoje não há cobrança no app, e esta seção só passa a valer quando o plano pago for lançado (ver os
+termos de uso, seção 8). Como será:
+
+- **Pagamento:** feito pela Apple (App Store) ou pelo Google (Google Play). **Não recebemos nem
+  guardamos número de cartão, dados bancários ou endereço de cobrança.**
+- **O que recebemos da loja:** só o **estado da assinatura**: qual plano, se está ativa ou em teste
+  grátis, o período e a data de renovação ou término. Usamos para liberar ou bloquear as funções do plano.
+- **Vínculo com a conta:** guardamos esse estado junto ao identificador da sua conta, para o plano
+  valer em todos os seus aparelhos. Nunca junto a dados de compras ou de preços.
+- **Serviço de assinaturas:** se usarmos um serviço de terceiros para validar as compras (por
+  exemplo, RevenueCat), ele será listado na seção 5 **antes** de o plano ir à venda.
+- **Contadores anônimos:** podemos contar quantos testes viram assinatura, só como número somado
+  por dia, sem ligar a pessoa nenhuma (mesma regra da seção 2.3).
+- **Se você cancelar:** a assinatura acaba ao fim do período pago. Seus dados continuam com você
+  (ver os termos, seção 8). O estado da assinatura é apagado junto com a conta.
+- **Registros fiscais:** quando a lei exigir, a loja ou o responsável guardam registros da venda pelo
+  prazo legal, mesmo depois de você apagar a conta.
+
 ### 2.4 Câmera
 
 O app pede acesso à câmera **só para ler o QR code da nota**. Nenhuma foto ou vídeo é gravado ou
@@ -141,8 +159,9 @@ Se você achar que algum CPF apareceu em algum lugar do app, avise no contato da
 |---|---|
 | Listas, notas, mercados e preços (2.1) e dados da casa (2.2) | Execução do serviço que você pediu ao usar o app (art. 7, V) |
 | Conta e login (2.2) | Execução do serviço que você pediu (art. 7, V) |
-| Câmera para ler o QR | Consentimento, dado por você na permissão do iOS (art. 7, I); você pode retirar quando quiser nos Ajustes |
+| Câmera para ler o QR | Consentimento, dado por você na permissão do iOS ou do Android (art. 7, I); você pode retirar quando quiser nos Ajustes |
 | Contadores anônimos (2.3) | Legítimo interesse em manter e melhorar o app (art. 7, IX). Os dados são anônimos e fora do alcance da LGPD quando não identificam ninguém |
+| Estado da assinatura (2.3.1) | Execução de contrato (art. 7, V); guarda de registros fiscais, quando a lei exigir (art. 7, II) |
 | Segurança e prevenção de abuso | Legítimo interesse (art. 7, IX) |
 
 Não tomamos decisões automatizadas que afetem você e não fazemos perfil para publicidade.
@@ -156,6 +175,8 @@ Não vendemos nem alugamos dados. Compartilhamos só com quem é necessário par
 | **Supabase** (banco de dados e login), projeto na região São Paulo | Conta e dados da casa (2.2) e os contadores (2.3) | Guardar, sincronizar e proteger os dados |
 | **Apple** | Dados do login com Apple; informações padrão da App Store e do TestFlight | Entrar no app, distribuir o app |
 | **Google** | Dados do login com Google | Entrar no app |
+| **Apple e Google (assinatura)**, quando houver plano pago | Eles processam o pagamento e nos informam só o estado da assinatura (2.3.1) | Cobrar e liberar o plano |
+| **Serviço de assinaturas**, se for usado (a definir) | Identificador da conta e estado da assinatura | Validar compras; entra aqui antes do lançamento |
 | **Secretarias da Fazenda do RJ e de SP** | Chave de acesso da nota | Consultar a nota (2.5) |
 | **Outros membros da sua casa** | Listas, compras, mercados e o nome dos membros | A função de casa compartilhada |
 | **Convidados de uma lista** (pessoas de fora da casa) | A lista para a qual foram convidados, com seus itens, e o nome e a foto do seu perfil | A função de convite para uma lista (2.2.1) |
@@ -170,8 +191,7 @@ Os dados da nuvem ficam em servidor da Supabase na **região de São Paulo (Bras
 a Supabase, a Apple e o Google são empresas com operação fora do Brasil, e o login com Apple e
 Google pode envolver tratamento no exterior. Quando isso ocorre, contamos com as garantias que
 esses fornecedores oferecem (contratos de tratamento de dados e cláusulas padrão), como a LGPD
-permite no art. 33. [A PREENCHER: conferir, junto com a revisão jurídica, o contrato de
-tratamento de dados (DPA) da Supabase e a situação do Auth, que pode rodar fora do Brasil.]
+permite no art. 33.
 
 ## 7. Por quanto tempo guardamos
 
@@ -181,9 +201,10 @@ tratamento de dados (DPA) da Supabase e a situação do Auth, que pode rodar for
 | Convites de lista | Vencem em 30 minutos e somem sozinhos. Pedidos recusados são apagados na hora |
 | Participação em lista compartilhada | Até o convidado sair, o dono remover, a lista ser excluída ou a conta de um deles ser apagada |
 | Conta e dados da casa na nuvem | Enquanto a conta existir. Ao apagar a conta, os dados dela são removidos (ver seção 8) |
-| Itens que você exclui | Ficam marcados como excluídos por pouco tempo, para a sincronização chegar aos outros aparelhos, e depois são removidos. [A PREENCHER: prazo, quando o #8 definir] |
-| Cópias de segurança do fornecedor | Podem manter dados por um período curto depois da exclusão. [A PREENCHER: prazo, conforme o plano do Supabase] |
-| Contadores anônimos | Sem prazo definido, pois não identificam ninguém. [A PREENCHER: confirmar] |
+| Itens, listas e compras que você exclui | Na nuvem, ficam marcados como excluídos (não aparecem mais para ninguém), para a exclusão chegar aos outros aparelhos. Essa marcação permanece guardada até a casa ou a conta ser apagada, e então tudo é removido de vez |
+| Pedidos de entrada em lista sem resposta | Somem sozinhos depois de 7 dias |
+| Cópias de segurança do fornecedor | O Supabase pode manter cópias por um período curto depois da exclusão, conforme a política dele. Não controlamos esse prazo |
+| Contadores anônimos | Sem prazo definido, pois não identificam ninguém |
 
 ## 8. Seus direitos
 
@@ -192,26 +213,23 @@ Pela LGPD (art. 18) você pode:
 - **Confirmar e acessar** os dados que temos sobre você.
 - **Corrigir** dados errados ou incompletos. Boa parte você mesmo corrige no app (renomear
   mercado, editar itens e compras).
-- **Exportar** suas compras em CSV pelo app. [A PREENCHER: confirmar se a exportação dos dados
-  da conta inteira estará no app, ou se será por pedido no contato]
+- **Exportar** suas compras em CSV pelo app. A exportação é só de compras; para
+  receber os demais dados da sua conta, peça no contato da seção 1.
 - **Apagar** seus dados:
   - **No aparelho:** apague itens, listas e compras no app, ou apague o app.
-  - **A conta e tudo que está na nuvem:** pelo app, em "apagar conta" (quando a conta estiver no
-    ar; exigência da Apple). Isso remove sua conta e os dados ligados a ela. Se você é o único
+  - **A conta e tudo que está na nuvem:** pelo app, em "apagar conta". Isso remove sua conta e os dados ligados a ela. Se você é o único
     membro da casa, a casa e seus dados também são apagados. Se há outros membros, a casa continua
     para eles e você sai dela; o que você criou na casa pode permanecer para os outros membros,
-    a menos que você peça a remoção no contato. [A PREENCHER: confirmar essa regra quando o #8
-    definir o que acontece com a casa]
+    a menos que você peça a remoção no contato.
   - **Sair da casa:** você pode sair da casa sem apagar a conta. Ao sair, o app oferece
     **levar uma cópia das suas listas** para o seu aparelho; a cópia fica só com você e deixa de
     sincronizar com a casa. Quem está sozinho na casa não sai (para encerrar, apague a casa ou a
     conta). Entrar em uma casa não leva as listas que você já tem; depois de entrar, você escolhe
-    quais levar para a casa, uma a uma. [A PREENCHER: conferir estes textos com o comportamento
-    final dos cartões #170 e #176]
+    quais levar para a casa, uma a uma.
   - **Listas compartilhadas:** convidado sai pelo menu da lista; o dono remove pessoas em "Pessoas
     nesta lista" (ver 2.2.1).
   - Se não conseguir pelo app, peça no contato da seção 1.
-- **Retirar o consentimento** da câmera nos Ajustes do iPhone, quando quiser.
+- **Retirar o consentimento** da câmera nos Ajustes do iPhone ou nas configurações do Android, quando quiser.
 - **Pedir informações** sobre com quem compartilhamos (seção 5).
 - **Reclamar** à Autoridade Nacional de Proteção de Dados (ANPD).
 
@@ -222,8 +240,11 @@ possível atender pedidos individuais, porque eles não identificam ninguém.
 
 - Os dados na nuvem trafegam por conexão criptografada (HTTPS) e ficam num banco com regras que
   permitem que só os membros da casa leiam e alterem os dados dela.
-- A sessão de login fica guardada só no aparelho. [A PREENCHER: confirmar se ficará no Keychain
-  do iOS, conforme a revisão de segurança #15]
+- A sessão de login fica guardada só no aparelho, no Keychain do iOS ou no Keystore do Android
+  (o cofre protegido do sistema), e não em arquivos comuns do app.
+- No Android, o backup automático do Google está desligado para o app: seus dados locais não
+  vão para o Google Drive. Ao trocar de aparelho, entre com a sua conta para recuperar o que
+  estiver sincronizado.
 - A chave de administração do servidor nunca vai dentro do app.
 - O CPF do consumidor não é guardado, o que reduz o risco no caso de um vazamento.
 - Nenhum sistema é totalmente seguro. Se houver um incidente que possa afetar você, avisaremos
@@ -239,16 +260,9 @@ contato da seção 1.
 ## 11. Mudanças nesta política
 
 Se mudarmos algo importante (por exemplo, coletar um dado novo), atualizamos esta página, mudamos
-a data do topo e avisamos no app antes da mudança valer. Versões anteriores ficam guardadas no
-histórico do repositório. [A PREENCHER: endereço público onde a política será publicada]
+a data do topo e avisamos no app antes da mudança valer. A versão em vigor fica sempre em
+https://despensa.brunocnog.com.br/privacidade.
 
 ## 12. Contato
 
 brunocostanog@gmail.com
-
-## 13. Este site
-
-Este site (despensa.brunocnog.com.br) não mede visitas. Não usamos analytics, contadores, pixels,
-cookies nem scripts ou fontes de terceiros, e não guardamos dados de quem navega por aqui. O site é
-hospedado no GitHub Pages, que pode registrar acessos técnicos (como o endereço IP) segundo a
-política dele; nós não temos acesso a esses registros.

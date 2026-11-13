@@ -1,32 +1,27 @@
 # Termos de uso da Despensa
 
-Última atualização: [A PREENCHER: data de publicação]
-Versão: rascunho para o TestFlight (cartão #12)
+Última atualização: 10 de novembro de 2026
 
-> **Nota para o Bruno (apagar antes de publicar):** texto escrito pela PM, em linguagem simples,
-> **sem revisão jurídica**. Serve para o TestFlight com amigos e família. **Antes de abrir a App
-> Store ao público, peça a revisão de um advogado.** Itens marcados com [A PREENCHER] dependem de
-> você.
+Estes termos ficam publicados em https://despensa.brunocnog.com.br/termos.
 
 ## 1. O que é a Despensa
 
-A Despensa é um app para iPhone de lista de compras da casa. Ela lê a nota fiscal do mercado
+A Despensa é um app de lista de compras da casa, para iPhone e, em breve, também para Android. Ela lê a nota fiscal do mercado
 (NFC-e) e guarda o histórico de preços. Ao usar o app, você concorda com estes termos e com a
-[política de privacidade](privacidade.md).
+[política de privacidade](/privacidade).
 
 ## 2. Quem pode usar
 
-Pessoas com 18 anos ou mais, ou menores com autorização de um responsável. Hoje o app é um teste
-fechado (TestFlight) para amigos e família do Bruno, e a leitura de notas funciona só para
-notas dos estados do Rio de Janeiro e de São Paulo.
+Pessoas com 18 anos ou mais, ou menores com autorização de um responsável. Hoje a leitura de notas funciona só para
+notas dos estados do Rio de Janeiro e de São Paulo; pretendemos ampliar para os demais estados do Brasil, e o app avisa
+quando uma nota é de um estado que ainda não lemos.
 
 ## 3. Sua conta
 
 - O login é com Apple ou Google. Você é responsável por manter sua conta Apple ou Google segura.
 - Você pode usar o app sem conta, só no aparelho. Sem conta não há sincronização nem cópia na
   nuvem.
-- Você pode apagar sua conta e seus dados a qualquer momento, pelo app (quando a conta estiver
-  no ar) ou pelo contato da política de privacidade.
+- Você pode apagar sua conta e seus dados a qualquer momento, pelo app ou pelo contato da política de privacidade.
 
 ## 4. Casa compartilhada
 
@@ -74,7 +69,7 @@ Os preços, totais e comparações vêm das notas que você mesmo escaneia. Eles
 decidir, **não uma garantia**: a leitura da nota pode errar, o mercado pode mudar o preço e a
 comparação só considera o que foi lido na sua casa. Confira o preço no mercado antes de comprar.
 
-A leitura usa a página pública da Secretaria da Fazenda do estado da nota (hoje, Rio de Janeiro e São Paulo), que não controlamos. Se ela mudar
+A leitura usa a página pública da Secretaria da Fazenda do estado da nota (hoje, Rio de Janeiro e São Paulo, com a meta de cobrir o Brasil todo), que não controlamos. Se ela mudar
 ou ficar fora do ar, a leitura pode falhar.
 
 ## 7. Seus dados e sua propriedade
@@ -83,17 +78,44 @@ Os dados que você coloca no app continuam sendo seus. Você nos dá apenas a pe
 para guardá-los, sincronizá-los e mostrá-los aos membros da sua casa, como descrito na política de
 privacidade. O CPF do consumidor nunca é guardado.
 
-O app, o nome "Despensa", o ícone e o código-fonte são do Bruno, e não são licenciados a terceiros
-[A PREENCHER: confirmar a licença do código; o arquivo LICENSE do repositório é o modelo padrão do Expo].
+O app, o nome "Despensa", o ícone e o código-fonte são de Bruno Costa Nogueira, com todos os
+direitos reservados. Nada nestes termos licencia o código ou a marca a terceiros.
 
-## 8. Gratuito, por enquanto
+## 8. Versão gratuita e plano pago
 
-O app é gratuito. No futuro pode haver funções pagas (assinatura). Se isso acontecer, avisamos
-antes e você não será cobrado sem concordar.
+O app tem uma versão **gratuita**, que continua útil: você cria listas, convida quem mora com você, lê
+notas e vê suas compras e os preços atuais. Está prevista uma assinatura paga (o "plano completo"), com
+funções avançadas, como histórico de preços mais longo, gráficos, alertas de preço e
+mais de uma casa. A versão gratuita também poderá ter limites, por exemplo no número de listas ou de
+pessoas na casa. **Enquanto o plano pago não estiver à venda, nada é cobrado.**
+
+Quando o plano pago estiver à venda, valem as regras abaixo:
+
+- **Planos e preços de referência** (podem mudar, e o valor final é o mostrado na loja antes de você assinar):
+
+  | Plano | Cobrança | Equivale a, por mês |
+  |---|---|---|
+  | Mensal | R$ 12,90 por mês | R$ 12,90 |
+  | Semestral | R$ 59,90 a cada 6 meses | R$ 9,98 |
+  | Anual | R$ 89,90 por ano | R$ 7,49 |
+
+  Todos os planos se renovam sozinhos no fim de cada período, até você cancelar.
+- **Teste grátis de 7 dias.** O plano completo pode começar com 7 dias grátis. **Se você não cancelar até o fim dos 7 dias, a assinatura
+  anual (R$ 89,90) é cobrada** e se renova todo ano. A tela de assinatura mostra isso, com o valor e a data
+  da cobrança, antes de você confirmar. O teste vale uma vez por pessoa.
+- **Quem cobra é a loja.** A cobrança, a renovação, o cancelamento e o reembolso são feitos pela Apple (App Store) ou pelo
+  Google (Google Play), conforme as regras delas. Para cancelar, use os ajustes de assinaturas da sua conta Apple ou Google; o
+  app também mostra o caminho. Cancelando, o plano segue até o fim do período já pago.
+- **Seus dados não somem.** Se você passar do limite da versão gratuita ou cancelar, **não apagamos suas
+  listas, compras ou preços**. Você continua podendo ver e exportar tudo; só deixa de poder criar mais
+  além do limite ou usar as funções avançadas.
+- **Mudanças de preço ou de limite** valem para novas assinaturas e para renovações depois de avisarmos no app, com a antecedência que a
+  loja e a lei exigirem. Nada nestes termos tira direitos que a lei garante a você, como o direito de arrependimento do
+  Código de Defesa do Consumidor, quando aplicável.
 
 ## 9. Disponibilidade e mudanças
 
-O app está em teste. Pode ter erros, mudar, ficar fora do ar ou ser descontinuado. Como os dados
+O app pode ter erros, mudar, ficar fora do ar ou ser descontinuado. Como os dados
 ficam primeiro no seu aparelho, o app continua útil sem internet. Se encerrarmos o serviço,
 avisamos com antecedência razoável e damos um jeito de você exportar suas compras. Exporte seu CSV
 de vez em quando se os dados forem importantes para você.
@@ -101,7 +123,7 @@ de vez em quando se os dados forem importantes para você.
 ## 10. Responsabilidade
 
 O app é oferecido "como está", sem garantia de funcionar sem falhas. Na medida em que a lei
-permitir, o Bruno não responde por prejuízos indiretos, por decisões de compra tomadas com base
+permitir, o responsável pelo app não responde por prejuízos indiretos, por decisões de compra tomadas com base
 nos preços do app, nem por falhas da internet, da Apple, do Google, do Supabase ou da Fazenda.
 Nada nestes termos tira direitos que a lei garante a você, como os do Código de Defesa do
 Consumidor, quando aplicáveis.
@@ -113,6 +135,5 @@ continuar usando depois do aviso, entendemos que concorda; se não concordar, po
 
 ## 12. Lei e contato
 
-Estes termos seguem as leis do Brasil. Dúvidas ou pedidos:
-brunocostanog@gmail.com. Foro: [A PREENCHER: cidade/comarca do Bruno, a
-confirmar na revisão jurídica].
+Estes termos seguem as leis do Brasil. Responsável: Bruno Costa Nogueira, pessoa física. Dúvidas ou pedidos:
+brunocostanog@gmail.com. Foro: comarca de São Paulo/SP.
