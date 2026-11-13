@@ -15,7 +15,3 @@ npm run og           # regera og.png e favicons (ICONE=/caminho/icon.png para o 
 - `/privacidade` e `/termos` vêm de `src/content/*.md`, copiados de `docs/` do repositório do app (a fonte da verdade continua lá). Os `[A PREENCHER]` foram mantidos.
 - Deploy: GitHub Actions (`.github/workflows/deploy.yml`) para o GitHub Pages; domínio em `public/CNAME`.
 
-## Estado atual (2026-11-13)
-
-Só a página mínima, `/privacidade` e `/termos` estão publicadas (o Google Play exige a política em endereço público).
-A landing completa está guardada em `src/landing-completa/index.astro`, fora das rotas. Para publicá-la, mova de volta para `src/pages/index.astro` e restaure o menu em `src/layouts/Base.astro`.
