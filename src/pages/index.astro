@@ -36,7 +36,6 @@ const promessas = [
   { t: 'Nunca guardamos o CPF', i: ic.cpf },
   { t: 'Funciona sem internet', i: ic.offline },
 ];
-const chips = ['Tema claro e escuro', 'Texto grande e VoiceOver', 'Sincroniza entre aparelhos', 'Deslize para agir', 'Mercados organizados', 'Exportar em CSV, de graça', 'Cor e fundo da lista'];
 const perguntas = [
   ['Quais notas o app lê?', 'NFC-e de São Paulo e do Rio de Janeiro. Outros estados vêm depois.'],
   ['Preciso de conta?', 'Para sincronizar com a casa e convidar pessoas, sim: entre com a sua conta.'],
@@ -116,8 +115,8 @@ const svg = (d: string) => d;
         <p class="cap">Telas com dados de exemplo.</p>
       </div>
       <div class="spot-phones">
-        <Phone class="back" crop src="/telas/precos.png" srcDark="/telas/escuro-precos.png" alt="Preços de um produto no app, com o histórico e o mercado mais barato" />
-        <Phone crop src="/telas/compra-detalhe.png" srcDark="/telas/escuro-compra-detalhe.png" alt="Compra aberta no app: mercado, total, forma de pagamento e itens lidos da nota" />
+        <Phone class="back" src="/telas/precos.png" srcDark="/telas/escuro-precos.png" alt="Preços de um produto no app, com o histórico e o mercado mais barato" />
+        <Phone src="/telas/compra-detalhe.png" srcDark="/telas/escuro-compra-detalhe.png" alt="Compra aberta no app: mercado, total, forma de pagamento e itens lidos da nota" />
       </div>
     </div>
   </section>
@@ -140,7 +139,7 @@ const svg = (d: string) => d;
               <li>Listas só suas, que mais ninguém da casa vê.</li>
             </ul>
           </div>
-          <Phone crop src="/telas/lista.png" srcDark="/telas/escuro-lista.png" alt="Lista Mercado da semana no app: item em aberto e itens já no carrinho, com o total estimado" />
+          <Phone src="/telas/lista.png" srcDark="/telas/escuro-lista.png" alt="Lista Mercado da semana no app: item em aberto e itens já no carrinho, com o total estimado" />
         </article>
         <article class="card b2">
           <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ic.preco} /></svg></span>
@@ -161,7 +160,7 @@ const svg = (d: string) => d;
               <li>Corrija nomes de mercados e itens quando quiser.</li>
             </ul>
           </div>
-          <Phone crop src="/telas/compras.png" srcDark="/telas/escuro-compras.png" alt="Histórico de compras no app, com total gasto no mês" />
+          <Phone src="/telas/compras.png" srcDark="/telas/escuro-compras.png" alt="Histórico de compras no app, com total gasto no mês" />
         </article>
         <article class="card b4">
           <div class="txt">
@@ -174,13 +173,9 @@ const svg = (d: string) => d;
               <li>Quem é convidado não vê as compras, os preços nem os outros itens da casa.</li>
             </ul>
           </div>
-          <Phone crop src="/telas/casa.png" srcDark="/telas/escuro-casa.png" alt="Tela da casa, com as pessoas e o convite para uma lista" />
+          <Phone src="/telas/casa.png" srcDark="/telas/escuro-casa.png" alt="Tela da casa, com as pessoas e o convite para uma lista" />
         </article>
       </div>
-      <h3 class="more-h">E mais</h3>
-      <ul class="chips">
-        {chips.map((c) => <li>{c}</li>)}
-      </ul>
     </div>
   </section>
 
@@ -191,8 +186,7 @@ const svg = (d: string) => d;
         <h2>Seus dados são seus.</h2>
       </div>
       <div class="pgrid">
-        <div class="card big">
-          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ic.cpf} /></svg></span>
+        <div class="card hi">
           <h3>Nunca guardamos o CPF.</h3>
           <p>O CPF que aparece na nota fiscal é descartado. Ele não fica no seu iPhone, na nuvem nem em registros técnicos.</p>
         </div>
@@ -252,7 +246,6 @@ const svg = (d: string) => d;
   <section class="cta-sec">
     <div class="wrap">
       <div class="cta-card">
-        <div class="mark" aria-hidden="true"><Glyph /></div>
         <h2>Leve a Despensa para o mercado.</h2>
         <StoreButtons center />
       </div>
