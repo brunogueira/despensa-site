@@ -138,7 +138,6 @@ a.store:hover { background: var(--surface); }
 .trio .l { transform: translate(calc(-50% - 118px), 24px) rotate(-5deg); }
 .trio .r { transform: translate(calc(-50% + 118px), 24px) rotate(5deg); z-index: 2; }
 .trio-cap { text-align: center; margin: 10px 0 0; }
-@media (prefers-color-scheme: dark) { .trio .l, .trio .r { display: none; } }
 @media (min-width: 900px) {
   .hero { background: radial-gradient(60% 55% at 72% 38%, var(--hero-glow), transparent 70%); }
   .hero-mark { width: 520px; right: -170px; }
