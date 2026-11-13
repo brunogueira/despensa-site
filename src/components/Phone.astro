@@ -1,11 +1,13 @@
 ---
 // Moldura de celular com captura real do app. srcDark: captura para o tema escuro (quando existir).
-interface Props { src: string; srcDark?: string; alt: string; crop?: boolean; eager?: boolean; class?: string }
-const { src, srcDark, alt, crop = false, eager = false, class: cls = '' } = Astro.props;
+// platform: 'ios' (padrão, capturas 600x1304) ou 'android' (capturas 600x1200, moldura mais reta e furo da câmera).
+interface Props { src: string; srcDark?: string; alt: string; platform?: 'ios' | 'android'; crop?: boolean; eager?: boolean; class?: string }
+const { src, srcDark, alt, platform = 'ios', crop = false, eager = false, class: cls = '' } = Astro.props;
+const height = platform === 'android' ? 1200 : 1304;
 ---
-<div class:list={['phone', crop && 'phone--crop', cls]}>
+<div class:list={['phone', platform === 'android' && 'phone--android', crop && 'phone--crop', cls]}>
   <picture>
     {srcDark && <source media="(prefers-color-scheme: dark)" srcset={srcDark} />}
-    <img src={src} width="600" height="1304" alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={eager ? 'high' : undefined} />
+    <img src={src} width="600" height={height} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={eager ? 'high' : undefined} />
   </picture>
 </div>
