@@ -1,0 +1,11 @@
+---
+// Moldura de celular com captura real do app. srcDark: captura para o tema escuro (quando existir).
+interface Props { src: string; srcDark?: string; alt: string; crop?: boolean; eager?: boolean; class?: string }
+const { src, srcDark, alt, crop = false, eager = false, class: cls = '' } = Astro.props;
+---
+<div class:list={['phone', crop && 'phone--crop', cls]}>
+  <picture>
+    {srcDark && <source media="(prefers-color-scheme: dark)" srcset={srcDark} />}
+    <img src={src} width="600" height="1304" alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={eager ? 'high' : undefined} />
+  </picture>
+</div>

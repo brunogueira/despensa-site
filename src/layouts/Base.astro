@@ -42,8 +42,8 @@ const email = 'despensa.lista@gmail.com';
       <div class="wrap">
         <a class="brand" href="/" aria-label="Despensa, página inicial"><Glyph /> Despensa</a>
         <nav class="main" aria-label="Principal">
-          <a href="/#como-funciona">Como funciona</a>
-          <a href="/#recursos">Recursos</a>
+          <a class="hide-sm" href="/#como-funciona">Como funciona</a>
+          <a class="hide-sm" href="/#recursos">Recursos</a>
           <a href="/planos">Planos</a>
           <a href="/#perguntas">Perguntas</a>
         </nav>
@@ -51,15 +51,29 @@ const email = 'despensa.lista@gmail.com';
     </header>
     <main id="conteudo"><slot /></main>
     <footer class="site">
-      <div class="wrap">
-        <a class="brand" href="/" aria-label="Despensa, página inicial"><Glyph /> Despensa</a>
-        <p class="muted" style="margin:6px 0 0">Despensa. Lista de compras da casa que lê a nota fiscal.</p>
-        <ul>
-          <li><a href="/termos">Termos de uso</a></li>
-          <li><a href="/privacidade">Política de Privacidade</a></li>
-          <li><a href={`mailto:${email}`}>Fale com a gente</a></li>
-        </ul>
-        <p class="muted small">© 2026 Despensa. Feito em São Paulo.</p>
+      <div class="wrap foot">
+        <div>
+          <a class="brand" href="/" aria-label="Despensa, página inicial"><Glyph /> Despensa</a>
+          <p class="muted" style="margin:6px 0 0;max-width:30ch">Lista de compras da casa que lê a nota fiscal.</p>
+          <p class="muted small foot-copy">© 2026 Despensa. Feito em São Paulo.</p>
+        </div>
+        <nav aria-label="Produto">
+          <h2 class="foot-h">Produto</h2>
+          <ul>
+            <li><a href="/#como-funciona">Como funciona</a></li>
+            <li><a href="/#recursos">Recursos</a></li>
+            <li><a href="/planos">Planos</a></li>
+            <li><a href="/#perguntas">Perguntas</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Legal">
+          <h2 class="foot-h">Legal</h2>
+          <ul>
+            <li><a href="/termos">Termos de uso</a></li>
+            <li><a href="/privacidade">Política de Privacidade</a></li>
+            <li><a href={`mailto:${email}`}>Fale com a gente</a></li>
+          </ul>
+        </nav>
       </div>
     </footer>
   </body>

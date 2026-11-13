@@ -1,5 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
+import Glyph from '../components/Glyph.astro';
+import Phone from '../components/Phone.astro';
 import StoreButtons from '../components/StoreButtons.astro';
 
 const ld = {
@@ -13,18 +15,37 @@ const ld = {
   inLanguage: 'pt-BR',
 };
 
+const ic = {
+  lista: 'M4 6h16M4 12h16M4 18h10',
+  scan: 'M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M8 12h8',
+  preco: 'M4 18l5-6 4 3 7-9',
+  anuncio: 'M5 5l14 14M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z',
+  rastreio: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3zM9 12l2 2 4-4',
+  cpf: 'M4 7h16v10H4zM8 11h4M8 14h8',
+  offline: 'M3 9a14 14 0 0 1 18 0M6 12.5a9.5 9.5 0 0 1 12 0M9 16a5 5 0 0 1 6 0M12 19.5h.01',
+  mao: 'M7 11V6a1.5 1.5 0 0 1 3 0v4m0-1V4.5a1.5 1.5 0 0 1 3 0V10m0-3a1.5 1.5 0 0 1 3 0v6c0 4-2.5 7-6 7s-5-2-6.5-5L3 13a1.5 1.5 0 0 1 2.5-1.5L7 13',
+};
 const passos = [
-  { t: 'A lista da casa', d: 'Todo mundo que mora junto vê a mesma lista. Quem passa no mercado marca o que já pegou, e o resto da casa vê na hora.', i: 'M4 6h16M4 12h16M4 18h10' },
-  { t: 'Leia a nota fiscal', d: 'No caixa, aponte a câmera para o QR da nota (NFC-e). A Despensa lê os itens e os preços e preenche a compra. Você só confere.', i: 'M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M8 12h8' },
-  { t: 'Veja os preços', d: 'Cada nota alimenta o histórico. Você vê se o arroz subiu, quanto custa o quilo e em qual mercado cada item sai mais barato.', i: 'M4 18l5-6 4 3 7-9' },
-  { t: 'Compartilhe uma lista', d: 'Precisa de ajuda numa compra? Convide uma pessoa só para aquela lista, para ver ou para editar. Ela não vê o resto da casa.', i: 'M12 4v11M8 8l4-4 4 4M5 14v5h14v-5' },
+  { t: 'A lista da casa', d: 'Todo mundo que mora junto vê a mesma lista. Quem passa no mercado marca o que já pegou, e o resto da casa vê na hora.' },
+  { t: 'Leia a nota fiscal', d: 'No caixa, aponte a câmera para o QR da nota (NFC-e). A Despensa lê os itens e os preços e preenche a compra. Você só confere.' },
+  { t: 'Veja os preços', d: 'Cada nota alimenta o histórico. Você vê se o arroz subiu e em qual mercado cada item sai mais barato.' },
 ];
-const itens = [
-  { t: 'Nunca guardamos o CPF.', d: 'O CPF que aparece na nota fiscal é descartado. Ele não fica no seu iPhone, na nuvem nem em registros técnicos.' },
-  { t: 'Funciona sem internet.', d: 'Seus dados ficam primeiro no seu aparelho.' },
-  { t: 'Sem anúncios e sem venda de dados.', d: 'Não rastreamos você entre apps.' },
-  { t: 'Você manda.', d: 'Pode pedir seus dados, corrigir e apagar a conta e tudo que está nela.' },
+const promessas = [
+  { t: 'Sem anúncios', i: ic.anuncio },
+  { t: 'Sem rastreio', s: 'nem neste site', i: ic.rastreio },
+  { t: 'Nunca guardamos o CPF', i: ic.cpf },
+  { t: 'Funciona sem internet', i: ic.offline },
 ];
+const chips = ['Tema claro e escuro', 'Texto grande e VoiceOver', 'Sincroniza entre aparelhos', 'Deslize para agir', 'Mercados organizados', 'Exportar em CSV, de graça', 'Cor e fundo da lista'];
+const perguntas = [
+  ['Funciona no Android?', 'Ainda não. Hoje a Despensa é para iPhone, e a versão Android está em testes.'],
+  ['Quais notas o app lê?', 'NFC-e de São Paulo e do Rio de Janeiro. Outros estados vêm depois.'],
+  ['Preciso de conta?', 'Para sincronizar com a casa e convidar pessoas, sim: entre com a sua conta.'],
+  ['Custa algo?', null],
+  ['Quem vê minha lista?', 'Só quem mora na sua casa e quem você convidar, e convidados veem só a lista escolhida.'],
+  ['O CPF da nota fica guardado?', 'Nunca. Ele é descartado na leitura.'],
+];
+const svg = (d: string) => d;
 ---
 <Base
   title="Despensa: compre melhor, a lista de compras da casa que lê a nota fiscal"
@@ -32,163 +53,210 @@ const itens = [
   jsonLd={ld}
 >
   <section class="hero">
+    <div class="hero-mark" aria-hidden="true"><Glyph /></div>
     <div class="wrap">
       <div>
-        <h1>Compre melhor. Escaneie a nota, a Despensa guarda os preços.</h1>
-        <p class="sub">Lista de compras da casa que lê a nota fiscal.</p>
-        <div class="actions">
-          <StoreButtons />
-          <p class="muted small note">Em breve nas lojas. Estamos terminando os últimos detalhes.</p>
-        </div>
-        <p><a class="alt" href="#recursos">Conhecer o app</a></p>
-        <p class="muted small">Leitura de notas de São Paulo e do Rio de Janeiro.</p>
+        <h1><span class="accent">Compre melhor.</span> Escaneie a nota, a Despensa guarda os preços.</h1>
+        <p class="lead">Lista de compras da casa que lê a nota fiscal.</p>
+        <StoreButtons />
+        <p class="muted small note">Leitura de notas de São Paulo e do Rio de Janeiro.</p>
       </div>
-      <img class="shot" src="/telas/escuro.png" width="300" height="652" alt="Tela inicial do app com as listas da casa (Mercado da semana, Feira e Churrasco), no tema escuro" fetchpriority="high" />
+      <div>
+        <div class="trio">
+          <Phone class="l" src="/telas/compra-detalhe.png" alt="Compra no app com a nota fiscal já lida: mercado, total e itens" eager />
+          <Phone class="c" src="/telas/lista.png" srcDark="/telas/escuro.png" alt="Tela do app com a lista de compras da casa" eager />
+          <Phone class="r" src="/telas/precos.png" alt="Tela de preços de um produto, com histórico e comparação entre mercados" eager />
+        </div>
+        <p class="muted small trio-cap">Telas com dados de exemplo.</p>
+      </div>
     </div>
   </section>
 
-  <section id="como-funciona" class="band">
+  <section class="trust" aria-label="Nossas promessas">
     <div class="wrap">
-      <h2 class="center">Como funciona</h2>
-      <ol class="steps">
-        {passos.map((p) => (
+      <ul>
+        {promessas.map((p) => (
           <li>
-            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={p.i} /></svg></div>
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={svg(p.i)} /></svg></span>
+            <span><strong>{p.t}</strong>{p.s && <small>{p.s}</small>}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="como-funciona">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="eyebrow">Como funciona</span>
+        <h2>Do mercado para a lista, em três passos.</h2>
+      </div>
+      <ol class="steps">
+        {passos.map((p, i) => (
+          <li>
+            <span class="num" aria-hidden="true">{i + 1}</span>
             <h3>{p.t}</h3>
-            <p class="muted" style="margin:0">{p.d}</p>
+            <p>{p.d}</p>
           </li>
         ))}
       </ol>
     </div>
   </section>
 
+  <section class="spot" id="nota">
+    <div class="wrap spot-grid">
+      <div class="spot-text">
+        <span class="eyebrow">O coração do app</span>
+        <h2>Leia a nota e pronto.</h2>
+        <p>Aponte a câmera para o QR da nota fiscal (NFC-e), ou cole o link ou a chave. A Despensa busca os itens e os preços na Fazenda do estado.</p>
+        <ul>
+          <li>Mercado, itens, valores e forma de pagamento, sem digitar nada.</li>
+          <li>Você confere antes de salvar.</li>
+          <li>O CPF que aparece na nota é descartado, nunca guardado.</li>
+        </ul>
+        <p class="cap">Telas com dados de exemplo.</p>
+      </div>
+      <div class="spot-phones">
+        <Phone class="back" crop src="/telas/precos.png" alt="Preços de um produto no app, com o histórico e o mercado mais barato" />
+        <Phone crop src="/telas/compra-detalhe.png" alt="Compra aberta no app: mercado, total, forma de pagamento e itens lidos da nota" />
+      </div>
+    </div>
+  </section>
+
   <section id="recursos">
     <div class="wrap">
-      <h2 class="center">O que a Despensa faz por você</h2>
-
-      <div class="feature">
-        <img class="shot feature-img" src="/telas/lista.png" width="300" height="652" alt="Lista Mercado da semana no app: item em aberto e itens já no carrinho, com o total estimado" loading="lazy" />
-        <div>
-          <h3>Uma lista só para a casa toda</h3>
-          <p>Todo mundo que mora junto vê e edita a mesma lista, em tempo real. Quem está no mercado marca o que já pegou.</p>
-          <ul>
-            <li>Itens agrupados por categoria, com quantidade e unidade.</li>
-            <li>Várias listas: mercado, feira, farmácia, churrasco.</li>
-            <li>Listas só suas, que mais ninguém da casa vê.</li>
-            <li>Cor e fundo para reconhecer cada lista de longe.</li>
-          </ul>
-        </div>
+      <div class="sec-head">
+        <span class="eyebrow">Recursos</span>
+        <h2>O que a Despensa faz por você</h2>
       </div>
-
-      <div class="feature flip">
-        <img class="shot feature-img" src="/telas/ler-nota.png" width="300" height="652" alt="Tela de leitura da nota fiscal no app" loading="lazy" />
-        <div>
-          <h3>Leia a nota e pronto</h3>
-          <p>Aponte a câmera para o QR da nota fiscal (NFC-e), ou cole o link ou a chave. A Despensa busca os itens e os preços na Fazenda do estado.</p>
-          <ul>
-            <li>Sem digitar nada: mercado, itens, valores e forma de pagamento.</li>
-            <li>Você confere antes de salvar.</li>
-            <li>O CPF que aparece na nota é descartado, nunca guardado.</li>
-            <li>Hoje: São Paulo e Rio de Janeiro. Outros estados vêm depois.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="feature">
-        <img class="shot feature-img" src="/telas/precos.png" width="300" height="652" alt="Tela de preços de um produto, com histórico e comparação entre mercados" loading="lazy" />
-        <div>
+      <div class="bento">
+        <article class="card b1">
+          <div class="txt">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ic.lista} /></svg></span>
+            <h3>Uma lista só para a casa toda</h3>
+            <p>Todo mundo que mora junto vê e edita a mesma lista, em tempo real. Quem está no mercado marca o que já pegou.</p>
+            <ul>
+              <li>Itens agrupados por categoria, com quantidade e unidade.</li>
+              <li>Várias listas: mercado, feira, farmácia, churrasco.</li>
+              <li>Listas só suas, que mais ninguém da casa vê.</li>
+            </ul>
+          </div>
+          <Phone crop src="/telas/lista.png" alt="Lista Mercado da semana no app: item em aberto e itens já no carrinho, com o total estimado" />
+        </article>
+        <article class="card b2">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ic.preco} /></svg></span>
           <h3>Preços que contam uma história</h3>
           <p>Cada nota alimenta o histórico. Veja a tendência de cada produto e em qual mercado ele sai mais barato.</p>
           <ul>
             <li>Preço atual por produto e por mercado.</li>
-            <li>Histórico para saber se vale esperar a promoção.</li>
             <li>Nomes de produtos já limpos, sem aquele código esquisito da nota.</li>
           </ul>
-        </div>
+        </article>
+        <article class="card b3">
+          <div class="txt">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14v17l-2.3-1.5L14.3 21 12 19.5 9.7 21l-2.4-1.5L5 21zM9 9h6M9 13h6" /></svg></span>
+            <h3>Suas compras, num só lugar</h3>
+            <p>Veja quanto a casa gastou no mês, em quais mercados, e abra qualquer compra para conferir item por item.</p>
+            <ul>
+              <li>Gasto do mês e histórico de compras.</li>
+              <li>Corrija nomes de mercados e itens quando quiser.</li>
+            </ul>
+          </div>
+          <Phone crop src="/telas/compras.png" alt="Histórico de compras no app, com total gasto no mês" />
+        </article>
+        <article class="card b4">
+          <div class="txt">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M8 8l4-4 4 4M5 14v5h14v-5" /></svg></span>
+            <h3>Convide só para uma lista</h3>
+            <p>Precisa de ajuda numa compra, ou vai fazer um churrasco com a turma? Gere um código e convide uma pessoa para aquela lista, sem abrir o resto da casa.</p>
+            <ul>
+              <li>O código vale por 30 minutos e você aprova quem entra.</li>
+              <li>Permissão só para ver ou também para editar.</li>
+              <li>Quem é convidado não vê as compras, os preços nem os outros itens da casa.</li>
+            </ul>
+          </div>
+          <Phone crop src="/telas/casa.png" alt="Tela da casa, com as pessoas e o convite para uma lista" />
+        </article>
       </div>
-
-      <div class="feature flip">
-        <img class="shot feature-img" src="/telas/compras.png" width="300" height="652" alt="Histórico de compras no app, com total gasto no mês" loading="lazy" />
-        <div>
-          <h3>Suas compras, num só lugar</h3>
-          <p>Veja quanto a casa gastou no mês, em quais mercados, e abra qualquer compra para conferir item por item.</p>
-          <ul>
-            <li>Gasto do mês e histórico de compras.</li>
-            <li>Corrija nomes de mercados e itens quando quiser.</li>
-            <li>Exporte tudo em CSV, de graça. Seus dados são seus.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="feature">
-        <img class="shot feature-img" src="/telas/casa.png" width="300" height="652" alt="Tela da casa, com as pessoas e o convite para uma lista" loading="lazy" />
-        <div>
-          <h3>Convide só para uma lista</h3>
-          <p>Precisa de ajuda numa compra, ou vai fazer um churrasco com a turma? Gere um código e convide uma pessoa para aquela lista, sem abrir o resto da casa.</p>
-          <ul>
-            <li>O código vale por 30 minutos e você aprova quem entra.</li>
-            <li>Permissão só para ver ou também para editar.</li>
-            <li>Quem é convidado não vê as compras, os preços nem os outros itens da casa.</li>
-          </ul>
-        </div>
-      </div>
-
-      <h3 class="center" style="margin-top:40px">E mais</h3>
-      <ul class="more">
-        <li><strong>Tema claro e escuro</strong>Segue o seu iPhone. Também tem texto grande, VoiceOver e Reduzir Movimento.</li>
-        <li><strong>Funciona sem internet</strong>Seus dados ficam primeiro no aparelho e sincronizam depois.</li>
-        <li><strong>Sincroniza entre aparelhos</strong>Entre com a sua conta e a casa toda fica em dia.</li>
-        <li><strong>Deslize para agir</strong>Marque, edite ou apague um item com um gesto.</li>
-        <li><strong>Mercados organizados</strong>Dê o seu nome a cada mercado e compare entre eles.</li>
-        <li><strong>Sem anúncios</strong>Nem rastreio entre apps, nem venda de dados.</li>
-        <li><strong>Apague tudo quando quiser</strong>A sua conta e tudo que está nela, pelo próprio app.</li>
+      <h3 class="more-h">E mais</h3>
+      <ul class="chips">
+        {chips.map((c) => <li>{c}</li>)}
       </ul>
     </div>
   </section>
 
   <section class="privacy" id="privacidade-resumo">
     <div class="wrap">
-      <h2 class="center">Seus dados são seus.</h2>
-      <ul>
-        {itens.map((i) => <li><strong>{i.t}</strong>{i.d}</li>)}
-      </ul>
+      <div class="sec-head">
+        <span class="eyebrow">Privacidade</span>
+        <h2>Seus dados são seus.</h2>
+      </div>
+      <div class="pgrid">
+        <div class="card big">
+          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ic.cpf} /></svg></span>
+          <h3>Nunca guardamos o CPF.</h3>
+          <p>O CPF que aparece na nota fiscal é descartado. Ele não fica no seu iPhone, na nuvem nem em registros técnicos.</p>
+        </div>
+        <div class="card">
+          <h3>Funciona sem internet.</h3>
+          <p>Seus dados ficam primeiro no seu aparelho.</p>
+        </div>
+        <div class="card">
+          <h3>Sem anúncios e sem venda de dados.</h3>
+          <p>Não rastreamos você entre apps.</p>
+        </div>
+        <div class="card">
+          <h3>Você manda.</h3>
+          <p>Pode pedir seus dados, corrigir e apagar a conta e tudo que está nela.</p>
+        </div>
+      </div>
+      <p class="after">Veja a <a href="/privacidade">Política de Privacidade</a>.</p>
     </div>
   </section>
 
   <section id="planos">
     <div class="wrap">
-      <h2 class="center">Comece de graça</h2>
-      <div class="plans">
-        <div class="plan">
+      <div class="sec-head">
+        <span class="eyebrow">Planos</span>
+        <h2>Comece de graça</h2>
+      </div>
+      <div class="plans" style="margin-top:0">
+        <div class="card plan">
           <h3>Grátis para começar</h3>
+          <p class="price-big">R$ 0</p>
           <p class="muted" style="margin:0">Baixe e comece a usar sem pagar nada: lista da casa, convites, leitura de notas e exportação em CSV.</p>
         </div>
-        <div class="plan full">
-          <h3>Plano completo, em breve</h3>
-          <p class="muted" style="margin:0">Histórico de preços completo, comparação entre mercados com gráficos, mais casas e mais listas. A partir de R$ 7,49 por mês no plano anual.</p>
+        <div class="card plan full">
+          <span class="pill sm">Em breve</span>
+          <h3 style="margin-top:8px">Plano completo</h3>
+          <p class="price-big"><small>a partir de </small>R$ 7,49<small> por mês</small></p>
+          <p class="muted" style="margin:0">Histórico de preços completo, comparação entre mercados com gráficos, mais casas e mais listas. No plano anual.</p>
         </div>
       </div>
-      <p class="center" style="margin-top:20px"><a class="alt" href="/planos">Ver planos e preços</a></p>
+      <p style="margin:12px 0 0"><a class="link-btn" href="/planos">Ver planos e preços</a></p>
     </div>
   </section>
 
-  <section class="band faq-sec" id="perguntas">
-    <div class="wrap faq">
+  <section id="perguntas" style="padding-top:0">
+    <div class="wrap faq-wrap">
+      <span class="eyebrow">Perguntas</span>
       <h2>Perguntas rápidas</h2>
-      <details><summary>Funciona no Android?</summary><p>Em breve. Hoje a Despensa é para iPhone, e a versão Android está em testes.</p></details>
-      <details><summary>Quais notas o app lê?</summary><p>NFC-e de São Paulo e do Rio de Janeiro. Outros estados vêm depois.</p></details>
-      <details><summary>Preciso de conta?</summary><p>Para sincronizar com a casa e convidar pessoas, sim: entre com a sua conta.</p></details>
-      <details><summary>Custa algo?</summary><p>Você começa de graça. Haverá um plano completo opcional. Veja os valores em <a href="/planos">planos e preços</a>.</p></details>
-      <details><summary>Quem vê minha lista?</summary><p>Só quem mora na sua casa e quem você convidar, e convidados veem só a lista escolhida.</p></details>
-      <details><summary>O CPF da nota fica guardado?</summary><p>Nunca. Ele é descartado na leitura.</p></details>
+      {perguntas.map(([q, a]) => (
+        <details class="q" name="faq">
+          <summary>{q}</summary>
+          {a ? <p>{a}</p> : <p>Você começa de graça. Haverá um plano completo opcional. Veja os valores em <a href="/planos">planos e preços</a>.</p>}
+        </details>
+      ))}
     </div>
   </section>
 
-  <section class="cta">
+  <section class="cta-sec">
     <div class="wrap">
-      <h2>Leve a Despensa para o mercado.</h2>
-      <StoreButtons center />
-      <p class="muted small" style="margin-top:12px">Em breve nas lojas.</p>
+      <div class="cta-card">
+        <div class="mark" aria-hidden="true"><Glyph /></div>
+        <h2>Leve a Despensa para o mercado.</h2>
+        <StoreButtons center />
+      </div>
     </div>
   </section>
 </Base>
