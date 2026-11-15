@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+const link = 'https://play.google.com/apps/testing/com.brunogueira.despensa';
+---
+<Base title="Testar a Despensa" description="Entre no teste da Despensa no Android em três passos." path="/teste" noindex>
+  <div class="wrap">
+    <article class="prose">
+      <h1>Testar a Despensa no Android</h1>
+      <p>Obrigado por ajudar! Leva um minuto. Use o celular Android e a conta Google (Gmail) que você me passou.</p>
+      <ol>
+        <li>Toque no botão abaixo e, na página do Google Play, em <strong>Tornar-se testador</strong>.</li>
+        <li>Instale a Despensa pela Google Play, no botão que aparece em seguida.</li>
+        <li>Mantenha o app instalado e continue inscrito por 14 dias. Se algo der errado, é só me avisar.</li>
+      </ol>
+      <p><a class="btn" href={link} rel="noopener">Entrar no teste</a></p>
+      <p>Não tem Android ou o link não abriu? Fale comigo e eu resolvo.</p>
+    </article>
+  </div>
+</Base>
