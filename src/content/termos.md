@@ -87,7 +87,7 @@ direitos reservados. Nada nestes termos licencia o código ou a marca a terceiro
 O app tem uma versão **gratuita**, que continua útil: você cria listas, convida quem mora com você, lê
 notas e vê suas compras e os preços atuais. Está prevista uma assinatura paga (o "plano completo"), com
 funções avançadas, como histórico de preços mais longo, gráficos, alertas de preço e
-mais de uma casa. A versão gratuita também poderá ter limites, por exemplo no número de listas ou de
+mais listas, pessoas e convidados. A versão gratuita também poderá ter limites, por exemplo no número de listas ou de
 pessoas na casa. **Enquanto o plano pago não estiver à venda, nada é cobrado.**
 
 Quando o plano pago estiver à venda, valem as regras abaixo:
