@@ -21,7 +21,7 @@ for (const alvo of alvos) {
       const m = readFileSync(f, 'utf8').match(re);
       if (m) { console.error(`Branco puro em ${f}: ${m[0]}`); erros++; }
     } else if (ext === '.png' && !/[\\/]telas[\\/]/.test(f)) {
-      // Capturas reais do app (public/telas) ficam de fora: trazem a interface do iOS (barra de status, chaves), que tem branco puro e não é cor nossa.
+      // Capturas reais do app (src/assets/telas) ficam de fora: trazem a interface do iOS (barra de status, chaves), que tem branco puro e não é cor nossa.
       const { data, info } = await sharp(f).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
       for (let i = 0; i < data.length; i += 4) {
         if (data[i] === 255 && data[i + 1] === 255 && data[i + 2] === 255 && data[i + 3] > 0) {

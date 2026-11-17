@@ -34,6 +34,7 @@ const email = 'despensa.lista@gmail.com';
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Despensa: rolo de nota fiscal com um check verde" />
     <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline>document.documentElement.classList.add('js')</script>
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body>
@@ -75,5 +76,19 @@ const email = 'despensa.lista@gmail.com';
         </nav>
       </div>
     </footer>
+    <script is:inline>
+      // Animações leves de entrada: só liga quando o navegador deixa e a pessoa não pediu menos movimento.
+      (function () {
+        var d = document.documentElement;
+        var itens = document.querySelectorAll('[data-reveal],[data-reveal-group]');
+        if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          d.classList.remove('js'); return;
+        }
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+        itens.forEach(function (el) { io.observe(el); });
+      })();
+    </script>
   </body>
 </html>
