@@ -167,6 +167,10 @@ o app não envia nenhum dado seu a ela além da chave. O app **extrai da página
 mercado (emitente) e dos itens**. Mesmo que a página mostre o CPF do consumidor, o app o ignora e
 não o guarda.
 
+**Cuidado ao compartilhar a chave.** A chave de acesso é pública (está impressa na nota), mas quem a tem pode
+fazer essa mesma consulta no site da Fazenda, e ali o CPF, se você o informou na compra, pode aparecer.
+Por isso o app avisa disso ao mostrar a chave e você decide com quem compartilhá-la.
+
 ### 2.6 Exportar CSV
 
 Ao exportar suas compras, o arquivo é criado no aparelho e entregue ao menu de compartilhamento
