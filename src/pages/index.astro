@@ -43,6 +43,13 @@ const perguntas = [
   ['Quem vê minha lista?', 'Só quem mora na sua casa e quem você convidar, e convidados veem só a lista escolhida.'],
   ['O CPF da nota fica guardado?', 'Nunca. Ele é descartado na leitura.'],
 ];
+const telas = [
+  { nome: 'lista', t: 'A lista da casa', ios: 'Lista Mercado da semana no iPhone: item em aberto e itens já no carrinho, com o total estimado', and: 'Lista Mercado do mês no Android, com itens no carrinho e o total estimado' },
+  { nome: 'compra-detalhe', t: 'A nota lida', ios: 'Compra aberta no iPhone: mercado, total, forma de pagamento e itens lidos da nota', and: 'Compra aberta no Android, com a nota já lida: mercado, total e itens' },
+  { nome: 'precos', t: 'Preço de cada produto', ios: 'Preços de um produto no iPhone, com histórico e comparação entre mercados', and: 'Preços de um produto no Android, com histórico e comparação entre mercados' },
+  { nome: 'compras', t: 'Gasto do mês', ios: 'Histórico de compras no iPhone, com o total gasto no mês', and: 'Histórico de compras no Android, com o total gasto no mês' },
+  { nome: 'casa', t: 'A casa e os convites', ios: 'Tela da casa no iPhone, com as pessoas e o convite para uma lista', and: 'Tela da casa no Android, com as pessoas e os mercados favoritos' },
+];
 const svg = (d: string) => d;
 ---
 <Base
@@ -51,9 +58,11 @@ const svg = (d: string) => d;
   jsonLd={ld}
 >
   <section class="hero">
+    <div class="hero-bg" aria-hidden="true"><span class="blob b-a"></span><span class="blob b-b"></span></div>
     <div class="hero-mark" aria-hidden="true"><Glyph /></div>
     <div class="wrap">
       <div>
+        <p class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>Para iPhone e Android</p>
         <h1><span class="accent">Compre melhor.</span> Escaneie a nota, a Despensa guarda os preços.</h1>
         <p class="lead">Lista de compras da casa que lê a nota fiscal.</p>
         <StoreButtons />
@@ -61,9 +70,9 @@ const svg = (d: string) => d;
       </div>
       <div>
         <div class="trio">
-          <Phone class="l" platform="android" src="/telas/android/compra-detalhe.png" srcDark="/telas/android/escuro-compra-detalhe.png" alt="Compra no app, em um Android, com a nota fiscal já lida: mercado, total e itens" eager />
-          <Phone class="c" src="/telas/lista.png" srcDark="/telas/escuro.png" alt="Tela do app, em um iPhone, com a lista de compras da casa" eager />
-          <Phone class="r" platform="android" src="/telas/android/precos.png" srcDark="/telas/android/escuro-precos.png" alt="Tela de preços de um produto, em um Android, com histórico e comparação entre mercados" eager />
+          <Phone class="l" platform="android" nome="compra-detalhe" alt="Compra no app, em um Android, com a nota fiscal já lida: mercado, total e itens" eager />
+          <Phone class="c" nome="lista" alt="Tela do app, em um iPhone, com a lista de compras da casa" eager />
+          <Phone class="r" platform="android" nome="precos" alt="Tela de preços de um produto, em um Android, com histórico e comparação entre mercados" eager />
         </div>
         <p class="muted small trio-cap">Telas com dados de exemplo, no iPhone e no Android.</p>
       </div>
@@ -85,11 +94,11 @@ const svg = (d: string) => d;
 
   <section id="como-funciona">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head" data-reveal>
         <span class="eyebrow">Como funciona</span>
         <h2>Do mercado para a lista, em três passos.</h2>
       </div>
-      <ol class="steps">
+      <ol class="steps" data-reveal-group>
         {passos.map((p, i) => (
           <li>
             <span class="num" aria-hidden="true">{i + 1}</span>
@@ -103,7 +112,7 @@ const svg = (d: string) => d;
 
   <section class="spot" id="nota">
     <div class="wrap spot-grid">
-      <div class="spot-text">
+      <div class="spot-text" data-reveal>
         <span class="eyebrow">O coração do app</span>
         <h2>Leia a nota e pronto.</h2>
         <p>Aponte a câmera para o QR da nota fiscal (NFC-e), ou cole o link ou a chave. A Despensa busca os itens e os preços na Fazenda do estado.</p>
@@ -114,20 +123,54 @@ const svg = (d: string) => d;
         </ul>
         <p class="cap">Telas com dados de exemplo.</p>
       </div>
-      <div class="spot-phones">
-        <Phone class="back" platform="android" src="/telas/android/precos.png" srcDark="/telas/android/escuro-precos.png" alt="Preços de um produto no app, em um Android, com o histórico e o mercado mais barato" />
-        <Phone src="/telas/compra-detalhe.png" srcDark="/telas/escuro-compra-detalhe.png" alt="Compra aberta no app, em um iPhone: mercado, total, forma de pagamento e itens lidos da nota" />
+      <div class="spot-phones" data-reveal>
+        <Phone class="back" platform="android" nome="precos" alt="Preços de um produto no app, em um Android, com o histórico e o mercado mais barato" />
+        <Phone nome="compra-detalhe" alt="Compra aberta no app, em um iPhone: mercado, total, forma de pagamento e itens lidos da nota" />
+      </div>
+    </div>
+  </section>
+
+  <section class="show" id="telas" aria-labelledby="telas-h">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <span class="eyebrow">No iPhone e no Android</span>
+        <h2 id="telas-h">O mesmo app, do jeito de cada aparelho.</h2>
+        <p class="lead">Capturas reais, com dados de exemplo, nos temas claro e escuro do seu celular.</p>
+      </div>
+      <div class="seg-wrap" data-reveal>
+        <fieldset class="seg">
+          <legend class="sr">Escolha o aparelho</legend>
+          <input type="radio" name="aparelho" id="ap-ios" checked />
+          <label for="ap-ios">iPhone</label>
+          <input type="radio" name="aparelho" id="ap-and" />
+          <label for="ap-and">Android</label>
+          <span class="seg-thumb" aria-hidden="true"></span>
+        </fieldset>
+      </div>
+      <div class="rail rail-ios" data-reveal>
+        <ul>
+          {telas.map((t) => (
+            <li><Phone nome={t.nome} alt={t.ios} /><span class="rail-cap">{t.t}</span></li>
+          ))}
+        </ul>
+      </div>
+      <div class="rail rail-and" data-reveal>
+        <ul>
+          {telas.map((t) => (
+            <li><Phone platform="android" nome={t.nome} alt={t.and} /><span class="rail-cap">{t.t}</span></li>
+          ))}
+        </ul>
       </div>
     </div>
   </section>
 
   <section id="recursos">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head" data-reveal>
         <span class="eyebrow">Recursos</span>
         <h2>O que a Despensa faz por você</h2>
       </div>
-      <div class="bento">
+      <div class="bento" data-reveal-group>
         <article class="card b1">
           <div class="txt">
             <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ic.lista} /></svg></span>
@@ -139,7 +182,7 @@ const svg = (d: string) => d;
               <li>Listas só suas, que mais ninguém da casa vê.</li>
             </ul>
           </div>
-          <Phone src="/telas/lista.png" srcDark="/telas/escuro-lista.png" alt="Lista Mercado da semana no app: item em aberto e itens já no carrinho, com o total estimado" />
+          <Phone nome="lista" alt="Lista Mercado da semana no app: item em aberto e itens já no carrinho, com o total estimado" />
         </article>
         <article class="card b2">
           <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ic.preco} /></svg></span>
@@ -160,7 +203,7 @@ const svg = (d: string) => d;
               <li>Corrija nomes de mercados e itens quando quiser.</li>
             </ul>
           </div>
-          <Phone platform="android" src="/telas/android/compras.png" srcDark="/telas/android/escuro-compras.png" alt="Histórico de compras no app, em um Android, com total gasto no mês" />
+          <Phone platform="android" nome="compras" alt="Histórico de compras no app, em um Android, com total gasto no mês" />
         </article>
         <article class="card b4">
           <div class="txt">
@@ -173,7 +216,7 @@ const svg = (d: string) => d;
               <li>Quem é convidado não vê as compras, os preços nem os outros itens da casa.</li>
             </ul>
           </div>
-          <Phone src="/telas/casa.png" srcDark="/telas/escuro-casa.png" alt="Tela da casa, com as pessoas e o convite para uma lista" />
+          <Phone nome="casa" alt="Tela da casa, com as pessoas e o convite para uma lista" />
         </article>
       </div>
     </div>
@@ -181,11 +224,11 @@ const svg = (d: string) => d;
 
   <section class="privacy" id="privacidade-resumo">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head" data-reveal>
         <span class="eyebrow">Privacidade</span>
         <h2>Seus dados são seus.</h2>
       </div>
-      <div class="pgrid">
+      <div class="pgrid" data-reveal-group>
         <div class="card hi">
           <h3>Nunca guardamos o CPF.</h3>
           <p>O CPF que aparece na nota fiscal é descartado. Ele não fica no seu iPhone, na nuvem nem em registros técnicos.</p>
@@ -209,11 +252,11 @@ const svg = (d: string) => d;
 
   <section id="planos">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head" data-reveal>
         <span class="eyebrow">Planos</span>
         <h2>Comece de graça</h2>
       </div>
-      <div class="plans" style="margin-top:0">
+      <div class="plans" style="margin-top:0" data-reveal-group>
         <div class="card plan">
           <h3>Grátis para começar</h3>
           <p class="price-big">R$ 0</p>
@@ -231,7 +274,7 @@ const svg = (d: string) => d;
   </section>
 
   <section id="perguntas" style="padding-top:0">
-    <div class="wrap faq-wrap">
+    <div class="wrap faq-wrap" data-reveal>
       <span class="eyebrow">Perguntas</span>
       <h2>Perguntas rápidas</h2>
       {perguntas.map(([q, a]) => (
@@ -245,7 +288,8 @@ const svg = (d: string) => d;
 
   <section class="cta-sec">
     <div class="wrap">
-      <div class="cta-card">
+      <div class="cta-card" data-reveal>
+        <div class="cta-mark" aria-hidden="true"><Glyph /></div>
         <h2>Leve a Despensa para o mercado.</h2>
         <StoreButtons center />
       </div>
