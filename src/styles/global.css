@@ -155,15 +155,15 @@ a.store:hover { background: var(--surface); }
   .trio .r { transform: translate(calc(-50% + 150px), 36px) rotate(5deg); }
 }
 @media (prefers-reduced-motion: no-preference) {
-  .trio .phone { animation: sobe 700ms cubic-bezier(.2, .7, .2, 1) backwards, flutua 7s ease-in-out 800ms infinite; }
-  .trio .l { animation-delay: 80ms, 900ms; animation-duration: 700ms, 8s; }
-  .trio .r { animation-delay: 160ms, 1100ms; animation-duration: 700ms, 9s; }
+  /* Só a entrada: a flutuação contínua (8px em vários segundos) andava de pixel em pixel e parecia travada. */
+  .trio .phone { animation: sobe 700ms cubic-bezier(.2, .7, .2, 1) backwards; }
+  .trio .l { animation-delay: 80ms; }
+  .trio .r { animation-delay: 160ms; }
 }
-@keyframes flutua { 0%, 100% { translate: 0 0 0; } 50% { translate: 0 -8px 0; } }
-/* Cada celular numa camada própria: a sombra e a imagem não são redesenhadas enquanto ele flutua. */
-.trio .phone { will-change: translate; backface-visibility: hidden; }
+/* Celulares numa camada própria durante a entrada. */
+.trio .phone { backface-visibility: hidden; }
 /* Fora da tela, as animações contínuas do topo ficam paradas. */
-.hero.parado .phone, .hero.parado .blob { animation-play-state: paused; }
+.hero.parado .blob { animation-play-state: paused; }
 @keyframes sobe { from { opacity: 0; translate: 0 18px 0; } to { opacity: 1; translate: 0 0 0; } }
 
 /* Faixa de promessas */
