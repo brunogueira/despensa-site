@@ -101,7 +101,7 @@ O app **não tem anúncios**, nem no plano grátis nem no completo.
 
   | Plano | Cobrança | Equivale a, por mês |
   |---|---|---|
-  | Mensal | R$ 10,00 por mês | R$ 10,00 |
+  | Mensal | R$ 9,99 por mês | R$ 9,99 |
   | Anual | R$ 71,99 por ano | R$ 6,00 |
 
 - **Renovação automática.** Todos os planos se renovam sozinhos no fim de cada período, até você cancelar. A loja
