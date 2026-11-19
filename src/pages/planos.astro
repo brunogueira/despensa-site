@@ -3,8 +3,8 @@ import Base from '../layouts/Base.astro';
 import StoreButtons from '../components/StoreButtons.astro';
 
 const precos = [
-  { nome: 'Mensal', valor: 'R$ 12,90', per: 'por mês', nota: 'Para experimentar, sem compromisso longo.' },
-  { nome: 'Anual', valor: 'R$ 89,90', per: 'por ano', nota: 'Cerca de R$ 7,49 por mês. 42% de desconto sobre o mensal.', destaque: true },
+  { nome: 'Mensal', valor: 'R$ 9,99', per: 'por mês', nota: 'Para experimentar, sem compromisso longo.' },
+  { nome: 'Anual', valor: 'R$ 71,99', per: 'por ano', nota: 'Cerca de R$ 6,00 por mês. 40% de desconto sobre o mensal.', destaque: true },
 ];
 const linhas: [string, string, string][] = [
   ['Pessoas na casa', 'Até 3', 'Até 10'],
@@ -30,7 +30,7 @@ const promessas = [
   { t: 'Sem anúncios.', d: 'Em nenhum plano.' },
 ];
 ---
-<Base title="Planos e preços | Despensa" description="Comece de graça. O plano completo traz histórico de preços completo, comparação com gráficos, mais listas, pessoas e convidados. R$ 12,90 por mês ou R$ 89,90 por ano." path="/planos">
+<Base title="Planos e preços | Despensa" description="Comece de graça. O plano completo traz histórico de preços completo, comparação com gráficos, mais listas, pessoas e convidados. R$ 9,99 por mês ou R$ 71,99 por ano." path="/planos">
   <section class="page-head" style="padding-bottom:clamp(40px,6vw,72px)">
     <div class="wrap">
       <h1 class="center">Planos e preços</h1>
@@ -52,8 +52,8 @@ const promessas = [
         </div>
         <div class="card plan full">
           <h2 class="h3">Completo</h2>
-          <p class="price-big">a partir de R$ 7,49<small> por mês</small></p>
-          <p class="muted">No plano anual (R$ 89,90 por ano).</p>
+          <p class="price-big">a partir de R$ 6,00<small> por mês</small></p>
+          <p class="muted">No plano anual (R$ 71,99 por ano).</p>
           <ul class="check">
             <li>Tudo do plano grátis</li>
             <li>Histórico de preços completo</li>
@@ -80,7 +80,7 @@ const promessas = [
           </div>
         ))}
       </div>
-      <p class="center" style="margin-top:20px"><strong>7 dias grátis do plano completo.</strong> Depois, o plano anual (R$ 89,90 por ano). Cancele durante o teste e nada é cobrado.</p>
+      <p class="center" style="margin-top:20px"><strong>7 dias grátis do plano completo.</strong> Depois, o plano anual (R$ 71,99 por ano). Cancele durante o teste e nada é cobrado.</p>
       <p class="center muted small">Os preços e as regras do teste grátis serão confirmados nas lojas no lançamento e podem mudar até lá. Quem cancela fica no plano grátis, sem perder nada.</p>
     </div>
   </section>
