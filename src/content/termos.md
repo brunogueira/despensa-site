@@ -102,12 +102,12 @@ O app **não tem anúncios**, nem no plano grátis nem no completo.
   | Plano | Cobrança | Equivale a, por mês |
   |---|---|---|
   | Mensal | R$ 10,00 por mês | R$ 10,00 |
-  | Anual | R$ 72,00 por ano | R$ 6,00 |
+  | Anual | R$ 71,99 por ano | R$ 6,00 |
 
 - **Renovação automática.** Todos os planos se renovam sozinhos no fim de cada período, até você cancelar. A loja
   cobra a renovação perto do fim do período em curso.
 - **7 dias grátis no plano anual.** O plano anual começa com 7 dias grátis. **Se você não cancelar até o fim dos 7
-  dias, a loja cobra o plano anual (R$ 72,00)**, e ele se renova todo ano. A tela do plano e a tela de compra da
+  dias, a loja cobra o plano anual (R$ 71,99)**, e ele se renova todo ano. A tela do plano e a tela de compra da
   loja mostram o valor e a data da cobrança antes de você confirmar. O teste grátis vale uma vez por conta, pelas
   regras do Google Play.
 - **Quem cobra é a loja.** A compra, a cobrança, a renovação e o reembolso são feitos pelo Google Play, conforme as
