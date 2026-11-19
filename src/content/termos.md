@@ -1,14 +1,20 @@
 # Termos de uso da Despensa
 
-Última atualização: 15 de novembro de 2026
+Última atualização: 19 de novembro de 2026
 
 Estes termos ficam publicados em https://despensa.online/termos.
+
+> Nota deste documento (não aparece no app): o responsável é o Bruno como pessoa física (não haverá MEI,
+> decisão de 2026-11-13). A seção 8 (planos, teste grátis, cobrança) vale para a venda pelo Google Play. As
+> decisões jurídicas de 2026-11-16 (#357) estão aplicadas: reembolso só pelas regras do Google Play, teste grátis
+> uma vez por conta pelas regras do Google Play, mudança de preço pelas regras da loja, foro no domicílio do
+> consumidor e a App Store citada como "no futuro". A revisão por advogado antes da produção é o cartão #431.
 
 ## 1. O que é a Despensa
 
 A Despensa é um app de lista de compras da casa, para iPhone e Android. Ela lê a nota fiscal do mercado
 (NFC-e) e guarda o histórico de preços. Ao usar o app, você concorda com estes termos e com a
-[política de privacidade](/privacidade).
+[política de privacidade](privacidade.md).
 
 ## 2. Quem pode usar
 
@@ -96,7 +102,6 @@ O app **não tem anúncios**, nem no plano grátis nem no completo.
   | Plano | Cobrança | Equivale a, por mês |
   |---|---|---|
   | Mensal | R$ 12,90 por mês | R$ 12,90 |
-  | Semestral | R$ 59,90 a cada 6 meses | R$ 9,98 |
   | Anual | R$ 89,90 por ano | R$ 7,49 |
 
 - **Renovação automática.** Todos os planos se renovam sozinhos no fim de cada período, até você cancelar. A loja

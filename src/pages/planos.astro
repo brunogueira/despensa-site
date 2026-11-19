@@ -4,15 +4,14 @@ import StoreButtons from '../components/StoreButtons.astro';
 
 const precos = [
   { nome: 'Mensal', valor: 'R$ 12,90', per: 'por mês', nota: 'Para experimentar, sem compromisso longo.' },
-  { nome: 'Semestral', valor: 'R$ 59,90', per: 'a cada 6 meses', nota: 'Cerca de R$ 10 por mês. 22% de desconto sobre o mensal.' },
   { nome: 'Anual', valor: 'R$ 89,90', per: 'por ano', nota: 'Cerca de R$ 7,49 por mês. 42% de desconto sobre o mensal.', destaque: true },
 ];
 const linhas: [string, string, string][] = [
   ['Pessoas na casa', 'Até 3', 'Até 10'],
-  ['Listas ativas (as arquivadas não contam)', 'Até 5', 'Ilimitadas'],
+  ['Listas da casa ativas (as arquivadas não contam)', 'Até 5', 'Ilimitadas'],
+  ['Listas só suas ativas, por pessoa', 'Até 5', 'Ilimitadas'],
   ['Itens por lista', 'Sem limite', 'Sem limite'],
   ['Convidados de fora por lista', 'Até 5', 'Até 50'],
-  ['Listas só suas', 'Sim', 'Sim'],
   ['Leitura de notas fiscais (NFC-e)', 'Ilimitada', 'Ilimitada'],
   ['Compras e gasto do mês', 'Sim', 'Sim'],
   ['Preço atual por produto e por mercado', 'Sim', 'Sim'],
@@ -31,7 +30,7 @@ const promessas = [
   { t: 'Sem anúncios.', d: 'Em nenhum plano.' },
 ];
 ---
-<Base title="Planos e preços | Despensa" description="Comece de graça. O plano completo traz histórico de preços completo, comparação com gráficos, mais listas, pessoas e convidados. R$ 12,90 por mês, R$ 59,90 por semestre ou R$ 89,90 por ano." path="/planos">
+<Base title="Planos e preços | Despensa" description="Comece de graça. O plano completo traz histórico de preços completo, comparação com gráficos, mais listas, pessoas e convidados. R$ 12,90 por mês ou R$ 89,90 por ano." path="/planos">
   <section class="page-head" style="padding-bottom:clamp(40px,6vw,72px)">
     <div class="wrap">
       <h1 class="center">Planos e preços</h1>

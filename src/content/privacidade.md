@@ -1,9 +1,16 @@
 # Política de privacidade da Despensa
 
-Última atualização: 15 de novembro de 2026
+Última atualização: 19 de novembro de 2026
 
 Esta política fica publicada em https://despensa.online/privacidade. Como apagar a conta e os
 dados, com ou sem o app, está em https://despensa.online/excluir-conta/.
+
+> Nota deste documento (não aparece no app): o controlador é o Bruno como pessoa física (não haverá MEI, decisão de
+> 2026-11-13). A seção 2.3.1 (assinatura) vale para a cobrança pelo Google Play, sem serviço de terceiros (sem
+> RevenueCat, decisão de 2026-11-15). Decisões de 2026-11-16 aplicadas (#357 e #407): a assinatura lista token da
+> compra, plano, estado, validade, teste grátis e compra de teste, nunca cartão nem CPF; o ML Kit fica no Android e
+> está declarado; a App Store segue citada como "no futuro". A revisão por advogado antes da produção, inclusive da
+> base legal do ML Kit e do prazo de guarda da assinatura, é o cartão #431.
 
 ## Resumo em poucas linhas
 
@@ -93,18 +100,20 @@ Para saber se o app funciona e é usado, o app conta algumas ações: criar list
 ler nota, importar nota, erro ao ler nota e "abriu o app no dia". Também contamos **quantas vezes um
 limite do plano grátis apareceu** (listas, pessoas da casa, convidados, casas, histórico de preços, cores e
 fundos) e **quantas vezes alguém tocou em "Começar teste grátis"**, para saber onde o limite pesa e se a tela do
-plano é clara. Esse último contador não diz se a compra deu certo nem qual plano foi escolhido. Cada anotação tem
-**só três campos: o nome da ação, o dia (sem hora) e a versão do app.**
+plano é clara. Esse último contador não diz se a compra deu certo nem qual plano foi escolhido. Cada uma dessas
+anotações tem **só três campos: o nome da ação, o dia (sem hora) e a versão do app.**
+
+Há um segundo contador, só da leitura de notas: a cada tentativa de importar uma nota, o app anota **o estado
+da nota (o código de 2 dígitos do IBGE, tirado da chave da nota, e só quando a chave foi lida), se deu certo ou
+errado, o tipo do erro** (sem internet, site da Fazenda fora do ar, nota não encontrada, chave inválida, estado
+sem leitor, verificação pedida, formato ilegível ou outro), **o dia (sem hora) e a versão do app.** Serve para
+saber em quais estados a leitura funciona e onde precisamos melhorar. O estado é o da nota, não o seu: não é a sua
+localização. Dessa tentativa não sai nada da nota (chave, itens, valores, mercado, CPF) nem qualquer identificador.
 
 Não registramos: identificador de pessoa, aparelho, conta ou casa; conteúdo de notas (itens,
 valores, chave de acesso); nomes de produtos, listas ou mercados; CPF; hora exata; localização.
-O app envia apenas contagens somadas por dia, ação e versão. No servidor, não há nada que ligue
+O app envia apenas contagens somadas por dia, ação (ou estado e resultado, no caso das notas) e versão. No servidor, não há nada que ligue
 uma contagem a uma pessoa. Detalhes técnicos: `docs/privacidade-contadores.md`.
-
-Quando você lê uma nota de um estado que o app ainda não lê e toca em "Avisar quando disponível",
-guardamos um contador à parte: **só o dia (sem hora) e a UF do estado**, somados com os de outras
-pessoas. Nada da nota, da sua conta ou do seu aparelho vai junto, e esse contador também não
-permite identificar ninguém.
 
 ### 2.3.1 Assinatura do plano completo
 
@@ -114,8 +123,8 @@ Se você assinar o plano completo (ver os termos de uso, seção 8), é assim:
   do pagamento**. Você paga na tela da loja. **A Despensa não vê nem guarda número de cartão, dados bancários ou
   endereço de cobrança.**
 - **O que a loja nos informa e nós guardamos no servidor (Supabase), junto ao identificador da sua conta:**
-  o **token da compra** (um código da loja que identifica a assinatura), o **produto e o plano** (mensal,
-  semestral ou anual), o **estado** (ativa, cancelada mas paga até o fim, em carência, em espera, pausada, pendente,
+  o **token da compra** (um código da loja que identifica a assinatura), o **produto e o plano** (mensal ou
+  anual), o **estado** (ativa, cancelada mas paga até o fim, em carência, em espera, pausada, pendente,
   expirada ou reembolsada), a **data de validade**, se vai **renovar sozinha**, se está em **teste grátis** e se é uma
   **compra de teste** (feita por testadores da loja, sem cobrança real).
 - **Para quê:** só para liberar ou bloquear as funções do plano completo e mostrar o estado na tela do plano, em
