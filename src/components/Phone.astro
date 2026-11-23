@@ -23,10 +23,11 @@ async function conjunto(img: ImageMetadata) {
 const c = await conjunto(claro);
 const e = escuro ? await conjunto(escuro) : undefined;
 const height = platform === 'android' ? 1200 : 1304;
+const sizes = '(min-width: 900px) 240px, 210px';
 ---
 <div class:list={['phone', platform === 'android' && 'phone--android', crop && 'phone--crop', cls]}>
-  <picture>
-    {e && <source media="(prefers-color-scheme: dark)" srcset={e.srcset} sizes="(min-width: 900px) 240px, 210px" />}
-    <img src={c.src} srcset={c.srcset} sizes="(min-width: 900px) 240px, 210px" width="600" height={height} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={eager ? 'high' : undefined} />
-  </picture>
+  {/* Duas <img> em vez de <picture>: o <source media> segue só o aparelho e não obedece ao botão de tema.
+       O CSS mostra a do tema efetivo; a outra fica com display: none (fora da leitura e, se lazy, nem baixa). */}
+  <img class:list={['tela-clara', e && 'tem-escura']} src={c.src} srcset={c.srcset} sizes={sizes} width="600" height={height} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={eager ? 'high' : undefined} />
+  {e && <img class="tela-escura" src={e.src} srcset={e.srcset} sizes={sizes} width="600" height={height} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={eager ? 'high' : undefined} />}
 </div>
