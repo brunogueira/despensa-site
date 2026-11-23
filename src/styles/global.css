@@ -28,8 +28,9 @@
   --wrap: min(1120px, 100% - 2 * var(--gutter));
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
 }
+/* Tema escuro: segue o aparelho (sem escolha ou "automático") ou vem do botão (data-theme no <html>). */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #191712;
     --surface: #26231d;
     --surface-strong: #332f27;
@@ -49,6 +50,27 @@
     --frame-edge: rgba(239, 234, 223, 0.12);
   }
 }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #191712;
+  --surface: #26231d;
+  --surface-strong: #332f27;
+  --card: #1f1c17;
+  --text: #efeadf;
+  --text-2: #b3ac9b;
+  --primary: #92c3a5;
+  --primary-strong: #a9d3b9;
+  --on-primary: #191712;
+  --primary-soft: #2b3a31;
+  --divider: rgba(239, 234, 223, 0.16);
+  --shadow: rgba(0, 0, 0, 0.5);
+  --shadow-soft: rgba(0, 0, 0, 0.3);
+  --hero-glow: rgba(146, 195, 165, 0.14);
+  --ink-bg: #2b3a31;
+  --frame: #0e0d0a;
+  --frame-edge: rgba(239, 234, 223, 0.12);
+}
+:root[data-theme="light"] { color-scheme: light; }
 @media (min-width: 600px) { :root { --gutter: 24px; } }
 @media (min-width: 1200px) { :root { --gutter: 32px; } }
 
@@ -88,6 +110,14 @@ header.top .wrap { display: flex; align-items: center; gap: 12px; justify-conten
 nav.main { display: flex; align-items: center; gap: 2px; }
 nav.main a { color: var(--text); text-decoration: none; padding: 10px 12px; min-height: 44px; display: inline-flex; align-items: center; border-radius: var(--r-sm); font-weight: 500; }
 nav.main a:hover { background: var(--surface); }
+.top-acoes { display: flex; align-items: center; gap: 4px; }
+/* Botão de tema: automático, claro ou escuro */
+.tema-btn { display: inline-grid; place-items: center; width: 44px; height: 44px; flex: none; padding: 0; border: 1px solid var(--divider); border-radius: 999px; background: transparent; color: var(--text); cursor: pointer; font: inherit; }
+.tema-btn[hidden] { display: none; }
+.tema-btn:hover { background: var(--surface); }
+.tema-btn svg { width: 22px; height: 22px; }
+.tema-btn svg { display: none; }
+.tema-btn[data-tema="auto"] .i-auto, .tema-btn[data-tema="light"] .i-claro, .tema-btn[data-tema="dark"] .i-escuro { display: block; }
 @media (max-width: 639px) { nav.main a.hide-sm { display: none; } nav.main a { padding-inline: 10px; } }
 
 /* Botões e selos */
@@ -117,8 +147,15 @@ a.store:hover { background: var(--surface); }
 
 /* Moldura do celular */
 .phone { --w: 260px; width: var(--w); padding: 9px; background: var(--frame); border-radius: 46px; box-shadow: var(--shadow-phone), inset 0 0 0 1px var(--frame-edge); }
-.phone picture { display: block; }
 .phone img { display: block; width: 100%; height: auto; aspect-ratio: 600 / 1304; border-radius: 37px; background: var(--surface); }
+/* Prints claro e escuro: só a versão do tema efetivo aparece (a outra fica fora da tela e da leitura). */
+.phone img.tela-escura { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .phone img.tela-clara.tem-escura { display: none; }
+  :root:not([data-theme="light"]) .phone img.tela-escura { display: block; }
+}
+:root[data-theme="dark"] .phone img.tela-clara.tem-escura { display: none; }
+:root[data-theme="dark"] .phone img.tela-escura { display: block; }
 .phone--crop { border-radius: 46px 46px 0 0; padding-bottom: 0; }
 .phone--crop img { aspect-ratio: 600 / 820; object-fit: cover; object-position: top; border-radius: 37px 37px 0 0; }
 /* Variante Android: cantos mais retos, borda fina e furo da câmera (desenho genérico, sem marca) */
