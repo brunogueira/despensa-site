@@ -44,11 +44,11 @@ const perguntas = [
   ['O CPF da nota fica guardado?', 'Nunca. Ele é descartado na leitura.'],
 ];
 const telas = [
-  { nome: 'lista', t: 'A lista da casa', ios: 'Lista Mercado da semana no iPhone: item em aberto e itens já no carrinho, com o total estimado', and: 'Lista Mercado do mês no Android, com itens no carrinho e o total estimado' },
+  { nome: 'lista', t: 'A lista da casa', ios: 'Lista Mercado da semana no iPhone: item em aberto e itens já no carrinho, com o total estimado', and: 'Lista Mercado da semana no Android: item em aberto e itens já no carrinho, com o total estimado' },
   { nome: 'compra-detalhe', t: 'A nota lida', ios: 'Compra aberta no iPhone: mercado, total, forma de pagamento e itens lidos da nota', and: 'Compra aberta no Android, com a nota já lida: mercado, total e itens' },
-  { nome: 'precos', t: 'Preço de cada produto', ios: 'Preços de um produto no iPhone, com histórico e comparação entre mercados', and: 'Preços de um produto no Android, com histórico e comparação entre mercados' },
-  { nome: 'compras', t: 'Gasto do mês', ios: 'Histórico de compras no iPhone, com o total gasto no mês', and: 'Histórico de compras no Android, com o total gasto no mês' },
-  { nome: 'casa', t: 'A casa e os convites', ios: 'Tela da casa no iPhone, com as pessoas e o convite para uma lista', and: 'Tela da casa no Android, com as pessoas e os mercados favoritos' },
+  { nome: 'precos', t: 'Preço de cada produto', ios: 'Preço de um produto no iPhone: último, menor e maior preço pagos, média e histórico ao longo do tempo', and: 'Preço de um produto no Android: último, menor e maior preço pagos, média e histórico ao longo do tempo' },
+  { nome: 'compras', t: 'Gasto do mês', ios: 'Gastos no iPhone: total gasto no mês, comparação com o mês anterior e para onde foi o dinheiro', and: 'Gastos no Android: total gasto no mês, comparação com o mês anterior e para onde foi o dinheiro' },
+  { nome: 'casa', t: 'A casa e os convites', ios: 'Casa no iPhone, aberta pela aba Você: as pessoas da casa, o convite e os mercados favoritos', and: 'Casa no Android, aberta pela aba Você: as pessoas da casa, o convite e os mercados favoritos' },
 ];
 const svg = (d: string) => d;
 ---
@@ -72,7 +72,7 @@ const svg = (d: string) => d;
         <div class="trio">
           <Phone class="l" platform="android" nome="compra-detalhe" alt="Compra no app, em um Android, com a nota fiscal já lida: mercado, total e itens" eager />
           <Phone class="c" nome="lista" alt="Tela do app, em um iPhone, com a lista de compras da casa" eager />
-          <Phone class="r" platform="android" nome="precos" alt="Tela de preços de um produto, em um Android, com histórico e comparação entre mercados" eager />
+          <Phone class="r" platform="android" nome="precos" alt="Preço de um produto, em um Android, com o menor preço já pago e o histórico" eager />
         </div>
         <p class="muted small trio-cap">Telas com dados de exemplo, no iPhone e no Android.</p>
       </div>
@@ -124,7 +124,7 @@ const svg = (d: string) => d;
         <p class="cap">Telas com dados de exemplo.</p>
       </div>
       <div class="spot-phones" data-reveal>
-        <Phone class="back" platform="android" nome="precos" alt="Preços de um produto no app, em um Android, com o histórico e o mercado mais barato" />
+        <Phone class="back" platform="android" nome="precos" alt="Preço de um produto no app, em um Android, com o menor preço já pago e o histórico" />
         <Phone nome="compra-detalhe" alt="Compra aberta no app, em um iPhone: mercado, total, forma de pagamento e itens lidos da nota" />
       </div>
     </div>
@@ -203,7 +203,7 @@ const svg = (d: string) => d;
               <li>Corrija nomes de mercados e itens quando quiser.</li>
             </ul>
           </div>
-          <Phone platform="android" nome="compras" alt="Histórico de compras no app, em um Android, com total gasto no mês" />
+          <Phone platform="android" nome="compras" alt="Gastos no app, em um Android: total gasto no mês e para onde foi o dinheiro" />
         </article>
         <article class="card b4">
           <div class="txt">
@@ -216,7 +216,7 @@ const svg = (d: string) => d;
               <li>Quem é convidado não vê as compras, os preços nem os outros itens da casa.</li>
             </ul>
           </div>
-          <Phone nome="casa" alt="Tela da casa, com as pessoas e o convite para uma lista" />
+          <Phone nome="casa" alt="Casa no app, aberta pela aba Você: as pessoas da casa e o convite" />
         </article>
       </div>
     </div>
