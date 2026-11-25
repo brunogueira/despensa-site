@@ -1,6 +1,6 @@
 # Termos de uso da Despensa
 
-Última atualização: 19 de novembro de 2026
+Última atualização: 25 de novembro de 2026
 
 Estes termos ficam publicados em https://despensa.online/termos.
 
@@ -19,7 +19,7 @@ A Despensa é um app de lista de compras da casa, para iPhone e Android. Ela lê
 ## 2. Quem pode usar
 
 Pessoas com 18 anos ou mais, ou menores com autorização de um responsável. Hoje a leitura de notas funciona só para
-notas dos estados do Paraná, de Pernambuco, do Rio de Janeiro e de São Paulo; pretendemos ampliar para os demais estados do Brasil, e o app avisa
+notas dos estados do Paraná, de Pernambuco, do Rio de Janeiro, do Rio Grande do Sul e de São Paulo; pretendemos ampliar para os demais estados do Brasil, e o app avisa
 quando uma nota é de um estado que ainda não lemos.
 
 ## 3. Sua conta
@@ -76,7 +76,7 @@ Os preços, totais e comparações vêm das notas que você mesmo escaneia. Eles
 decidir, **não uma garantia**: a leitura da nota pode errar, o mercado pode mudar o preço e a
 comparação só considera o que foi lido na sua casa. Confira o preço no mercado antes de comprar.
 
-A leitura usa a página pública da Secretaria da Fazenda do estado da nota (hoje, Paraná, Pernambuco, Rio de Janeiro e São Paulo, com a meta de cobrir o Brasil todo), que não controlamos. Se ela mudar
+A leitura usa a página pública da Secretaria da Fazenda do estado da nota (hoje, Paraná, Pernambuco, Rio de Janeiro, Rio Grande do Sul e São Paulo, com a meta de cobrir o Brasil todo), que não controlamos. Se ela mudar
 ou ficar fora do ar, a leitura pode falhar.
 
 ## 7. Seus dados e sua propriedade
