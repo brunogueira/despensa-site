@@ -507,7 +507,8 @@ a.store:hover { background: var(--surface); }
   .receipt--trecho .paper { padding: 26px 24px 30px; font-size: 14px; }
   .receipt--trecho .ds { font-size: 12px; }
 }
-/* M10: a tarja cobre o CPF 250 ms depois de o trecho aparecer (520 ms, ease-in-out: ela atravessa a linha) e "Descartado" surge em 800 ms.
+/* M10: a tarja cobre o CPF 250 ms depois de a linha dele aparecer inteira acima do quinto de baixo da tela (520 ms, ease-in-out: ela
+   atravessa a linha) e "Descartado" surge em 800 ms.
    Só com JS (sem ele, o trecho já está no estado final) e pausado até o script do Nota.astro pôr .ver: nada anima fora da tela. */
 @media (prefers-reduced-motion: no-preference) {
   .js .receipt--trecho .tarja { animation: marca 520ms var(--ease-in-out) 250ms backwards; }
