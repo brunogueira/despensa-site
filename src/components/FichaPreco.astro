@@ -1,0 +1,68 @@
+---
+// A ficha de preço da seção "Preços": o histórico de um produto no papel da nota, com a linha do gráfico e o menor já pago em verde.
+// É ilustração, com dados de exemplo (a ficha diz isso). Para o leitor de tela, uma descrição só (role="img"); os filhos ficam aria-hidden.
+// M13 (docs/lp-premium/proposta.md): quando 60% da ficha aparece, a linha se desenha em 900 ms e, 200 ms depois, o ponto do menor
+// preço ganha o marca-texto. Estado-base: linha inteira e marca no lugar; o movimento só existe com prefers-reduced-motion: no-preference.
+import Glyph from './Glyph.astro';
+
+// Compras de exemplo: mês e preço pago. Os mercados são os da tela da casa.
+const compras: [string, number][] = [
+  ['mai', 27.9], ['jun', 26.49], ['jul', 28.9], ['ago', 24.9], ['set', 27.49], ['out', 29.9],
+];
+const brl = (v: number) => v.toFixed(2).replace('.', ',');
+const precos = compras.map(([, p]) => p);
+const menor = Math.min(...precos);
+const maior = Math.max(...precos);
+const iMenor = precos.indexOf(menor);
+const ultimo = precos[precos.length - 1];
+const media = precos.reduce((a, b) => a + b, 0) / precos.length;
+
+// Gráfico numa caixa de 300 x 120: margem de 12 dos lados e de 16 em cima e embaixo (cabe o ponto e a marca).
+const W = 300, H = 120, mx = 12, my = 16;
+const pts = precos.map((p, i) => ({
+  x: +(mx + (i * (W - 2 * mx)) / (precos.length - 1)).toFixed(1),
+  y: +(my + ((maior - p) / (maior - menor)) * (H - 2 * my)).toFixed(1),
+}));
+const d = pts.map((p, i) => `${i ? 'L' : 'M'}${p.x} ${p.y}`).join(' ');
+// Comprimento real da linha (em unidades da caixa): o traçado usa ele no stroke-dasharray, sem depender de pathLength.
+const len = pts.slice(1).reduce((s, p, i) => s + Math.hypot(p.x - pts[i].x, p.y - pts[i].y), 0).toFixed(1);
+const pm = pts[iMenor];
+---
+<div class="receipt ficha">
+  <div class="rshadow" aria-hidden="true"></div>
+  <div class="paper" role="img" aria-label={`Histórico de preço de exemplo do arroz tipo 1 de 5 kg, em ${compras.length} compras de maio a outubro: o último foi R$ ${brl(ultimo)}, no Supermercado Central, e o menor já pago, em verde, R$ ${brl(menor)}, no Mercado Bom Preço.`}>
+    <div class="hd" aria-hidden="true">
+      <Glyph />
+      <div><b>Arroz tipo 1 5kg</b><small>Mercearia · {compras.length} compras · dados de exemplo</small></div>
+    </div>
+    <div class="graf-box" aria-hidden="true">
+      <p class="rot">Preço ao longo do tempo</p>
+      <svg class="graf" viewBox={`0 0 ${W} ${H}`} fill="none">
+        {[my, H / 2, H - my].map((y) => <line class="grade" x1="0" x2={W} y1={y} y2={y} />)}
+        <rect class="mk-pt" x={pm.x - 16} y={pm.y - 8} width="32" height="16" rx="3" />
+        <path class="linha" d={d} style={`--len: ${len}`} />
+        {pts.map((p, i) => i !== iMenor && <circle class="pt" cx={p.x} cy={p.y} r={i === pts.length - 1 ? 4 : 3} />)}
+        <circle class="pt-menor" cx={pm.x} cy={pm.y} r="5" />
+      </svg>
+      <p class="eixo"><span>{compras[0][0]}</span><span>{compras[compras.length - 1][0]}</span></p>
+    </div>
+    <div class="vals" aria-hidden="true">
+      <p><span>Último · Central</span><span class="dl"></span><b>{brl(ultimo)}</b></p>
+      <p class="menor"><span>Menor já pago · Bom Preço</span><span class="dl"></span><b>{brl(menor)}</b></p>
+      <p><span>Média</span><span class="dl"></span><b>{brl(media)}</b></p>
+    </div>
+  </div>
+</div>
+<script is:inline>
+  // M13: a linha só se desenha quando 60% da ficha aparece (CSS: .js .ficha:not(.ver) pausa o traçado). Nada anima fora da tela.
+  // Sem movimento, nada a esperar: a ficha já está no estado final.
+  (function (s) {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var f = s.previousElementSibling;
+    if (!('IntersectionObserver' in window)) { f.classList.add('ver'); return; }
+    var io = new IntersectionObserver(function (es) {
+      if (es[0].intersectionRatio >= .59) { f.classList.add('ver'); io.disconnect(); }
+    }, { threshold: .6 });
+    io.observe(f);
+  })(document.currentScript);
+</script>

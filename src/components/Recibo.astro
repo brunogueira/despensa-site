@@ -1,0 +1,35 @@
+---
+// Um plano em formato de recibo: papel da nota, itens em mono com pontilhado até o valor e o total no pé, com borda serrilhada.
+// É conteúdo, não ilustração: título h3, itens numa lista de definições (o leitor de tela lê "Pessoas na casa, até 3") e total em texto.
+// Os valores são os de /planos (src/pages/planos.astro): mude lá e aqui juntos. Nada de movimento: um preço é para ser lido.
+import Glyph from './Glyph.astro';
+
+interface Props {
+  id: string;
+  nome: string;
+  sub: string;
+  itens: readonly (readonly [string, string])[];
+  linha?: readonly [string, string];
+  total: { readonly rotulo: string; readonly valor: string; readonly por?: string };
+  // Carimbo no canto do cabeçalho (ex.: "Em breve"). É texto: o leitor de tela lê logo depois do nome do plano.
+  carimbo?: string;
+  // Marca-texto no total (o preço que já vale).
+  marca?: boolean;
+}
+const { id, nome, sub, itens, linha, total, carimbo, marca = false } = Astro.props;
+---
+<article class="receipt recibo" aria-labelledby={id}>
+  <div class="rshadow" aria-hidden="true"></div>
+  <div class="paper">
+    <div class="hd">
+      <Glyph />
+      <div><h3 id={id}>{nome}</h3><small>{sub}</small></div>
+      {carimbo && <p class="carimbo">{carimbo}</p>}
+    </div>
+    <dl class="itens">
+      {itens.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+    </dl>
+    {linha && <p class="sum"><span>{linha[0]}</span><span>{linha[1]}</span></p>}
+    <p class="tot"><span>{total.rotulo}</span><b class="pr">{marca && <span class="mk" aria-hidden="true"></span>}{total.valor}{total.por && <small> {total.por}</small>}</b></p>
+  </div>
+</article>
