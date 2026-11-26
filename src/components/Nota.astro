@@ -76,7 +76,8 @@ const rotulo = trecho
       });
     }
     if (!('IntersectionObserver' in window)) { r.classList.add('ver'); return; }
-    var hero = r.classList.contains('lendo'), limiar = hero ? .6 : 1;
+    // No trecho, 0,95 e não 1: com a nota girada 2°, a linha do CPF nunca chega a 100% visível em telas de 320 a 360 px.
+    var hero = r.classList.contains('lendo'), limiar = hero ? .6 : .95;
     var io = new IntersectionObserver(function (es) {
       if (es[0].isIntersecting && es[0].intersectionRatio >= limiar - .01) {
         if (!carga) r.style.setProperty('--t0', '250ms');
