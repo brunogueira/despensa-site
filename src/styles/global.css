@@ -163,13 +163,19 @@ nav.main { display: flex; align-items: center; gap: 2px; }
 nav.main a { color: var(--text); text-decoration: none; padding: 10px 12px; min-height: 44px; display: inline-flex; align-items: center; border-radius: var(--r-sm); font-weight: 500; }
 nav.main a:hover { background: var(--surface); }
 .top-acoes { display: flex; align-items: center; gap: 4px; }
-/* Botão de tema: automático, claro ou escuro */
-.tema-btn { display: inline-grid; place-items: center; width: 44px; height: 44px; flex: none; padding: 0; border: 1px solid var(--divider); border-radius: 999px; background: transparent; color: var(--text); cursor: pointer; font: inherit; }
+/* Botão de tema: automático, claro ou escuro. Ícone sem moldura; os três desenhos ficam empilhados e só o do estado atual aparece. */
+.tema-btn { display: inline-grid; place-items: center; width: 44px; height: 44px; flex: none; padding: 0; border: 0; border-radius: 12px; background: transparent; color: var(--text); cursor: pointer; font: inherit; -webkit-tap-highlight-color: transparent; }
 .tema-btn[hidden] { display: none; }
-.tema-btn:hover { background: var(--surface); }
-.tema-btn svg { width: 22px; height: 22px; }
-.tema-btn svg { display: none; }
-.tema-btn[data-tema="auto"] .i-auto, .tema-btn[data-tema="light"] .i-claro, .tema-btn[data-tema="dark"] .i-escuro { display: block; }
+.tema-btn svg { width: 22px; height: 22px; overflow: visible; }
+.tema-btn g { transform-box: fill-box; transform-origin: center; opacity: 0; transform: rotate(-90deg) scale(.5); }
+.tema-btn[data-tema="auto"] .i-auto, .tema-btn[data-tema="light"] .i-claro, .tema-btn[data-tema="dark"] .i-escuro { opacity: 1; transform: none; }
+@media (hover: hover) { .tema-btn:hover { background: var(--surface); } }
+@media (prefers-reduced-motion: no-preference) {
+  /* Na troca, o desenho que sai gira e encolhe enquanto o novo entra girando: o sol vira lua, a lua vira tela. */
+  .tema-btn { transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out); }
+  .tema-btn:active { transform: scale(.94); }
+  .tema-btn g { transition: opacity 220ms var(--ease-out), transform 320ms var(--ease-out); }
+}
 @media (max-width: 639px) { nav.main a.hide-sm { display: none; } nav.main a { padding-inline: 10px; } }
 
 /* Botões e selos */
