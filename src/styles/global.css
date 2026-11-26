@@ -239,8 +239,13 @@ a.store:hover { background: var(--surface); }
 .hero .lead { margin: 22px 0 28px; font-size: 1.125rem; max-width: 34ch; }
 .hero .store { min-height: 52px; padding: 6px 18px 6px 14px; background: transparent; }
 .hero .store small { font: 600 .68rem/1.2 var(--mono); letter-spacing: .1em; }
-.hero .uf { margin: 18px 0 0; font: 500 .75rem/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--text-2); max-width: 46ch; }
-.hero .uf i { font-style: normal; color: var(--primary); }
+/* Estados: a linha em mono com os conferidos e, embaixo, o que acontece nos outros, em texto corrido (lê melhor que maiúsculas). */
+.hero .uf { margin: 18px 0 0; color: var(--text-2); max-width: 46ch; }
+.hero .uf-k { display: block; font: 500 .75rem/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+.hero .uf-k i { font-style: normal; color: var(--primary); }
+/* As siglas não se separam: em tela estreita a lista inteira desce, nunca um "· SP" sozinho. */
+.hero .uf-l { white-space: nowrap; }
+.hero .uf-n { display: block; margin-top: 4px; font-size: .875rem; line-height: 1.45; max-width: 40ch; }
 
 /* Palco: caixa de desenho de 520 x 600 px, reduzida inteira por --k nas telas estreitas (nota e celular lado a lado). */
 .stage-box { --k: 1; position: relative; height: calc(600px * var(--k)); }

@@ -18,9 +18,10 @@ A Despensa é um app de lista de compras da casa, para iPhone e Android. Ela lê
 
 ## 2. Quem pode usar
 
-Pessoas com 18 anos ou mais, ou menores com autorização de um responsável. Hoje a leitura de notas funciona só para
-notas dos estados do Paraná, de Pernambuco, do Rio de Janeiro, do Rio Grande do Sul e de São Paulo; pretendemos ampliar para os demais estados do Brasil, e o app avisa
-quando uma nota é de um estado que ainda não lemos.
+Pessoas com 18 anos ou mais, ou menores com autorização de um responsável. A leitura de notas pelo QR já foi
+conferida com notas reais do Paraná, de Pernambuco, do Rio de Janeiro, do Rio Grande do Sul e de São Paulo. Nos
+demais estados, o app tenta ler a nota pela página da Fazenda e, se não conseguir, sugere registrar a compra por
+foto. No Distrito Federal, a leitura é sempre por foto.
 
 ## 3. Sua conta
 
@@ -76,8 +77,8 @@ Os preços, totais e comparações vêm das notas que você mesmo escaneia. Eles
 decidir, **não uma garantia**: a leitura da nota pode errar, o mercado pode mudar o preço e a
 comparação só considera o que foi lido na sua casa. Confira o preço no mercado antes de comprar.
 
-A leitura usa a página pública da Secretaria da Fazenda do estado da nota (hoje, Paraná, Pernambuco, Rio de Janeiro, Rio Grande do Sul e São Paulo, com a meta de cobrir o Brasil todo), que não controlamos. Se ela mudar
-ou ficar fora do ar, a leitura pode falhar.
+A leitura usa a página pública da Secretaria da Fazenda do estado da nota, que não controlamos. Se ela mudar,
+pedir uma verificação ou ficar fora do ar, a leitura pode falhar; nesse caso, dá para registrar a compra por foto.
 
 ## 7. Seus dados e sua propriedade
 

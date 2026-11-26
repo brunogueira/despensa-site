@@ -49,14 +49,14 @@ const passos = [
     android: 'Preço de um produto no Android: último, menor e maior preço pagos, média e histórico ao longo do tempo',
   },
 ];
-// Palavra curta (artigo, preposição, "e", "ou") fica grudada na seguinte: nenhuma linha dos passos termina com ela sozinha.
-const cola = (t: string) => t.replace(/(?<=^|\s)([aeoAEO]|ou|as|os|da|de|do|em|na|no)\s/g, '$1\u00a0').replace('QR Code', 'QR\u00a0Code');
+// Palavra curta (artigo, preposição, "e", "é", "ou", "se") fica grudada na seguinte: nenhuma linha dos textos termina com ela sozinha.
+const cola = (t: string) => t.replace(/(?<=^|\s)([aeoéà]|ou|as|os|ao|da|de|do|em|na|no|se|um|das|dos|nas|nos|nem|com|sem|por)\s/gi, '$1\u00a0').replace('QR Code', 'QR\u00a0Code');
 const aparelhos = [
   { id: 'ios', nome: 'iPhone' },
   { id: 'android', nome: 'Android' },
 ] as const;
 const perguntas = [
-  ['Quais notas o app lê?', 'NFC-e do Paraná, de Pernambuco, do Rio de Janeiro, do Rio Grande do Sul e de São Paulo. Outros estados vêm depois.'],
+  ['Quais notas o app lê?', 'A NFC-e, a nota do mercado com QR Code. A leitura já foi conferida com notas do Paraná, de Pernambuco, do Rio de Janeiro, do Rio Grande do Sul e de São Paulo. Nos outros estados, o app tenta ler a nota e, se não conseguir, pede uma foto dela. No Distrito Federal, a leitura é sempre por foto.'],
   ['Preciso de conta?', 'Para sincronizar com a casa e convidar pessoas, sim: entre com a sua conta.'],
   ['Custa algo?', null],
   ['Quem vê minha lista?', 'Só quem mora na sua casa e quem você convidar, e convidados veem só a lista escolhida.'],
@@ -78,7 +78,14 @@ const perguntas = [
         </h1>
         <p class="lead fade f1">Lista de compras da casa que lê a nota fiscal.</p>
         <div class="fade f2"><StoreButtons /></div>
-        <p class="uf fade f3"><span aria-hidden="true">Lê notas do <i>PR</i> · <i>PE</i> · <i>RJ</i> · <i>RS</i> · <i>SP</i></span><span class="sr">Leitura de notas do Paraná, de Pernambuco, do Rio de Janeiro, do Rio Grande do Sul e de São Paulo.</span></p>
+        {/* Estados: a versão à vista é curta (siglas); o leitor de tela ouve a frase completa. */}
+        <p class="uf fade f3">
+          <span aria-hidden="true">
+            <span class="uf-k">Leitura conferida: <span class="uf-l"><i>PR</i> · <i>PE</i> · <i>RJ</i> · <i>RS</i> · <i>SP</i></span></span>
+            <span class="uf-n">{cola('Nos outros estados, o app tenta ler e, se não der, pede a foto da nota. No DF, é por foto.')}</span>
+          </span>
+          <span class="sr">Leitura de notas conferida no Paraná, em Pernambuco, no Rio de Janeiro, no Rio Grande do Sul e em São Paulo. Nos outros estados, o app tenta ler a nota e, se não conseguir, pede uma foto dela. No Distrito Federal, a leitura é por foto.</span>
+        </p>
       </div>
       <div class="stage-box">
         <div class="stage">
@@ -357,7 +364,7 @@ const perguntas = [
       {perguntas.map(([q, a]) => (
         <details class="q" name="faq">
           <summary>{q}</summary>
-          {a ? <p>{a}</p> : <p>Você começa de graça. Haverá um plano completo opcional. Veja os valores em <a href="/planos">planos e preços</a>.</p>}
+          {a ? <p>{cola(a)}</p> : <p>Você começa de graça. Haverá um plano completo opcional. Veja os valores em <a href="/planos">planos e preços</a>.</p>}
         </details>
       ))}
     </div>
