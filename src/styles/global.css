@@ -1,3 +1,24 @@
+/* Fraunces (SIL Open Font License 1.1, texto em /fonts/OFL.txt), servida pelo próprio site: nenhum pedido a terceiros.
+   Subconjunto latin do Google Fonts (v38), com todos os acentos do português. Só as duas faces usadas:
+   - normal 500, com o eixo óptico variável (opsz 9 a 144): o desenho se ajusta sozinho do h3 de cartão ao título do herói;
+   - itálico 400, fixo em opsz 72: só aparece na palavra-chave dos títulos grandes (h1 e h2). */
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/fraunces-500-latin.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/fraunces-400-italic-latin.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /* Cores: espelho de src/theme/tokens.ts do app. Nenhum branco puro. */
 :root {
   color-scheme: light dark;
@@ -20,6 +41,14 @@
   --ink-muted: #b3ac9b;
   --frame: #2a2f2c;
   --frame-edge: rgba(239, 234, 223, 0.18);
+  /* A nota fiscal da LP: papel térmico, tinta, texto apagado, marca-texto do preço lido e o verde do check. Só do site, por enquanto. */
+  --paper: #faf7ef;
+  --paper-ink: #2a2d27;
+  --paper-mute: #6b675b;
+  --marker: #ead98f;
+  --paper-accent: #437059;
+  /* Verde para texto sobre a faixa de tinta (--ink-bg), igual nos dois temas: o --primary do claro daria 2,4:1 ali. */
+  --primary-on-ink: #92c3a5;
   --shadow-1: 0 1px 2px var(--shadow-soft);
   --shadow-2: 0 14px 30px -14px var(--shadow);
   --shadow-phone: 0 40px 60px -28px var(--shadow), 0 14px 26px -14px var(--shadow);
@@ -27,6 +56,8 @@
   --gutter: 16px;
   --wrap: min(1120px, 100% - 2 * var(--gutter));
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  /* Títulos: Fraunces; enquanto ela carrega (ou se falhar), a serifa do sistema (New York no iPhone e no Mac). */
+  --serif: "Fraunces", ui-serif, "New York", Georgia, "Times New Roman", serif;
 }
 /* Tema escuro: segue o aparelho (sem escolha ou "automático") ou vem do botão (data-theme no <html>). */
 @media (prefers-color-scheme: dark) {
@@ -48,6 +79,11 @@
     --ink-bg: #2b3a31;
     --frame: #0e0d0a;
     --frame-edge: rgba(239, 234, 223, 0.12);
+    --paper: #e4dfd0;
+    --paper-ink: #23251f;
+    --paper-mute: #625e52;
+    --marker: #cdb871;
+    --paper-accent: #365b48;
   }
 }
 :root[data-theme="dark"] {
@@ -69,6 +105,11 @@
   --ink-bg: #2b3a31;
   --frame: #0e0d0a;
   --frame-edge: rgba(239, 234, 223, 0.12);
+  --paper: #e4dfd0;
+  --paper-ink: #23251f;
+  --paper-mute: #625e52;
+  --marker: #cdb871;
+  --paper-accent: #365b48;
 }
 :root[data-theme="light"] { color-scheme: light; }
 @media (min-width: 600px) { :root { --gutter: 24px; } }
@@ -86,10 +127,15 @@ a:hover { text-decoration-thickness: 2px; }
 .skip:focus { top: 12px; }
 .wrap { width: var(--wrap); margin-inline: auto; }
 
-h1, h2, h3 { margin: 0 0 .5em; text-wrap: balance; }
-h1 { font-size: clamp(2.5rem, 1.5rem + 3.6vw, 4rem); font-weight: 800; line-height: 1.03; letter-spacing: -0.035em; }
-h2 { font-size: clamp(1.85rem, 1.3rem + 2.3vw, 3rem); font-weight: 800; line-height: 1.08; letter-spacing: -0.025em; }
-h3 { font-size: 1.25rem; font-weight: 650; line-height: 1.25; letter-spacing: -0.01em; }
+/* Títulos em serifa; corpo e interface seguem na fonte do sistema. Escala da proposta (docs/lp-premium/proposta.md, seção 2):
+   herói 3,5 a 7 rem, h2 2,4 a 4,75 rem, h3 de passo 1,8 a 2,75 rem (em .steps h3). O h3 base é o título de cartão. */
+h1, h2, h3 { margin: 0 0 .5em; text-wrap: balance; font-family: var(--serif); font-weight: 500; }
+h1 { font-size: clamp(3.5rem, 1.2rem + 8vw, 7rem); line-height: .92; letter-spacing: -0.03em; }
+h2 { font-size: clamp(2.4rem, 1.2rem + 4.6vw, 4.75rem); line-height: 1; letter-spacing: -0.03em; }
+h3 { font-size: 1.375rem; line-height: 1.2; letter-spacing: -0.01em; }
+/* A palavra-chave do título vai em itálico verde. Só em h1 e h2: em tamanho grande o verde passa de 3:1 em todos os fundos de areia
+   (o pior é --primary-soft, 4,3:1). Sobre a faixa de tinta (--ink-bg), troque a cor por --primary-on-ink. */
+h1 em, h2 em { font-style: italic; font-weight: 400; color: var(--primary); letter-spacing: -0.035em; }
 p { margin: 0 0 1em; }
 .lead { font-size: clamp(1.15rem, 1rem + .7vw, 1.4rem); line-height: 1.45; color: var(--text-2); text-wrap: balance; }
 .eyebrow { display: block; margin: 0 0 12px; font-size: .8125rem; font-weight: 700; line-height: 1.2; letter-spacing: .08em; text-transform: uppercase; color: var(--primary); }
@@ -171,7 +217,9 @@ a.store:hover { background: var(--surface); }
 .hero-mark svg { width: 100%; height: auto; display: block; }
 .hero .wrap { position: relative; display: grid; gap: 28px; align-items: center; }
 .hero .lead { margin: 0 0 24px; max-width: 30ch; }
-.hero h1 .accent { display: block; color: var(--primary); }
+/* O h1 do herói tem o gancho (escala do herói) e a explicação, menor, na mesma tag. */
+.hero h1 { font-size: clamp(1.4rem, 1rem + 1.5vw, 2.25rem); line-height: 1.15; letter-spacing: -0.02em; }
+.hero h1 .accent { display: block; margin-bottom: clamp(12px, 2vw, 24px); font-size: clamp(3.5rem, 1.2rem + 8vw, 7rem); line-height: .92; letter-spacing: -0.03em; color: var(--primary); }
 .hero .stores { margin-bottom: 16px; }
 .hero .note { margin: 0; }
 .trio { position: relative; height: 444px; }
@@ -223,7 +271,7 @@ a.store:hover { background: var(--surface); }
 .steps li { counter-increment: s; position: relative; display: grid; grid-template-columns: 48px 1fr; column-gap: 16px; padding: 0 0 8px; }
 .steps .num { grid-row: span 2; width: 48px; height: 48px; border-radius: 999px; background: var(--primary); color: var(--on-primary); display: grid; place-items: center; font-size: 1.4rem; font-weight: 800; font-variant-numeric: tabular-nums; z-index: 1; }
 .steps li:not(:last-child)::before { content: ""; position: absolute; left: 23px; top: 48px; bottom: -16px; width: 2px; background: var(--divider); }
-.steps h3 { margin: 0 0 4px; align-self: end; }
+.steps h3 { margin: 0 0 8px; align-self: end; font-size: clamp(1.8rem, 1.2rem + 2vw, 2.75rem); line-height: 1.05; letter-spacing: -0.02em; }
 .steps p { margin: 0; color: var(--text-2); grid-column: 2; }
 @media (min-width: 900px) {
   .steps { grid-template-columns: repeat(3, 1fr); gap: 24px; }
@@ -298,7 +346,7 @@ a.store:hover { background: var(--surface); }
 .price-big { font-size: 2rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
 .price-big small { font-size: 1rem; font-weight: 500; color: var(--text-2); letter-spacing: 0; }
 .link-btn { display: inline-flex; align-items: center; min-height: 44px; font-weight: 650; }
-.h3 { font-size: 1.4rem; font-weight: 700; margin: 0 0 .3em; letter-spacing: -0.01em; }
+.h3 { font-size: 1.4rem; font-weight: 500; line-height: 1.2; margin: 0 0 .3em; letter-spacing: -0.01em; }
 
 /* Perguntas */
 .faq-wrap { max-width: 720px; }
@@ -319,7 +367,7 @@ details.q p { padding: 0 20px; margin: 0 0 16px; color: var(--text-2); }
 /* Rodapé */
 footer.site { border-top: 1px solid var(--divider); padding: 32px 0 24px; }
 .foot { display: grid; gap: 28px; }
-.foot-h { font-size: .8125rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-2); margin: 0 0 4px; line-height: 1.2; }
+.foot-h { font-family: var(--font); font-size: .8125rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-2); margin: 0 0 4px; line-height: 1.2; }
 footer.site ul { list-style: none; padding: 0; margin: 0; }
 footer.site li a { display: inline-flex; min-height: 44px; align-items: center; color: var(--text); text-decoration: none; }
 footer.site li a:hover { text-decoration: underline; }
@@ -328,8 +376,8 @@ footer.site li a:hover { text-decoration: underline; }
 
 /* Páginas de texto */
 .prose { max-width: 720px; padding: 48px 0 72px; }
-.prose h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); letter-spacing: -0.02em; }
-.prose h2 { font-size: 1.5rem; margin-top: 2em; letter-spacing: -0.015em; }
+.prose h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); line-height: 1.1; letter-spacing: -0.02em; }
+.prose h2 { font-size: 1.5rem; line-height: 1.2; margin-top: 2em; letter-spacing: -0.015em; }
 .prose table { border-collapse: collapse; width: 100%; font-size: .95rem; display: block; overflow-x: auto; }
 .prose th, .prose td { border: 1px solid var(--divider); padding: 8px 10px; text-align: left; vertical-align: top; }
 .prose blockquote { margin: 1.2em 0; padding: 4px 18px; border-left: 4px solid var(--primary); background: var(--surface); border-radius: 0 12px 12px 0; }
@@ -384,7 +432,6 @@ ul.check li::before { content: "✓"; position: absolute; left: 0; color: var(--
 @keyframes deriva { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-30px, 24px, 0); } }
 .badge { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 18px; padding: 6px 14px 6px 10px; border-radius: 999px; background: var(--primary-soft); color: var(--primary-strong); font-weight: 650; font-size: .9rem; border: 1px solid var(--divider); }
 .badge svg { width: 18px; height: 18px; }
-.hero h1 .accent { background: linear-gradient(100deg, var(--primary), var(--primary-strong) 60%, var(--primary)); -webkit-background-clip: text; background-clip: text; }
 .hero .store { box-shadow: var(--shadow-1); }
 
 /* Entrada ao rolar (só quando o JS liga a classe .js e a pessoa não pediu menos movimento) */
