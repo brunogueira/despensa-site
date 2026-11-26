@@ -249,15 +249,17 @@ Cartões sugeridos, em ordem:
 
 ---
 
-## 8. Decisões abertas para o Bruno
+## 8. Decisões (26/11/2026)
 
-1. **A direção** (a nota como material, serifa com itálico, tom editorial) serve? Ou prefere algo mais próximo do app (só sans, sem papel)?
-2. **Fonte**: Fraunces hospedada no site (consistente em todos os aparelhos, 45 a 60 KB) ou `ui-serif` do sistema (zero KB, mas só fica boa em iPhone e Mac)?
-3. **Tokens**: os cinco tokens novos (papel, tinta, mudo, marca-texto, verde da nota) ficam só no site, ou também entram em `src/theme/tokens.ts` do app para o "menor preço" ter a mesma cor nos dois lugares?
-4. **Botões "Em breve"**: enquanto não há loja, o topo da página tem dois botões tracejados que não levam a nada. Quer uma lista de espera (e-mail, o que exige decidir onde guardar e conta na política de privacidade) ou só uma linha "Em breve na App Store e no Google Play"? A proposta mantém os botões como estão.
-5. **Vitrine Android**: a proposta transforma iPhone/Android num alternador dentro do celular fixo, em vez de mostrar os dez prints. O Android perde destaque. Aceitável?
-6. **Demonstração da casa (M14)**: vale montar os dois celulares em HTML para mostrar a lista sincronizando, ou segue só com o print real?
-7. **Planos como recibo**: aceita o "R$ 0,00" no formato de nota ou prefere manter os cartões atuais?
+O Bruno aprovou a direção. A coordenação fechou o resto com o padrão mais simples; qualquer item pode mudar a pedido dele.
+
+1. **Direção**: aprovada (a nota como material, serifa com itálico, tom editorial).
+2. **Fonte**: Fraunces hospedada no site (licença OFL), só os pesos usados, com `font-display: swap`.
+3. **Tokens**: os novos ficam só no site por enquanto. Levar o marca-texto para o app vira cartão no Backlog.
+4. **Botões "Em breve"**: ficam como estão. Nada de lista de espera, para não coletar e-mail.
+5. **iPhone/Android**: vira alternador dentro do celular fixo; a vitrine de dez prints sai.
+6. **Demonstração da casa (M14)**: fica para depois, no Backlog. Por ora, print real.
+7. **Planos**: no formato de recibo.
 
 ---
 
