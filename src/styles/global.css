@@ -136,7 +136,8 @@ a:hover { text-decoration-thickness: 2px; }
 
 /* Títulos em serifa; corpo e interface seguem na fonte do sistema. Escala da proposta (docs/lp-premium/proposta.md, seção 2):
    herói 3,5 a 7 rem, h2 2,4 a 4,75 rem, h3 de passo 1,8 a 2,75 rem (em .steps h3). O h3 base é o título de cartão. */
-h1, h2, h3 { margin: 0 0 .5em; text-wrap: balance; font-family: var(--serif); font-weight: 500; }
+/* overflow-wrap: só age quando um trecho sem quebra (palavras grudadas por &nbsp;) não cabe na linha, como com texto a 200% a 320 px. */
+h1, h2, h3 { margin: 0 0 .5em; text-wrap: balance; overflow-wrap: break-word; font-family: var(--serif); font-weight: 500; }
 h1 { font-size: clamp(3.5rem, 1.2rem + 8vw, 7rem); line-height: .92; letter-spacing: -0.03em; }
 h2 { font-size: clamp(2.4rem, 1.2rem + 4.6vw, 4.75rem); line-height: 1; letter-spacing: -0.03em; }
 h3 { font-size: 1.375rem; line-height: 1.2; letter-spacing: -0.01em; }
@@ -157,13 +158,15 @@ header.top { position: sticky; top: 0; z-index: 20; background: var(--bg); borde
 @supports (backdrop-filter: blur(1px)) {
   header.top { background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(14px) saturate(1.2); }
 }
-header.top .wrap { display: flex; align-items: center; gap: 12px; justify-content: space-between; min-height: 64px; }
+/* Com texto grande numa tela estreita, a marca e as ações não cabem numa linha: as ações descem, alinhadas à direita (o botão de tema
+   nunca some nem sai da tela). No tamanho normal, tudo cabe numa linha a partir de 320 px. */
+header.top .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 0 12px; justify-content: space-between; min-height: 64px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--text); font-weight: 800; font-size: 1.2rem; text-decoration: none; min-height: 44px; letter-spacing: -0.01em; }
 .brand svg { width: 24px; height: auto; color: var(--primary); }
 nav.main { display: flex; align-items: center; gap: 2px; }
 nav.main a { color: var(--text); text-decoration: none; padding: 10px 12px; min-height: 44px; display: inline-flex; align-items: center; border-radius: var(--r-sm); font-weight: 500; }
 nav.main a:hover { background: var(--surface); }
-.top-acoes { display: flex; align-items: center; gap: 4px; }
+.top-acoes { display: flex; align-items: center; gap: 4px; margin-left: auto; min-width: 0; }
 /* Botão de tema: automático, claro ou escuro. Ícone sem moldura; os três desenhos ficam empilhados e só o do estado atual aparece. */
 .tema-btn { display: inline-grid; place-items: center; width: 44px; height: 44px; flex: none; padding: 0; border: 0; border-radius: 12px; background: transparent; color: var(--text); cursor: pointer; font: inherit; -webkit-tap-highlight-color: transparent; }
 .tema-btn[hidden] { display: none; }
@@ -187,7 +190,7 @@ nav.main a:hover { background: var(--surface); }
   .btn { transition: transform 160ms var(--ease-out); }
   .btn:active { transform: scale(.97); }
 }
-.stores { display: flex; flex-wrap: wrap; gap: 12px; }
+.stores { display: flex; flex-wrap: wrap; gap: 12px; max-width: 100%; }
 .stores.center-stores { justify-content: center; }
 .store { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 6px 16px 6px 12px; border-radius: var(--r-md); background: var(--card); color: var(--text); border: 1px solid var(--text-2); text-decoration: none; }
 .store svg { width: 22px; height: 22px; flex: none; }
@@ -221,7 +224,7 @@ a.store:hover { background: var(--surface); }
 /* Hero: o título em duas vozes, a nota sendo lida e o celular com a lista (docs/lp-premium/proposta.md, M1 a M6).
    O estado-base de tudo é o final; o movimento fica no bloco prefers-reduced-motion: no-preference mais abaixo. */
 .hero { position: relative; overflow: clip; padding-block: clamp(28px, 5vw, 56px) clamp(48px, 7vw, 104px); }
-.hero .wrap { display: grid; gap: 28px; align-items: center; }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: center; }
 @media (min-width: 960px) { .hero .wrap { grid-template-columns: minmax(0, 1fr) 520px; gap: 40px; min-height: min(700px, calc(100svh - 150px)); } }
 .hero h1 { margin: 0; }
 /* Cada linha do título é uma máscara: o texto sobe por dentro dela (M1). O respiro com margem negativa não deixa cortar o itálico nem as hastes. */
@@ -239,7 +242,9 @@ a.store:hover { background: var(--surface); }
 .hero .uf-k { display: block; font: 500 .75rem/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
 .hero .uf-k i { font-style: normal; color: var(--primary); }
 /* As siglas não se separam: em tela estreita a lista inteira desce, nunca um "· SP" sozinho. */
-.hero .uf-l { white-space: nowrap; }
+.hero .uf-l { display: inline-flex; flex-wrap: wrap; white-space: nowrap; }
+/* Separador depois de cada sigla: se a lista não couber numa linha (texto grande), ela quebra depois do "·", nunca antes. */
+.hero .uf-l i:not(:last-child)::after { content: "\00a0·\00a0"; color: var(--text-2); }
 .hero .uf-n { display: block; margin-top: 4px; font-size: .875rem; line-height: 1.45; max-width: 40ch; }
 
 /* Palco: caixa de desenho de 520 x 600 px, reduzida inteira por --k nas telas estreitas (nota e celular lado a lado). */
@@ -339,7 +344,7 @@ a.store:hover { background: var(--surface); }
    Um polegar desliza atrás do escolhido. A troca das telas é CSS (:has), funciona sem JS. */
 .ap { position: relative; display: grid; grid-template-columns: 1fr 1fr; min-width: 232px; margin: 0; padding: 4px; border: 1px solid var(--divider); border-radius: 999px; background: var(--card); box-shadow: var(--shadow-1); }
 .ap input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; }
-.ap label { position: relative; z-index: 1; display: grid; place-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; font-weight: 650; color: var(--text-2); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ap label { position: relative; z-index: 1; display: grid; place-items: center; min-height: 44px; padding: 0 min(20px, 3vw); border-radius: 999px; font-weight: 650; color: var(--text-2); cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .ap input:checked + label { color: var(--on-primary); }
 .ap input:focus-visible + label { outline: 3px solid var(--primary); outline-offset: 2px; }
 @media (hover: hover) { .ap input:not(:checked) + label:hover { color: var(--text); } }
@@ -361,12 +366,13 @@ a.store:hover { background: var(--surface); }
 .steps .no { font: 600 .75rem/1 var(--mono); letter-spacing: .1em; color: var(--primary); }
 .steps h3 { margin: 0; font-size: clamp(1.8rem, 1.2rem + 2vw, 2.75rem); line-height: 1.05; letter-spacing: -0.02em; }
 .steps .d { margin: 0; max-width: 42ch; color: var(--text-2); }
-/* O trecho da nota que ecoa o print: nome, pontilhado e valor, na voz da impressora. Nome longo é cortado, como na nota. */
-.steps .line { display: flex; align-items: baseline; gap: 8px; width: 100%; max-width: 25rem; margin: 4px 0 0; font: 500 .75rem/1.4 var(--mono); letter-spacing: .04em; text-transform: uppercase; }
-.steps .line span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* O trecho da nota que ecoa o print: nome, pontilhado e valor, na voz da impressora. Se não couber numa linha, nada é cortado:
+   o valor desce para a linha de baixo, encostado à direita, como item longo na nota (e, com texto grande, o nome e o valor quebram entre palavras). */
+.steps .line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; width: 100%; max-width: 25rem; margin: 4px 0 0; font: 500 .75rem/1.4 var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+.steps .line span:first-child { min-width: 0; overflow-wrap: break-word; }
 .steps .line .dl { flex: 1 0 12px; border-bottom: 1px dotted var(--text-2); transform: translateY(-3px); }
-.steps .line b { flex: none; font-weight: 700; color: var(--primary); white-space: nowrap; }
-@media (max-width: 359px) { .steps .line { gap: 6px; font-size: .6875rem; letter-spacing: 0; } .steps .line .dl { flex-basis: 10px; } }
+.steps .line b { flex: none; max-width: 100%; margin-left: auto; font-weight: 700; color: var(--primary); text-align: right; }
+@media (max-width: 359px) { .steps .line { gap: 2px 6px; font-size: .6875rem; letter-spacing: 0; } .steps .line .dl { flex-basis: 10px; } }
 .inline-phone { margin-top: 10px; }
 .inline-phone .phone { --w: 220px; }
 /* Camada por cima da tela de um Phone (o feixe do passo 2 na tela estreita): do tamanho da tela, cortada nos cantos dela. */
@@ -563,8 +569,8 @@ a.store:hover { background: var(--surface); }
 }
 
 /* Planos */
-.plans { display: grid; gap: 16px; margin-top: 28px; }
-@media (min-width: 600px) { .plans { grid-template-columns: 1fr 1fr; } }
+.plans { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; margin-top: 28px; }
+@media (min-width: 600px) { .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .plan .price-big { margin: 0 0 8px; }
 .plan.full { border: 2px solid var(--primary); }
 .pill { display: inline-block; background: var(--primary-soft); color: var(--text); padding: 6px 14px; border-radius: 999px; font-weight: 600; font-size: .9rem; }
@@ -625,7 +631,7 @@ details.q p { padding: 0 20px; margin: 0 0 16px; color: var(--text-2); }
 /* Chamada final da home: sem cartão, aberta pelo picote da nota (linha tracejada). Os botões "Em breve" na mesma voz do hero.
    O título desce para 2 rem nas telas estreitas: "Leve a Despensa" e "para o mercado." cabem cada um numa linha a 320 px. */
 .fim { padding-block: clamp(24px, 4vw, 48px) clamp(56px, 8vw, 112px); }
-.fim-grid { display: grid; gap: 28px; padding-top: clamp(44px, 6vw, 72px); border-top: 2px dashed color-mix(in srgb, var(--text-2) 45%, transparent); }
+.fim-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; padding-top: clamp(44px, 6vw, 72px); border-top: 2px dashed color-mix(in srgb, var(--text-2) 45%, transparent); }
 .fim h2 { margin: 0; max-width: 16ch; font-size: clamp(2rem, 1rem + 5vw, 4.75rem); }
 .fim .store { min-height: 52px; padding: 6px 18px 6px 14px; background: transparent; }
 .fim .store small { font: 600 .68rem/1.2 var(--mono); letter-spacing: .1em; }
@@ -683,7 +689,7 @@ ul.check { --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000
   .compare tr { background: var(--card); border: 1px solid var(--divider); border-radius: var(--r-md); padding: 12px 14px; margin-bottom: 10px; }
   .compare th, .compare td { border: 0; padding: 2px 0; }
   .compare tbody th { font-weight: 650; margin-bottom: 6px; }
-  .compare td { display: flex; justify-content: space-between; gap: 16px; }
+  .compare td { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 16px; }
   .compare td::before { content: attr(data-label); color: var(--text-2); font-weight: 400; }
   .compare td:nth-child(3) { color: var(--primary); }
 }
