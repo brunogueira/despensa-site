@@ -585,7 +585,7 @@ a.store:hover { background: var(--surface); }
 .planos { padding-block: clamp(72px, 11vw, 150px) clamp(48px, 6vw, 72px); }
 .planos h2 { margin: 0; }
 .recibos { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 48px; margin-top: 44px; }
-@media (min-width: 760px) { .recibos { grid-template-columns: repeat(2, minmax(0, 360px)); justify-content: start; justify-items: stretch; align-items: start; gap: clamp(32px, 5vw, 64px); } }
+@media (min-width: 760px) { .recibos { grid-template-columns: repeat(2, minmax(0, 360px)); justify-content: center; justify-items: stretch; align-items: start; gap: clamp(32px, 5vw, 64px); } }
 .recibo { width: min(100%, 360px); transform: rotate(-1deg); transform-origin: 50% 50%; }
 .recibo + .recibo { transform: rotate(1deg); }
 .recibo .paper { padding: 22px 20px 26px; font-size: 13px; }
@@ -611,6 +611,9 @@ a.store:hover { background: var(--surface); }
 .recibo .tot .pr { font-size: 22px; letter-spacing: 0; }
 .recibo .tot small { font-size: 12px; font-weight: 600; text-transform: none; letter-spacing: .02em; color: var(--paper-mute); }
 .planos-mais { margin: 40px 0 0; }
+/* Planos centrados, como as perguntas logo abaixo: os dois recibos não enchem a largura e, alinhados à esquerda, deixavam um vazio à direita. */
+.planos .wrap { text-align: center; }
+.planos .recibo { text-align: start; }
 
 /* Perguntas */
 .faq-wrap { max-width: 720px; }
