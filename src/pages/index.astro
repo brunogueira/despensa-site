@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Glyph from '../components/Glyph.astro';
 import Nota from '../components/Nota.astro';
 import Phone from '../components/Phone.astro';
+import Tela from '../components/Tela.astro';
 import StoreButtons from '../components/StoreButtons.astro';
 
 const ld = {
@@ -18,25 +19,42 @@ const ld = {
 
 const ic = {
   lista: 'M4 6h16M4 12h16M4 18h10',
-  scan: 'M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M8 12h8',
   preco: 'M4 18l5-6 4 3 7-9',
-  anuncio: 'M5 5l14 14M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z',
-  rastreio: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3zM9 12l2 2 4-4',
-  cpf: 'M4 7h16v10H4zM8 11h4M8 14h8',
-  offline: 'M3 9a14 14 0 0 1 18 0M6 12.5a9.5 9.5 0 0 1 12 0M9 16a5 5 0 0 1 6 0M12 19.5h.01',
-  mao: 'M7 11V6a1.5 1.5 0 0 1 3 0v4m0-1V4.5a1.5 1.5 0 0 1 3 0V10m0-3a1.5 1.5 0 0 1 3 0v6c0 4-2.5 7-6 7s-5-2-6.5-5L3 13a1.5 1.5 0 0 1 2.5-1.5L7 13',
 };
+// Os três passos do "Como funciona". tela: a captura do passo (src/assets/telas/<aparelho>/<tela>.png), a mesma no iPhone e no Android.
+// linha: o trecho da nota que ecoa o print (decorativo, fora da leitura de tela); os valores são os das capturas, todos de exemplo.
 const passos = [
-  { t: 'A lista da casa', d: 'Todo mundo que mora junto vê a mesma lista. Quem passa no mercado marca o que já pegou, e o resto da casa vê na hora.' },
-  { t: 'Leia a nota fiscal', d: 'No caixa, aponte a câmera para o QR da nota (NFC-e). A Despensa lê os itens e os preços e preenche a compra. Você só confere.' },
-  { t: 'Veja os preços', d: 'Cada nota alimenta o histórico. Você vê se o arroz subiu e em qual mercado cada item sai mais barato.' },
+  {
+    t: 'A lista da casa',
+    d: 'Todo mundo que mora junto vê a mesma lista. Quem passa no mercado marca o que já pegou, e o resto da casa vê na hora.',
+    linha: ['Mercado da semana', '14 no carrinho'],
+    tela: 'lista',
+    ios: 'Lista Mercado da semana no iPhone: item em aberto e itens já no carrinho, com o total estimado',
+    android: 'Lista Mercado da semana no Android: item em aberto e itens já no carrinho, com o total estimado',
+  },
+  {
+    t: 'Leia a nota fiscal',
+    d: 'Aponte a câmera para o QR Code da nota (NFC-e) ou cole o link ou a chave, e a Despensa busca os itens e os preços na Fazenda do estado.',
+    linha: ['Supermercado Central', 'R$ 400,08'],
+    tela: 'compra-detalhe',
+    ios: 'Compra aberta no iPhone, com a nota já lida: mercado, total, forma de pagamento e itens',
+    android: 'Compra aberta no Android, com a nota já lida: mercado, total, forma de pagamento e itens',
+  },
+  {
+    t: 'Veja os preços',
+    d: 'Cada nota alimenta o histórico. Você vê se o arroz subiu e em qual mercado cada item sai mais barato.',
+    linha: ['Café tradicional 500g', 'menor R$ 21,91'],
+    tela: 'precos',
+    ios: 'Preço de um produto no iPhone: último, menor e maior preço pagos, média e histórico ao longo do tempo',
+    android: 'Preço de um produto no Android: último, menor e maior preço pagos, média e histórico ao longo do tempo',
+  },
 ];
-const promessas = [
-  { t: 'Sem anúncios', i: ic.anuncio },
-  { t: 'Sem rastreio', s: 'nem neste site', i: ic.rastreio },
-  { t: 'Nunca guardamos o CPF', i: ic.cpf },
-  { t: 'Funciona sem internet', i: ic.offline },
-];
+// Palavra curta (artigo, preposição, "e", "ou") fica grudada na seguinte: nenhuma linha dos passos termina com ela sozinha.
+const cola = (t: string) => t.replace(/(?<=^|\s)([aeoAEO]|ou|as|os|da|de|do|em|na|no)\s/g, '$1\u00a0').replace('QR Code', 'QR\u00a0Code');
+const aparelhos = [
+  { id: 'ios', nome: 'iPhone' },
+  { id: 'android', nome: 'Android' },
+] as const;
 const perguntas = [
   ['Quais notas o app lê?', 'NFC-e do Paraná, de Pernambuco, do Rio de Janeiro, do Rio Grande do Sul e de São Paulo. Outros estados vêm depois.'],
   ['Preciso de conta?', 'Para sincronizar com a casa e convidar pessoas, sim: entre com a sua conta.'],
@@ -44,14 +62,6 @@ const perguntas = [
   ['Quem vê minha lista?', 'Só quem mora na sua casa e quem você convidar, e convidados veem só a lista escolhida.'],
   ['O CPF da nota fica guardado?', 'Nunca. Ele é descartado na leitura.'],
 ];
-const telas = [
-  { nome: 'lista', t: 'A lista da casa', ios: 'Lista Mercado da semana no iPhone: item em aberto e itens já no carrinho, com o total estimado', and: 'Lista Mercado da semana no Android: item em aberto e itens já no carrinho, com o total estimado' },
-  { nome: 'compra-detalhe', t: 'A nota lida', ios: 'Compra aberta no iPhone: mercado, total, forma de pagamento e itens lidos da nota', and: 'Compra aberta no Android, com a nota já lida: mercado, total e itens' },
-  { nome: 'precos', t: 'Preço de cada produto', ios: 'Preço de um produto no iPhone: último, menor e maior preço pagos, média e histórico ao longo do tempo', and: 'Preço de um produto no Android: último, menor e maior preço pagos, média e histórico ao longo do tempo' },
-  { nome: 'compras', t: 'Gasto do mês', ios: 'Gastos no iPhone: total gasto no mês, comparação com o mês anterior e para onde foi o dinheiro', and: 'Gastos no Android: total gasto no mês, comparação com o mês anterior e para onde foi o dinheiro' },
-  { nome: 'casa', t: 'A casa e os convites', ios: 'Casa no iPhone, aberta pela aba Você: as pessoas da casa, o convite e os mercados favoritos', and: 'Casa no Android, aberta pela aba Você: as pessoas da casa, o convite e os mercados favoritos' },
-];
-const svg = (d: string) => d;
 ---
 <Base
   title="Despensa: compre melhor, a lista de compras da casa que lê a nota fiscal"
@@ -75,7 +85,7 @@ const svg = (d: string) => d;
           {/* A nota vem antes no HTML (o leitor de tela lê a nota e depois a lista); o z-index a mantém por cima do celular. */}
           <div class="px px-nota" data-depth="14"><Nota /></div>
           <div class="px px-tel" data-depth="6">
-            <Phone nome="lista" alt={telas[0].ios} sizes="(min-width: 561px) 272px, 180px" eager />
+            <Phone nome="lista" alt={passos[0].ios} sizes="(min-width: 561px) 272px, 180px" eager />
           </div>
         </div>
       </div>
@@ -99,89 +109,136 @@ const svg = (d: string) => d;
     </script>
   </section>
 
-  <section class="trust" aria-label="Nossas promessas">
-    <div class="wrap">
-      <ul>
-        {promessas.map((p) => (
-          <li>
-            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={svg(p.i)} /></svg></span>
-            <span><strong>{p.t}</strong>{p.s && <small>{p.s}</small>}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <section id="como-funciona">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
+  <section class="how" id="como-funciona" aria-labelledby="como-h">
+    <div class="wrap how-grid">
+      <div class="how-head">
         <span class="eyebrow">Como funciona</span>
-        <h2>Do mercado para a lista, em três passos.</h2>
+        <h2 id="como-h">Do mercado para a&nbsp;lista, em&nbsp;<em>três passos.</em></h2>
       </div>
-      <ol class="steps" data-reveal-group>
+      {/* O palco: o alternador de aparelho e, no desktop, o celular fixo que troca de tela conforme o passo que está no meio da tela (M7, M8).
+           Na tela estreita (ou sem JS) só o alternador aparece aqui, e cada passo traz o seu celular. O alternador é CSS puro (:has). */}
+      <div class="how-stage">
+        <fieldset class="ap">
+          <legend class="sr">Aparelho das telas</legend>
+          {aparelhos.map((a, i) => (
+            <Fragment>
+              <input type="radio" name="aparelho" id={`ap-${a.id}`} value={a.id} checked={i === 0} />
+              <label for={`ap-${a.id}`}>{a.nome}</label>
+            </Fragment>
+          ))}
+          <span class="ap-thumb" aria-hidden="true"></span>
+        </fieldset>
+        {/* Uma moldura por aparelho, cada uma com as três telas empilhadas e o feixe do leitor. Fora da leitura de tela: os passos já descrevem as telas. */}
+        <div class="palco" data-passo="1" aria-hidden="true">
+          {aparelhos.map((a) => (
+            <div class:list={['phone', a.id === 'android' && 'phone--android', `so-${a.id}`]}>
+              <div class="scr">
+                {passos.map((p, i) => (
+                  <div class={`s s${i + 1}`}><Tela platform={a.id} nome={p.tela} alt="" sizes="282px" /></div>
+                ))}
+                <div class="beam-box"><div class="beam"></div></div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p class="hint">Telas com dados de exemplo.</p>
+      </div>
+      <ol class="steps">
         {passos.map((p, i) => (
           <li>
-            <span class="num" aria-hidden="true">{i + 1}</span>
+            <span class="dot" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg></span>
+            {i < passos.length - 1 && <span class="fio" aria-hidden="true"></span>}
+            <span class="no" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <h3>{p.t}</h3>
-            <p>{p.d}</p>
+            <p class="d">{cola(p.d)}</p>
+            <p class="line" aria-hidden="true"><span>{p.linha[0]}</span><span class="dl"></span><b>{p.linha[1]}</b></p>
+            <div class="inline-phone">
+              {aparelhos.map((a) => (
+                <Phone platform={a.id} nome={p.tela} alt={p[a.id]} class={`so-${a.id}`}>
+                  {i === 1 && <div class="sobre" aria-hidden="true"><div class="beam-box"><div class="beam"></div></div></div>}
+                </Phone>
+              ))}
+            </div>
           </li>
         ))}
       </ol>
     </div>
-  </section>
-
-  <section class="spot" id="nota">
-    <div class="wrap spot-grid">
-      <div class="spot-text" data-reveal>
-        <span class="eyebrow">O coração do app</span>
-        <h2>Leia a nota e pronto.</h2>
-        <p>Aponte a câmera para o QR da nota fiscal (NFC-e), ou cole o link ou a chave. A Despensa busca os itens e os preços na Fazenda do estado.</p>
-        <ul>
-          <li>Mercado, itens, valores e forma de pagamento, sem digitar nada.</li>
-          <li>Você confere antes de salvar.</li>
-          <li>O CPF que aparece na nota é descartado, nunca guardado.</li>
-        </ul>
-        <p class="cap">Telas com dados de exemplo.</p>
-      </div>
-      <div class="spot-phones" data-reveal>
-        <Phone class="back" platform="android" nome="precos" alt="Preço de um produto no app, em um Android, com o menor preço já pago e o histórico" />
-        <Phone nome="compra-detalhe" alt="Compra aberta no app, em um iPhone: mercado, total, forma de pagamento e itens lidos da nota" />
-      </div>
-    </div>
-  </section>
-
-  <section class="show" id="telas" aria-labelledby="telas-h">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <span class="eyebrow">No iPhone e no Android</span>
-        <h2 id="telas-h">O mesmo app, do jeito de cada aparelho.</h2>
-        <p class="lead">Capturas reais, com dados de exemplo, nos temas claro e escuro do seu celular.</p>
-      </div>
-      <div class="seg-wrap" data-reveal>
-        <fieldset class="seg">
-          <legend class="sr">Escolha o aparelho</legend>
-          <input type="radio" name="aparelho" id="ap-ios" checked />
-          <label for="ap-ios">iPhone</label>
-          <input type="radio" name="aparelho" id="ap-and" />
-          <label for="ap-and">Android</label>
-          <span class="seg-thumb" aria-hidden="true"></span>
-        </fieldset>
-      </div>
-      <div class="rail rail-ios" data-reveal>
-        <ul>
-          {telas.map((t) => (
-            <li><Phone nome={t.nome} alt={t.ios} /><span class="rail-cap">{t.t}</span></li>
-          ))}
-        </ul>
-      </div>
-      <div class="rail rail-and" data-reveal>
-        <ul>
-          {telas.map((t) => (
-            <li><Phone platform="android" nome={t.nome} alt={t.and} /><span class="rail-cap">{t.t}</span></li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    <script is:inline>
+      // "Como funciona": o passo que contém a linha do meio da tela vira o ativo. Ele decide a tela do celular fixo
+      // (data-passo no palco), o fio e os pontos (M9). Funciona também com "reduzir movimento": aí a troca de tela é um fade curto.
+      // Sem IntersectionObserver, nada muda: a página fica no layout estreito, um celular por passo.
+      (function () {
+        var sec = document.currentScript.parentNode, palco = sec.querySelector('.palco');
+        var ol = sec.querySelector('.steps'), lis = [].slice.call(ol.children);
+        // Aparelho: a escolha vale só nesta sessão (sessionStorage). Sem escolha, quem visita de um Android começa no Android;
+        // sem JS (ou se o armazenamento falhar) fica no iPhone.
+        var ap = null;
+        try { ap = sessionStorage.getItem('aparelho'); } catch (e) {}
+        if (!ap && /Android/i.test(navigator.userAgent)) ap = 'android';
+        var r0 = ap && document.getElementById('ap-' + ap);
+        if (r0) r0.checked = true;
+        sec.querySelectorAll('input[name="aparelho"]').forEach(function (r) {
+          r.addEventListener('change', function () {
+            palco.setAttribute('data-trocou', '');
+            try { sessionStorage.setItem('aparelho', r.value); } catch (e) {}
+          });
+        });
+        // Ao chegar no alternador (ponteiro ou foco), baixa as telas do aparelho que não está à mostra, só as do tema e do layout
+        // atuais (palco no desktop, um celular por passo no estreito): a moldura não entra vazia na primeira troca.
+        var ap0 = sec.querySelector('.ap'), baixou = {};
+        function preCarregar() {
+          var outro = sec.querySelector('#ap-android').checked ? 'ios' : 'android';
+          if (baixou[outro]) return;
+          baixou[outro] = true;
+          var onde = getComputedStyle(palco).display === 'none' ? '.inline-phone' : '.palco';
+          sec.querySelectorAll(onde + ' .so-' + outro + ' img').forEach(function (img) {
+            if (getComputedStyle(img).display === 'none') return;
+            var i = new Image();
+            i.sizes = img.sizes; i.srcset = img.srcset; i.src = img.src;
+          });
+        }
+        ap0.addEventListener('pointerenter', preCarregar);
+        ap0.addEventListener('focusin', preCarregar);
+        if (!('IntersectionObserver' in window)) return;
+        var atual = 0;
+        function marcar(n) {
+          if (n === atual) return;
+          atual = n;
+          palco.setAttribute('data-passo', n);
+          lis.forEach(function (li, i) { li.classList.toggle('on', i + 1 === n); li.classList.toggle('feito', i + 1 < n); });
+        }
+        // O passo ativo sai da geometria, não da entrada que o observador avisou: o li que contém o meio da tela. Acima da lista
+        // (ela começa abaixo do meio) é o 1; depois dela, o último. Assim a rolagem pode inverter a qualquer hora sem prender o passo.
+        function passoNoMeio() {
+          var y = innerHeight / 2, r = ol.getBoundingClientRect();
+          if (r.top > y) return 1;
+          if (r.bottom <= y) return lis.length;
+          for (var i = 0; i < lis.length; i++) {
+            var b = lis[i].getBoundingClientRect();
+            if (b.top <= y && b.bottom > y) return i + 1;
+          }
+          return atual || 1;
+        }
+        sec.classList.add('com-js');
+        marcar(1);
+        // As transições só ligam depois do primeiro quadro: a troca do estado-base (tudo preenchido) para o passo 1 não anima.
+        requestAnimationFrame(function () { requestAnimationFrame(function () { sec.classList.add('pronto'); }); });
+        // Faixa de altura zero no meio da tela: o observador avisa sempre que a borda de um passo (ou da lista) cruza essa linha.
+        var io = new IntersectionObserver(function () { marcar(passoNoMeio()); }, { rootMargin: '-50% 0px -50% 0px' });
+        io.observe(ol);
+        lis.forEach(function (li) { io.observe(li); });
+        // Tela estreita: o feixe varre a tela de compra do passo 2 quando 60% dela aparece; volta a varrer só depois de sair de vista.
+        // No desktop esse celular fica escondido e nunca cruza a tela.
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var tel = lis[1].querySelector('.inline-phone');
+        var io2 = new IntersectionObserver(function (es) {
+          var e = es[0];
+          if (e.intersectionRatio >= .59) tel.classList.add('lendo-tela');
+          else if (!e.isIntersecting) tel.classList.remove('lendo-tela');
+        }, { threshold: [0, .6] });
+        io2.observe(tel);
+      })();
+    </script>
   </section>
 
   <section id="recursos">
@@ -259,7 +316,7 @@ const svg = (d: string) => d;
         </div>
         <div class="card">
           <h3>Sem anúncios e sem venda de dados.</h3>
-          <p>Não rastreamos você entre apps.</p>
+          <p>Não rastreamos você entre apps, nem neste site.</p>
         </div>
         <div class="card">
           <h3>Você manda.</h3>

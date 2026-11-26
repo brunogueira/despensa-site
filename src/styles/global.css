@@ -62,6 +62,8 @@
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   /* Curva de entrada do movimento (forte no começo, assenta devagar). Nunca ease-in. */
   --ease-out: cubic-bezier(.23, 1, .32, 1);
+  /* Curva para o que se move dentro da tela (o fio do "Como funciona"). */
+  --ease-in-out: cubic-bezier(.77, 0, .175, 1);
 }
 /* Tema escuro: segue o aparelho (sem escolha ou "automático") ou vem do botão (data-theme no <html>). */
 @media (prefers-color-scheme: dark) {
@@ -196,7 +198,7 @@ a.store:hover { background: var(--surface); }
 .ico svg { width: 24px; height: 24px; }
 
 /* Moldura do celular */
-.phone { --w: 260px; width: var(--w); padding: 9px; background: var(--frame); border-radius: 46px; box-shadow: var(--shadow-phone), inset 0 0 0 1px var(--frame-edge); }
+.phone { --w: 260px; position: relative; width: var(--w); padding: 9px; background: var(--frame); border-radius: 46px; box-shadow: var(--shadow-phone), inset 0 0 0 1px var(--frame-edge); }
 .phone img { display: block; width: 100%; height: auto; aspect-ratio: 600 / 1304; border-radius: 37px; background: var(--surface); }
 /* Prints claro e escuro: só a versão do tema efetivo aparece (a outra fica fora da tela e da leitura). */
 .phone img.tela-escura { display: none; }
@@ -275,9 +277,9 @@ a.store:hover { background: var(--surface); }
 /* O feixe do leitor: uma linha verde com um rastro acima. Invisível parado; só aparece durante a varredura.
    A caixa parada do tamanho do papel corta o rastro em cima e embaixo (não vaza sobre o fundo) e deixa o brilho dos lados. */
 .beam-box { position: absolute; inset: 0; clip-path: inset(0 -20px); pointer-events: none; z-index: 5; }
-.beam { position: absolute; left: -4px; right: -4px; top: 0; height: 100%; opacity: 0; }
-.beam::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--paper-accent); box-shadow: 0 0 14px 1px var(--paper-accent); }
-.beam::after { content: ""; position: absolute; left: 4px; right: 4px; bottom: calc(100% - 2px); height: 70px; background: linear-gradient(to top, color-mix(in srgb, var(--paper-accent) 26%, transparent), transparent); }
+.beam { --beam: var(--paper-accent); position: absolute; left: -4px; right: -4px; top: 0; height: 100%; opacity: 0; }
+.beam::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--beam); box-shadow: 0 0 14px 1px var(--beam); }
+.beam::after { content: ""; position: absolute; left: 4px; right: 4px; bottom: calc(100% - 2px); height: 70px; background: linear-gradient(to top, color-mix(in srgb, var(--beam) 26%, transparent), transparent); }
 
 /* Movimento do hero. Coreografia de cerca de 2,4 s: título (0 a 640 ms), celular (120 a 820), nota (260 a 960), varredura (1000 a 2400)
    e, nela, cada linha reage quando o feixe passa (--hit, posição medida pelo script do Nota.astro). Só transform e opacity. */
@@ -308,56 +310,119 @@ a.store:hover { background: var(--surface); }
 @keyframes marca { from { transform: scaleX(0); } }
 @keyframes check-entra { from { opacity: 0; transform: scale(.7); } }
 
-/* Faixa de promessas */
-.trust { padding-block: 20px; border-block: 1px solid var(--divider); }
-.trust ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 20px 16px; }
-.trust li { display: flex; align-items: center; gap: 12px; }
-.trust strong { display: block; line-height: 1.25; font-weight: 650; }
-.trust small { display: block; color: var(--text-2); font-size: .85rem; line-height: 1.3; }
-.trust .ico { width: 40px; height: 40px; }
-@media (min-width: 900px) {
-  .trust ul { grid-template-columns: repeat(4, 1fr); gap: 0; }
-  .trust li { padding-inline: 20px; border-left: 1px solid var(--divider); }
-  .trust li:first-child { border-left: 0; padding-left: 0; }
-}
-
-/* Passos */
+/* Cabeça de seção (recursos, privacidade, planos) */
 .sec-head { max-width: 60rem; margin-bottom: 28px; }
 .sec-head h2 { margin: 0; }
-.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; counter-reset: s; position: relative; }
-.steps li { counter-increment: s; position: relative; display: grid; grid-template-columns: 48px 1fr; column-gap: 16px; padding: 0 0 8px; }
-.steps .num { grid-row: span 2; width: 48px; height: 48px; border-radius: 999px; background: var(--primary); color: var(--on-primary); display: grid; place-items: center; font-size: 1.4rem; font-weight: 800; font-variant-numeric: tabular-nums; z-index: 1; }
-.steps li:not(:last-child)::before { content: ""; position: absolute; left: 23px; top: 48px; bottom: -16px; width: 2px; background: var(--divider); }
-.steps h3 { margin: 0 0 8px; align-self: end; font-size: clamp(1.8rem, 1.2rem + 2vw, 2.75rem); line-height: 1.05; letter-spacing: -0.02em; }
-.steps p { margin: 0; color: var(--text-2); grid-column: 2; }
-@media (min-width: 900px) {
-  .steps { grid-template-columns: repeat(3, 1fr); gap: 24px; }
-  .steps li { display: block; padding: 20px 24px; background: var(--card); border: 1px solid var(--divider); border-radius: var(--r-lg); box-shadow: var(--shadow-1); }
-  .steps li:not(:last-child)::before { left: auto; right: -24px; top: 48px; bottom: auto; width: 24px; height: 0; background: none; border-top: 2px dotted var(--text-2); }
-  .steps .num { margin-bottom: 16px; }
-  /* Nas três colunas o título do passo fica menor, para caber numa linha e os parágrafos alinharem (até o layout novo do cartão 716). */
-  .steps h3 { font-size: clamp(1.5rem, .4rem + 2vw, 2rem); }
+
+/* Como funciona (docs/lp-premium/proposta.md, M7 a M9): três passos ligados por um fio e, no desktop, um celular fixo que troca de tela
+   conforme o passo que está no meio da tela. Estado-base, sem JS: fio preenchido, pontos com check e um celular por passo, em uma coluna.
+   O script da seção (index.astro) põe .com-js (passo ativo, palco fixo no desktop) e, um quadro depois, .pronto (liga as transições).
+   Movimento só com transform e opacity (exceção: a cor do rótulo do alternador), dentro de prefers-reduced-motion: no-preference;
+   com reduce, só o fade de 120 ms da troca de tela. */
+.how { padding-block: clamp(72px, 11vw, 150px); border-top: 1px solid var(--divider); }
+/* minmax(0, 1fr): a coluna não cresce até o trecho da nota (texto que não quebra); o nome longo é que é cortado. */
+.how-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
+.how-head h2 { margin: 0; max-width: 14ch; }
+
+/* Palco: o alternador de aparelho, o celular fixo (só no desktop com JS) e a legenda. Na tela estreita, alternador e legenda lado a lado. */
+.how-stage { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.how-stage .hint { margin: 0; font-size: .85rem; color: var(--text-2); }
+/* Alternador iPhone/Android: dois rádios nativos num fieldset (setas trocam, foco visível no rótulo), alvo de 44 px.
+   Um polegar desliza atrás do escolhido. A troca das telas é CSS (:has), funciona sem JS. */
+.ap { position: relative; display: grid; grid-template-columns: 1fr 1fr; min-width: 232px; margin: 0; padding: 4px; border: 1px solid var(--divider); border-radius: 999px; background: var(--card); box-shadow: var(--shadow-1); }
+.ap input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; }
+.ap label { position: relative; z-index: 1; display: grid; place-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px; font-weight: 650; color: var(--text-2); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.ap input:checked + label { color: var(--on-primary); }
+.ap input:focus-visible + label { outline: 3px solid var(--primary); outline-offset: 2px; }
+@media (hover: hover) { .ap input:not(:checked) + label:hover { color: var(--text); } }
+.ap-thumb { position: absolute; left: 4px; top: 4px; bottom: 4px; width: calc(50% - 4px); border-radius: 999px; background: var(--primary); }
+.ap:has(#ap-android:checked) .ap-thumb { transform: translateX(100%); }
+.so-android { display: none; }
+.how:has(#ap-android:checked) .so-ios { display: none; }
+.how:has(#ap-android:checked) .so-android { display: block; }
+
+/* Os passos. --pt: respiro acima do conteúdo de cada passo; o ponto e o fio se posicionam por ele (o fio vai do ponto até o próximo). */
+.steps { --pt: 0px; list-style: none; margin: 0; padding: 0; }
+.steps li { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: var(--pt) 0 clamp(44px, 7vw, 56px) 48px; }
+.steps li:last-child { padding-bottom: 0; }
+.steps .dot { position: absolute; left: 0; top: calc(var(--pt) - 5px); width: 22px; height: 22px; display: grid; place-items: center; border: 2px solid var(--primary); border-radius: 50%; background: var(--bg); }
+.steps .dot::before { content: ""; position: absolute; inset: -2px; border-radius: 50%; background: var(--primary); }
+.steps .dot svg { position: relative; width: 12px; height: 12px; color: var(--on-primary); }
+.steps .fio { position: absolute; left: 10px; top: calc(var(--pt) + 21px); bottom: calc(9px - var(--pt)); width: 2px; background: repeating-linear-gradient(to bottom, color-mix(in srgb, var(--text-2) 60%, transparent) 0 2px, transparent 2px 7px); }
+.steps .fio::after { content: ""; position: absolute; inset: 0; background: var(--primary); transform-origin: 50% 0; }
+.steps .no { font: 600 .75rem/1 var(--mono); letter-spacing: .1em; color: var(--primary); }
+.steps h3 { margin: 0; font-size: clamp(1.8rem, 1.2rem + 2vw, 2.75rem); line-height: 1.05; letter-spacing: -0.02em; }
+.steps .d { margin: 0; max-width: 42ch; color: var(--text-2); }
+/* O trecho da nota que ecoa o print: nome, pontilhado e valor, na voz da impressora. Nome longo é cortado, como na nota. */
+.steps .line { display: flex; align-items: baseline; gap: 8px; width: 100%; max-width: 25rem; margin: 4px 0 0; font: 500 .75rem/1.4 var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+.steps .line span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.steps .line .dl { flex: 1 0 12px; border-bottom: 1px dotted var(--text-2); transform: translateY(-3px); }
+.steps .line b { flex: none; font-weight: 700; color: var(--primary); white-space: nowrap; }
+@media (max-width: 359px) { .steps .line { gap: 6px; font-size: .6875rem; letter-spacing: 0; } .steps .line .dl { flex-basis: 10px; } }
+.inline-phone { margin-top: 10px; }
+.inline-phone .phone { --w: 220px; }
+/* Camada por cima da tela de um Phone (o feixe do passo 2 na tela estreita): do tamanho da tela, cortada nos cantos dela. */
+.phone .sobre { position: absolute; inset: 9px; clip-path: inset(0 round 37px); pointer-events: none; }
+.phone--android .sobre { inset: 7px; clip-path: inset(0 round 26px); }
+.how .beam { --beam: var(--primary); }
+
+/* Estado com JS: só o passo ativo e os anteriores têm o ponto cheio; os anteriores ganham o check e o fio preenchido. */
+.com-js .steps li:not(.on, .feito) .dot::before { opacity: 0; transform: scale(.5); }
+.com-js .steps li:not(.feito) .dot svg { opacity: 0; transform: scale(.7); }
+.com-js .steps li:not(.feito) .fio::after { transform: scaleY(0); }
+
+/* O celular fixo: uma moldura por aparelho, três telas empilhadas. A ativa fica por cima; a que sai some só depois (sem ver o fundo no meio). */
+.palco { display: none; }
+.palco .phone { --w: var(--wp, 300px); margin-inline: auto; }
+.palco .scr { position: relative; clip-path: inset(0 round 37px); }
+.palco .phone--android .scr { clip-path: inset(0 round 26px); }
+.palco .s { position: relative; opacity: 0; transform: translateY(8px) scale(.99); }
+.palco .s:not(.s1) { position: absolute; inset: 0; }
+.palco[data-passo="1"] .s1, .palco[data-passo="2"] .s2, .palco[data-passo="3"] .s3 { z-index: 1; opacity: 1; transform: none; }
+
+/* Desktop com JS: duas colunas, o palco fixo no meio da área abaixo do cabeçalho (64 px) e do tamanho que cabe na janela.
+   --wp: largura do celular; --alto: altura do palco (alternador, celular, legenda e espaços). Em vh: no desktop não há barra que encolhe. */
+@media (min-width: 960px) {
+  .com-js .how-grid { grid-template-columns: minmax(0, 1fr) 380px; column-gap: clamp(48px, 7vw, 96px); row-gap: 0; align-items: start; }
+  .com-js .how-head { grid-column: 1; grid-row: 1; }
+  .com-js .steps { --pt: 10vh; grid-column: 1; grid-row: 2; }
+  /* Folga de 10vh acima e abaixo de cada passo: o celular fica parado enquanto o passo cruza o meio da tela, sem vazio demais entre os passos. */
+  .com-js .steps li { padding-bottom: var(--pt); }
+  /* O último passo ganha folga embaixo: com ele no meio da tela, o celular ainda está inteiro e parado (o palco só sobe no fim da grade). */
+  .com-js .steps li:last-child { padding-bottom: max(var(--pt), calc(50vh - 90px)); }
+  .com-js.how { padding-bottom: clamp(48px, 5vw, 72px); }
+  .com-js .how-stage { --wp: clamp(220px, calc(46vh - 84px), 300px); --alto: calc(134px + (var(--wp) - 18px) * 2.1733); grid-column: 2; grid-row: 1 / span 2; position: sticky; top: max(76px, calc(32px + (100vh - var(--alto)) / 2)); flex-direction: column; flex-wrap: nowrap; gap: 20px; }
+  .com-js .palco { display: block; }
+  .com-js .inline-phone { display: none; }
+  /* Foco no passo ativo sem perder o contraste AA: só o h3 (texto grande) esmaece, a 58% (3,5:1 no claro). Parágrafo e trecho da nota
+     não mudam (o valor em verde, 12 px, esmaecido cairia abaixo de 4,5:1). */
+  .com-js .steps li:not(.on) h3 { opacity: .58; }
 }
 
-/* Destaque (faixa ink) */
-.spot { position: relative; background: var(--ink-bg); color: var(--ink-text); padding-block: clamp(48px, 6vw, 72px) 0; overflow: visible; margin-bottom: 8px; }
-.spot::after { content: ""; position: absolute; left: 0; right: 0; top: calc(100% - 1px); height: 8px; background: var(--ink-bg); mask: conic-gradient(from -45deg at bottom, transparent, black 1deg 89deg, transparent 90deg) 50% / 16px 100%; -webkit-mask: conic-gradient(from -45deg at bottom, transparent, black 1deg 89deg, transparent 90deg) 50% / 16px 100%; }
-.spot .eyebrow { color: var(--ink-muted); }
-.spot-grid { display: grid; gap: 32px; align-items: end; }
-.spot-text { padding-bottom: clamp(0px, 3vw, 40px); }
-.spot h2 { margin-bottom: 16px; }
-.spot p { color: var(--ink-text); font-size: 1.125rem; max-width: 46ch; }
-.spot ul { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 12px; }
-.spot li { position: relative; padding-left: 1.7em; }
-.spot li::before { content: "✓"; position: absolute; left: 0; color: var(--ink-text); font-weight: 800; }
-.spot .cap { color: var(--ink-muted); font-size: .85rem; margin: 20px 0 0; }
-.spot-phones { position: relative; display: flex; justify-content: center; align-items: center; padding: 8px 0; }
-.spot-phones .phone { --w: 170px; position: relative; z-index: 2; flex: none; }
-.spot-phones .back { --w: 150px; z-index: 1; margin-right: -44px; }
-@media (min-width: 900px) {
-  .spot-grid { grid-template-columns: 1fr 1.05fr; gap: 56px; }
-  .spot-phones .phone { --w: 240px; }
-  .spot-phones .back { --w: 210px; margin-right: -64px; }
+/* Movimento do "Como funciona": troca de tela (M7), feixe no passo 2 (M8), fio, pontos e foco (M9), alternador. */
+@media (prefers-reduced-motion: no-preference) {
+  .pronto .palco .s { transition: opacity 0s linear 260ms, transform 0s linear 260ms; }
+  .pronto .palco[data-passo="1"] .s1, .pronto .palco[data-passo="2"] .s2, .pronto .palco[data-passo="3"] .s3 { transition: opacity 260ms var(--ease-out), transform 260ms var(--ease-out); }
+  .palco[data-passo="2"] .beam, .lendo-tela .beam { animation: varre 1300ms linear 120ms backwards; }
+  .palco[data-trocou] .phone { animation: fade-sobe 240ms var(--ease-out); }
+  .pronto .steps h3 { transition: opacity 400ms var(--ease-out); }
+  .pronto .steps .fio::after { transition: transform 600ms var(--ease-in-out); }
+  .pronto .steps .dot::before { transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out); }
+  /* O ponto do novo passo enche quando o fio chega nele. */
+  .pronto .steps li.on .dot::before { transition-delay: 380ms; }
+  .pronto .steps .dot svg { transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out); }
+  .pronto .ap-thumb { transition: transform 240ms var(--ease-out); }
+  /* O rótulo muda de cor junto com o polegar (mesma duração e curva): o texto nunca fica claro sobre o fundo claro no caminho. */
+  .ap label { transition: transform 160ms var(--ease-out); }
+  .pronto .ap label { transition: transform 160ms var(--ease-out), color 240ms var(--ease-out); }
+  .ap label:active { transform: scale(.97); }
+}
+/* Com "reduzir movimento": nada se desloca, mas a troca de tela do celular fixo continua um fade de 120 ms (M7), só de opacidade.
+   O !important vence a regra global que zera as transições (é mais específico). */
+@media (prefers-reduced-motion: reduce) {
+  .palco .s { transform: none; }
+  .pronto .palco .s { transition: opacity 0s linear 120ms !important; }
+  .pronto .palco[data-passo="1"] .s1, .pronto .palco[data-passo="2"] .s2, .pronto .palco[data-passo="3"] .s3 { transition: opacity 120ms linear !important; }
 }
 
 /* Recursos (bento) */
@@ -482,7 +547,7 @@ ul.check li::before { content: "✓"; position: absolute; left: 0; color: var(--
 @media (min-width: 900px) { .bento .card { padding: 20px 24px; } .privacy .sec-head { margin-bottom: 20px; } }
 
 
-/* ===== Redesign: entrada ao rolar, vitrine iPhone/Android ===== */
+/* ===== Redesign: entrada ao rolar ===== */
 /* Entrada ao rolar (só quando o JS liga a classe .js e a pessoa não pediu menos movimento) */
 @media (prefers-reduced-motion: no-preference) {
   .js [data-reveal], .js [data-reveal-group] > * { opacity: 0; translate: 0 22px; transition: opacity 700ms cubic-bezier(.2, .7, .2, 1), translate 700ms cubic-bezier(.2, .7, .2, 1); }
@@ -490,48 +555,13 @@ ul.check li::before { content: "✓"; position: absolute; left: 0; color: var(--
   .js [data-reveal-group].in > :nth-child(2) { transition-delay: 90ms; }
   .js [data-reveal-group].in > :nth-child(3) { transition-delay: 180ms; }
   .js [data-reveal-group].in > :nth-child(4) { transition-delay: 270ms; }
-  .js .rail.in li:nth-child(2) { transition-delay: 70ms; }
-  .js .rail.in li:nth-child(3) { transition-delay: 140ms; }
-  .js .rail.in li:nth-child(4) { transition-delay: 210ms; }
-  .js .rail.in li:nth-child(5) { transition-delay: 280ms; }
-  .js .rail li { opacity: 0; translate: 0 26px; transition: opacity 700ms cubic-bezier(.2, .7, .2, 1), translate 700ms cubic-bezier(.2, .7, .2, 1); }
-  .js .rail.in li { opacity: 1; translate: 0 0; }
 }
 
-/* Vitrine: iPhone e Android */
-.show { background: linear-gradient(180deg, transparent, var(--surface) 22%, var(--surface) 78%, transparent); }
-.show .sec-head { text-align: center; margin-inline: auto; }
-.show .sec-head .lead { margin: 14px auto 0; max-width: 40ch; }
-.seg-wrap { display: flex; justify-content: center; margin-bottom: 36px; }
-.seg { display: inline-flex; gap: 4px; margin: 0; padding: 4px; border: 1px solid var(--divider); border-radius: 999px; background: var(--card); box-shadow: var(--shadow-1); min-width: min(100%, 280px); }
-.seg input { position: absolute; width: 1px; height: 1px; opacity: 0; }
-.seg label { flex: 1; display: grid; place-items: center; min-height: 44px; padding: 0 22px; border-radius: 999px; font-weight: 650; cursor: pointer; color: var(--text-2); transition: background 220ms, color 220ms; }
-.seg input:checked + label { background: var(--primary); color: var(--on-primary); }
-.seg input:not(:checked) + label:hover { background: var(--surface); color: var(--text); }
-.seg input:focus-visible + label { outline: 3px solid var(--primary); outline-offset: 3px; }
-.rail-and { display: none; }
-.show:has(#ap-and:checked) .rail-ios { display: none; }
-.show:has(#ap-and:checked) .rail-and { display: block; }
-.rail ul { list-style: none; margin: 0; padding: 8px var(--gutter) 4px; margin-inline: calc(-1 * var(--gutter)); display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); scrollbar-width: none; }
-.rail ul::-webkit-scrollbar { display: none; }
-.rail li { flex: none; scroll-snap-align: start; display: flex; flex-direction: column; align-items: center; gap: 16px; }
-.rail .phone { --w: 200px; }
-.rail-cap { font-weight: 650; font-size: .95rem; color: var(--text); text-align: center; max-width: 18ch; line-height: 1.3; }
-@media (min-width: 1100px) {
-  .rail ul { margin-inline: 0; padding-inline: 0; justify-content: space-between; overflow: visible; }
-  .rail .phone { --w: 196px; }
-}
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .rail .phone { transition: transform 260ms cubic-bezier(.2, .7, .2, 1); }
-  .rail li:hover .phone { transform: translateY(-8px); }
-}
-
-/* Passos e cartões: detalhes */
-.steps .num { box-shadow: 0 6px 16px -6px var(--primary); }
+/* Cartões: detalhes */
 .bento .card, .pgrid .card, .plan { position: relative; }
 .bento .card::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: radial-gradient(120% 70% at 100% 0%, var(--primary-soft), transparent 55%); opacity: .45; }
 .bento .card > * { position: relative; }
-.bento .ico, .steps .num { transition: transform 260ms; }
+.bento .ico { transition: transform 260ms; }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .bento .card:hover .ico { transform: rotate(-6deg) scale(1.06); }
 }
