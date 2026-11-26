@@ -14,6 +14,8 @@ const email = 'despensa.lista@gmail.com';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+    <!-- Fonte dos títulos, do próprio site (o itálico só baixa quando aparece). crossorigin é obrigatório no preload de fonte. -->
+    <link rel="preload" href="/fonts/fraunces-500-latin.woff2" as="font" type="font/woff2" crossorigin />
     <meta name="description" content={description} />
     <link rel="canonical" href={url} />
     {noindex && <meta name="robots" content="noindex" />}
