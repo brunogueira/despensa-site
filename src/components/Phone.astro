@@ -1,33 +1,13 @@
 ---
-// Moldura de celular com captura real do app, otimizada (webp, 2 larguras) pelo astro:assets.
-// nome: arquivo em src/assets/telas/<platform>/<nome>.png; a versão escura é escuro-<nome>.png (quando existir).
-// platform: 'ios' (capturas 600x1304) ou 'android' (600x1200; moldura mais reta e furo da câmera, desenho próprio).
-import { getImage } from 'astro:assets';
+// Moldura de celular com uma captura real do app (Tela.astro).
+// platform: 'ios' ou 'android' (moldura mais reta e furo da câmera, desenho próprio).
+// O <slot> recebe camadas por cima da tela (ex.: .sobre com o feixe do leitor no passo 2 do "Como funciona").
+import Tela from './Tela.astro';
 
-interface Props { nome: string; alt: string; platform?: 'ios' | 'android'; crop?: boolean; eager?: boolean; class?: string }
-const { nome, alt, platform = 'ios', crop = false, eager = false, class: cls = '' } = Astro.props;
-
-const todas = import.meta.glob<{ default: ImageMetadata }>('../assets/telas/**/*.png', { eager: true });
-const achar = (n: string) => todas[`../assets/telas/${platform}/${n}.png`]?.default;
-const claro = achar(nome);
-if (!claro) throw new Error(`Captura não encontrada: ${platform}/${nome}`);
-const escuro = achar(nome === 'lista' && platform === 'ios' ? 'escuro-lista' : `escuro-${nome}`);
-
-async function conjunto(img: ImageMetadata) {
-  const [p, g] = await Promise.all([
-    getImage({ src: img, format: 'webp', width: 300, quality: 82 }),
-    getImage({ src: img, format: 'webp', width: 600, quality: 82 }),
-  ]);
-  return { srcset: `${p.src} 300w, ${g.src} 600w`, src: g.src };
-}
-const c = await conjunto(claro);
-const e = escuro ? await conjunto(escuro) : undefined;
-const height = platform === 'android' ? 1200 : 1304;
-const sizes = '(min-width: 900px) 240px, 210px';
+interface Props { nome: string; alt: string; platform?: 'ios' | 'android'; eager?: boolean; class?: string; sizes?: string }
+const { nome, alt, platform = 'ios', eager = false, class: cls = '', sizes } = Astro.props;
 ---
-<div class:list={['phone', platform === 'android' && 'phone--android', crop && 'phone--crop', cls]}>
-  {/* Duas <img> em vez de <picture>: o <source media> segue só o aparelho e não obedece ao botão de tema.
-       O CSS mostra a do tema efetivo; a outra fica com display: none (fora da leitura e, se lazy, nem baixa). */}
-  <img class:list={['tela-clara', e && 'tem-escura']} src={c.src} srcset={c.srcset} sizes={sizes} width="600" height={height} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={eager ? 'high' : undefined} />
-  {e && <img class="tela-escura" src={e.src} srcset={e.srcset} sizes={sizes} width="600" height={height} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={eager ? 'high' : undefined} />}
+<div class:list={['phone', platform === 'android' && 'phone--android', cls]}>
+  <Tela nome={nome} alt={alt} platform={platform} eager={eager} sizes={sizes} />
+  <slot />
 </div>

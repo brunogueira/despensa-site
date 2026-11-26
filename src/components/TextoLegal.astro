@@ -1,0 +1,13 @@
+---
+// Um texto de src/content (termos, privacidade), que é cópia dos docs do app. Lá, um texto aponta para o outro pelo arquivo
+// ("privacidade.md"); aqui cada um é uma página, então o link vira a rota ("/privacidade"), mantendo a âncora.
+// A troca fica aqui, e não no texto, para sobreviver à próxima cópia dos docs. Só troca o que é um arquivo de src/content.
+import type { MarkdownInstance } from 'astro';
+
+interface Props { texto: MarkdownInstance<Record<string, unknown>> }
+const { texto } = Astro.props;
+const paginas = new Set(Object.keys(import.meta.glob('../content/*.md')).map((f) => f.slice('../content/'.length, -3)));
+const html = (await texto.compiledContent()).replace(/href="(?:\.\/)?([\w-]+)\.md(#[^"]*)?"/g, (todo, nome: string, ancora = '') =>
+  paginas.has(nome) ? `href="/${nome}${ancora}"` : todo);
+---
+<article class="prose" set:html={html} />
