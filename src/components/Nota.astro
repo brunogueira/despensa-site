@@ -5,7 +5,7 @@
 // - a do hero (padrão): o feixe do leitor varre a nota e cada linha reage quando ele passa (M3 a M5 de docs/lp-premium/proposta.md);
 // - trecho: só o pedaço da nota em volta do CPF, para a privacidade. A tarja cobre o CPF quando a linha dele aparece (M10).
 // O estado-base é o final (marcas, checks e tarja já no lugar); o movimento só existe com prefers-reduced-motion: no-preference.
-// Com JS, o movimento espera a nota aparecer: no celular ela começa abaixo da dobra.
+// Com JS, o movimento espera a nota aparecer (no celular ela começa abaixo da dobra).
 import Glyph from './Glyph.astro';
 
 interface Props { class?: string; trecho?: boolean }
@@ -17,11 +17,19 @@ const itens = [
   ['Pão de forma 500g', '23,74'],
   ['Molho de tomate 680g', '26,58'],
 ];
+// O movimento fica pausado (CSS: .js .lendo:not(.ver) e .js .receipt--trecho:not(.ver)) até a nota aparecer (script de Base.astro):
+// - hero: 60% da nota na tela. Já visível na carga, segue a coreografia; se aparecer pela rolagem (.tarde), o feixe começa logo (--t0 de 250 ms);
+// - trecho: a própria linha do CPF inteira, fora do quinto de baixo da tela e abaixo do cabeçalho fixo (65 px). Assim a tarja
+//   nunca corre na borda, nem quando a pessoa para de rolar com o CPF encostado no fundo ou volta rolando de baixo para cima.
+//   0,95 e não 1: com a nota girada 2°, a linha do CPF nunca chega a 100% visível em telas de 320 a 360 px.
+const aparece = trecho
+  ? { 'data-aparece': '0.95', 'data-alvo': '.cpf', 'data-margem': '-65px 0px -20% 0px' }
+  : { 'data-aparece': '0.6' };
 const rotulo = trecho
   ? 'Trecho de nota fiscal de exemplo: o CPF é coberto por uma tarja, com a indicação de descartado'
   : 'Nota fiscal de exemplo sendo lida: itens com preço e o CPF coberto por uma tarja, com a indicação de descartado';
 ---
-<div class:list={['receipt', trecho ? 'receipt--trecho' : 'lendo', cls]}>
+<div class:list={['receipt', trecho ? 'receipt--trecho' : 'lendo', cls]} {...aparece}>
   <div class="rshadow" aria-hidden="true"></div>
   <div class="paper" role="img" aria-label={rotulo}>
     {!trecho && <div class="beam-box" aria-hidden="true"><div class="beam"></div></div>}
@@ -56,36 +64,19 @@ const rotulo = trecho
     </div>
   </div>
 </div>
-<script is:inline>
-  // Hero: quando o feixe "lê" cada linha, a posição real dela na nota (0 a 1) vira --hit, que atrasa a marca, o check e a tarja.
-  // Mede uma vez (o papel tem largura fixa e fonte do sistema). O trecho da privacidade não tem feixe: nada a medir.
-  // Sem movimento, nada a medir nem a esperar.
-  // O movimento fica pausado (CSS: .js .lendo:not(.ver) e .js .receipt--trecho:not(.ver)) até a nota aparecer:
-  // - hero: 60% da nota na tela. Já visível na carga, segue a coreografia; se aparecer pela rolagem, o feixe começa logo (--t0 de 250 ms);
-  // - trecho: a própria linha do CPF inteira, fora do quinto de baixo da tela e abaixo do cabeçalho fixo (65 px). Assim a tarja
-  //   nunca corre na borda, nem quando a pessoa para de rolar com o CPF encostado no fundo ou volta rolando de baixo para cima.
-  (function (s) {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var r = s.previousElementSibling, carga = true;
-    if (r.classList.contains('lendo')) {
-      var p = r.querySelector('.paper'), h = p.offsetHeight;
+{!trecho && (
+  <script is:inline>
+    // Hero: quando o feixe "lê" cada linha, a posição real dela na nota (0 a 1) vira --hit, que atrasa a marca, o check e a tarja.
+    // Mede uma vez (o papel tem largura fixa e fonte do sistema). O trecho da privacidade não tem feixe: nada a medir.
+    // Sem movimento, nada a medir.
+    (function (s) {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var p = s.previousElementSibling.querySelector('.paper'), h = p.offsetHeight;
       p.querySelectorAll('[data-hit]').forEach(function (el) {
         var y = el.offsetHeight / 2, n = el;
         while (n && n !== p) { y += n.offsetTop; n = n.offsetParent; }
         el.style.setProperty('--hit', Math.min(1, y / h).toFixed(3));
       });
-    }
-    if (!('IntersectionObserver' in window)) { r.classList.add('ver'); return; }
-    // No trecho, 0,95 e não 1: com a nota girada 2°, a linha do CPF nunca chega a 100% visível em telas de 320 a 360 px.
-    var hero = r.classList.contains('lendo'), limiar = hero ? .6 : .95;
-    var io = new IntersectionObserver(function (es) {
-      if (es[0].isIntersecting && es[0].intersectionRatio >= limiar - .01) {
-        if (!carga) r.style.setProperty('--t0', '250ms');
-        r.classList.add('ver');
-        io.disconnect();
-      }
-      carga = false;
-    }, { threshold: limiar, rootMargin: hero ? '0px' : '-65px 0px -20% 0px' });
-    io.observe(hero ? r : r.querySelector('.cpf'));
-  })(document.currentScript);
-</script>
+    })(document.currentScript);
+  </script>
+)}

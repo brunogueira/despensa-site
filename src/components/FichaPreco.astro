@@ -2,12 +2,14 @@
 // A ficha de preço da seção "Preços": o histórico de um produto no papel da nota, com a linha do gráfico e o menor já pago em verde.
 // É ilustração, com dados de exemplo (a ficha diz isso). Para o leitor de tela, uma descrição só (role="img"); os filhos ficam aria-hidden.
 // M13 (docs/lp-premium/proposta.md): quando 60% da ficha aparece, a linha se desenha em 900 ms e, 200 ms depois, o ponto do menor
-// preço ganha o marca-texto. Estado-base: linha inteira e marca no lugar; o movimento só existe com prefers-reduced-motion: no-preference.
+// preço ganha o marca-texto (data-aparece: o script de Base.astro põe .ver; até lá, o CSS pausa o traçado e nada anima fora da tela).
+// Estado-base: linha inteira e marca no lugar; o movimento só existe com prefers-reduced-motion: no-preference.
 import Glyph from './Glyph.astro';
 
 // Compras de exemplo: mês e preço pago. Os mercados são os da tela da casa.
+// O maior (jul) é diferente do último (out) e o menor (ago) é o do destaque: as três linhas da ficha dizem coisas diferentes.
 const compras: [string, number][] = [
-  ['mai', 27.9], ['jun', 26.49], ['jul', 28.9], ['ago', 24.9], ['set', 27.49], ['out', 29.9],
+  ['mai', 27.9], ['jun', 26.49], ['jul', 30.9], ['ago', 24.9], ['set', 27.49], ['out', 29.9],
 ];
 const brl = (v: number) => v.toFixed(2).replace('.', ',');
 const precos = compras.map(([, p]) => p);
@@ -28,7 +30,7 @@ const d = pts.map((p, i) => `${i ? 'L' : 'M'}${p.x} ${p.y}`).join(' ');
 const len = pts.slice(1).reduce((s, p, i) => s + Math.hypot(p.x - pts[i].x, p.y - pts[i].y), 0).toFixed(1);
 const pm = pts[iMenor];
 ---
-<div class="receipt ficha">
+<div class="receipt ficha" data-aparece="0.6">
   <div class="rshadow" aria-hidden="true"></div>
   <div class="paper" role="img" aria-label={`Histórico de preço de exemplo do arroz tipo 1 de 5 kg, em ${compras.length} compras de maio a outubro: o último foi R$ ${brl(ultimo)}, no Supermercado Central, e o menor já pago, em verde, R$ ${brl(menor)}, no Mercado Bom Preço.`}>
     <div class="hd" aria-hidden="true">
@@ -58,16 +60,3 @@ const pm = pts[iMenor];
     </div>
   </div>
 </div>
-<script is:inline>
-  // M13: a linha só se desenha quando 60% da ficha aparece (CSS: .js .ficha:not(.ver) pausa o traçado). Nada anima fora da tela.
-  // Sem movimento, nada a esperar: a ficha já está no estado final.
-  (function (s) {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var f = s.previousElementSibling;
-    if (!('IntersectionObserver' in window)) { f.classList.add('ver'); return; }
-    var io = new IntersectionObserver(function (es) {
-      if (es[0].intersectionRatio >= .59) { f.classList.add('ver'); io.disconnect(); }
-    }, { threshold: .6 });
-    io.observe(f);
-  })(document.currentScript);
-</script>

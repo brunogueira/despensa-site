@@ -111,7 +111,7 @@ const perguntas = [
         {/* Estados: a versão à vista é curta (siglas); o leitor de tela ouve a frase completa. */}
         <p class="uf fade f3">
           <span aria-hidden="true">
-            <span class="uf-k">Leitura conferida: <span class="uf-l"><i>PR</i> · <i>PE</i> · <i>RJ</i> · <i>RS</i> · <i>SP</i></span></span>
+            <span class="uf-k">Leitura conferida: <span class="uf-l"><i>PR</i><i>PE</i><i>RJ</i><i>RS</i><i>SP</i></span></span>
             <span class="uf-n">{cola('Nos outros estados, o app tenta ler e, se não der, pede a foto da nota. No DF, é por foto.')}</span>
           </span>
           <span class="sr">Leitura de notas conferida no Paraná, em Pernambuco, no Rio de Janeiro, no Rio Grande do Sul e em São Paulo. Nos outros estados, o app tenta ler a nota e, se não conseguir, pede uma foto dela. No Distrito Federal, a leitura é por foto.</span>
@@ -188,7 +188,7 @@ const perguntas = [
             <span class="no" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <h3>{p.t}</h3>
             <p class="d">{cola(p.d)}</p>
-            <p class="line" aria-hidden="true"><span>{p.linha[0]}</span><span class="dl"></span><b>{p.linha[1]}</b></p>
+            <p class="line" aria-hidden="true"><span>{p.linha[0]}</span><span class="dl"></span><b>{p.linha[1].replace('R$ ', 'R$\u00a0')}</b></p>
             <div class="inline-phone">
               {aparelhos.map((a) => (
                 <Phone platform={a.id} nome={p.tela} alt={p[a.id]} class={`so-${a.id}`}>
@@ -360,7 +360,7 @@ const perguntas = [
   </section>
 
   <section id="perguntas" style="padding-top:0">
-    <div class="wrap faq-wrap" data-reveal>
+    <div class="wrap faq-wrap">
       <span class="eyebrow">Perguntas</span>
       <h2>Perguntas rápidas</h2>
       {perguntas.map(([q, a]) => (
@@ -372,10 +372,12 @@ const perguntas = [
     </div>
   </section>
 
-  {/* Chamada final: sem cartão, aberta pelo picote da nota. As palavras curtas ficam grudadas: nenhuma linha termina em "a", "para" ou "o". */}
+  {/* Chamada final: sem cartão, aberta pelo picote da nota. "para o" fica grudado. Os espaços de "a Despensa" e "o mercado." são normais:
+       com texto grande (200%) a 320 px esses pares não cabem numa linha e a palavra se partiria no meio. No tamanho normal, o
+       balanceamento do título já dá "Leve a Despensa / para o mercado." (conferido de 320 a 1280 px). */}
   <section class="fim" aria-labelledby="fim-h">
     <div class="wrap fim-grid">
-      <h2 id="fim-h">Leve a&nbsp;Despensa para&nbsp;o&nbsp;<em>mercado.</em></h2>
+      <h2 id="fim-h">Leve a Despensa para&nbsp;o <em>mercado.</em></h2>
       <StoreButtons />
     </div>
   </section>
