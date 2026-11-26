@@ -34,7 +34,7 @@ const passos = [
   },
   {
     t: 'Leia a nota fiscal',
-    d: 'Aponte a câmera para o QR Code da nota (NFC-e) ou cole o link ou a chave, e a Despensa busca os itens e os preços na Fazenda do estado.',
+    d: 'Aponte a câmera para o QR Code da nota (NFC-e). A Despensa preenche a compra com os itens e os preços, e você só confere.',
     linha: ['Supermercado Central', 'R$ 400,08'],
     tela: 'compra-detalhe',
     ios: 'Compra aberta no iPhone, com a nota já lida: mercado, total, forma de pagamento e itens',
@@ -55,6 +55,13 @@ const aparelhos = [
   { id: 'ios', nome: 'iPhone' },
   { id: 'android', nome: 'Android' },
 ] as const;
+// Privacidade: a promessa do CPF é o título (e a demonstração da tarja); as outras ficam em texto, cada uma com um ícone de traço.
+const promessas = [
+  { t: 'Sem anúncios', d: 'e sem venda de dados.', ic: 'M5 5l14 14M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z' },
+  { t: 'Não rastreamos você', d: 'entre apps, nem neste site.', ic: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3zM9 12l2 2 4-4' },
+  { t: 'Funciona sem internet.', d: 'Seus dados ficam primeiro no seu aparelho.', ic: 'M3 9a14 14 0 0 1 18 0M6 12.5a9.5 9.5 0 0 1 12 0M9 16a5 5 0 0 1 6 0M12 19.5h.01M4 4l16 16' },
+  { t: 'Você manda.', d: 'Pode pedir seus dados, corrigir e apagar a conta e tudo que está nela.', ic: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 20a8 8 0 0 1 16 0' },
+];
 const perguntas = [
   ['Quais notas o app lê?', 'A NFC-e, a nota do mercado com QR Code. A leitura já foi conferida com notas do Paraná, de Pernambuco, do Rio de Janeiro, do Rio Grande do Sul e de São Paulo. Nos outros estados, o app tenta ler a nota e, se não conseguir, pede uma foto dela. No Distrito Federal, a leitura é sempre por foto.'],
   ['Preciso de conta?', 'Para sincronizar com a casa e convidar pessoas, sim: entre com a sua conta.'],
@@ -306,31 +313,29 @@ const perguntas = [
     </div>
   </section>
 
-  <section class="privacy" id="privacidade-resumo">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
+  {/* Privacidade (M10): a faixa de tinta. No celular, a demonstração vem logo depois da promessa; no desktop, ao lado do texto. */}
+  <section class="priv" id="privacidade-resumo" aria-labelledby="priv-h">
+    <div class="wrap priv-grid">
+      <div class="priv-cab">
         <span class="eyebrow">Privacidade</span>
-        <h2>Seus dados são seus.</h2>
+        <h2 id="priv-h">Nunca guardamos <em>o&nbsp;CPF.</em></h2>
+        <p class="sub">{cola('Ele aparece na nota fiscal e é descartado na leitura. Não fica no seu celular, na nuvem nem em registros técnicos.')}</p>
       </div>
-      <div class="pgrid" data-reveal-group>
-        <div class="card hi">
-          <h3>Nunca guardamos o CPF.</h3>
-          <p>O CPF que aparece na nota fiscal é descartado. Ele não fica no seu iPhone, na nuvem nem em registros técnicos.</p>
-        </div>
-        <div class="card">
-          <h3>Funciona sem internet.</h3>
-          <p>Seus dados ficam primeiro no seu aparelho.</p>
-        </div>
-        <div class="card">
-          <h3>Sem anúncios e sem venda de dados.</h3>
-          <p>Não rastreamos você entre apps, nem neste site.</p>
-        </div>
-        <div class="card">
-          <h3>Você manda.</h3>
-          <p>Pode pedir seus dados, corrigir e apagar a conta e tudo que está nela.</p>
-        </div>
+      <div class="priv-nota">
+        <Nota trecho />
+        <p class="legend">{cola('A tarja é de verdade: o dado some na leitura.')}</p>
       </div>
-      <p class="after">Veja a <a href="/privacidade">Política de Privacidade</a>.</p>
+      <div class="priv-mais">
+        <ul class="priv-lista">
+          {promessas.map((p) => (
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={p.ic} /></svg>
+              <span><b>{cola(p.t)}</b> {cola(p.d)}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="after">Veja a <a href="/privacidade">Política de Privacidade</a>.</p>
+      </div>
     </div>
   </section>
 
