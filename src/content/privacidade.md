@@ -170,8 +170,11 @@ permissão e digitar a chave da nota ou colar o link (a leitura por foto, claro,
 
 ### 2.5 Consulta da nota na Fazenda
 
-Para ler uma nota, o app consulta a página pública da Secretaria da Fazenda do estado da nota (hoje, Paraná, Pernambuco, Rio de Janeiro, Rio Grande do Sul e São Paulo), usando
-a chave de acesso da nota. A Fazenda recebe essa consulta como receberia de qualquer navegador;
+Para ler uma nota, o app consulta a página pública da Secretaria da Fazenda do estado da nota, usando
+a chave de acesso da nota. O app só abre o site oficial da Fazenda daquele estado (para alguns
+estados, o portal da Sefaz Virtual do Rio Grande do Sul, que atende a Fazenda deles); se o
+endereço do QR for outro, o app não abre nada e sugere registrar a compra por foto. No Distrito
+Federal, a leitura é sempre por foto. A Fazenda recebe essa consulta como receberia de qualquer navegador;
 o app não envia nenhum dado seu a ela além da chave. O app **extrai da página só os dados do
 mercado (emitente) e dos itens**. Mesmo que a página mostre o CPF do consumidor, o app o ignora e
 não o guarda.
@@ -224,7 +227,7 @@ Não vendemos nem alugamos dados. Compartilhamos só com quem é necessário par
 | **Google** | Dados do login com Google; informações padrão do Google Play, quando você baixa o app por ele | Entrar no app, distribuir o app |
 | **Google Play** (assinatura; no futuro, também a **App Store**) | Ele processa o pagamento e nos informa só o estado da assinatura (2.3.1). Nós enviamos ao Google o token da compra, para confirmá-la | Cobrar e liberar o plano |
 | **Google (ML Kit, só no Android)** | Dados técnicos de funcionamento da biblioteca de leitura de texto (2.4): métricas de desempenho, códigos de erro, modelo e versão do aparelho, versão do app e um identificador por instalação. **Nunca a foto, o texto lido nem dados da sua conta** | Manter a leitura por foto funcionando e detectar abuso |
-| **Secretarias da Fazenda do PR, de PE, do RJ, do RS e de SP** | Chave de acesso da nota | Consultar a nota (2.5) |
+| **Secretaria da Fazenda do estado de cada nota** (ou a Sefaz Virtual do RS, quando ela atende esse estado) | Chave de acesso da nota | Consultar a nota (2.5) |
 | **Outros membros da sua casa** | Listas, compras, mercados e o nome dos membros | A função de casa compartilhada |
 | **Convidados de uma lista** (pessoas de fora da casa) | A lista para a qual foram convidados, com seus itens, e o nome e a foto do seu perfil | A função de convite para uma lista (2.2.1) |
 

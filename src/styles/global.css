@@ -237,8 +237,13 @@ a.store:hover { background: var(--surface); }
 .hero .lead { margin: 22px 0 28px; font-size: 1.125rem; max-width: 34ch; }
 .hero .store { min-height: 52px; padding: 6px 18px 6px 14px; background: transparent; }
 .hero .store small { font: 600 .68rem/1.2 var(--mono); letter-spacing: .1em; }
-.hero .uf { margin: 18px 0 0; font: 500 .75rem/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--text-2); max-width: 46ch; }
-.hero .uf i { font-style: normal; color: var(--primary); }
+/* Estados: a linha em mono com os conferidos e, embaixo, o que acontece nos outros, em texto corrido (lê melhor que maiúsculas). */
+.hero .uf { margin: 18px 0 0; color: var(--text-2); max-width: 46ch; }
+.hero .uf-k { display: block; font: 500 .75rem/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+.hero .uf-k i { font-style: normal; color: var(--primary); }
+/* As siglas não se separam: em tela estreita a lista inteira desce, nunca um "· SP" sozinho. */
+.hero .uf-l { white-space: nowrap; }
+.hero .uf-n { display: block; margin-top: 4px; font-size: .875rem; line-height: 1.45; max-width: 40ch; }
 
 /* Palco: caixa de desenho de 520 x 600 px, reduzida inteira por --k nas telas estreitas (nota e celular lado a lado). */
 .stage-box { --k: 1; position: relative; height: calc(600px * var(--k)); }
@@ -497,18 +502,64 @@ a.store:hover { background: var(--surface); }
 }
 @keyframes traca { from { stroke-dashoffset: var(--len); } }
 
-/* Privacidade */
+/* Promessas em cartões sobre o verde-claro (só em /planos; a LP usa a faixa de tinta .priv, abaixo) */
 .privacy { background: var(--primary-soft); }
 .privacy a { color: var(--primary-strong); }
-.privacy .eyebrow { color: var(--primary-strong); }
 .pgrid { display: grid; gap: 16px; margin-top: 8px; }
 .pgrid .card { background: var(--bg); }
-.pgrid .card.hi { border: 2px solid var(--primary); }
 .pgrid h3 { margin: 0 0 6px; font-size: 1.25rem; }
 .pgrid p { margin: 0; color: var(--text-2); }
 .privacy .after { margin: 24px 0 0; }
 @media (min-width: 700px) { .pgrid { grid-template-columns: 1fr 1fr; } }
 .privacy .after a { display: inline-flex; align-items: center; min-height: 44px; }
+
+/* Privacidade (docs/lp-premium/proposta.md, M10): faixa de tinta com a promessa do CPF demonstrada num trecho da nota
+   (Nota.astro, trecho) e as outras promessas em texto, separadas por uma linha fina, sem cartões.
+   Verde sobre a tinta é sempre --primary-on-ink (o --primary do claro daria 2,4:1), inclusive no foco.
+   Celular: título, trecho da nota, promessas (a demonstração vem logo depois da promessa). Desktop: texto à esquerda, nota à direita. */
+.priv { position: relative; overflow: clip; background: var(--ink-bg); color: var(--ink-text); padding-block: clamp(72px, 11vw, 150px) clamp(88px, 12vw, 160px); }
+/* Borda de baixo serrilhada, como a nota destacada da impressora: dentes da cor do fundo da página entrando na faixa. */
+.priv::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 12px; background: var(--bg); -webkit-mask: conic-gradient(from 135deg at top, transparent, black 1deg 89deg, transparent 90deg) 50% / 24px 100%; mask: conic-gradient(from 135deg at top, transparent, black 1deg 89deg, transparent 90deg) 50% / 24px 100%; pointer-events: none; }
+.priv-grid { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: "cab" "nota" "mais"; gap: 48px; }
+.priv-cab { grid-area: cab; }
+.priv-nota { grid-area: nota; margin: 0; }
+.priv-mais { grid-area: mais; }
+@media (min-width: 960px) {
+  .priv-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); grid-template-areas: "cab nota" "mais nota"; column-gap: clamp(48px, 7vw, 96px); row-gap: 44px; }
+  .priv-nota { align-self: center; }
+}
+.priv .eyebrow, .priv h2 em, .priv a { color: var(--primary-on-ink); }
+.priv :focus-visible { outline-color: var(--primary-on-ink); }
+.priv h2 { margin: 0; max-width: 11ch; color: var(--ink-text); }
+.priv .sub { margin: 22px 0 0; max-width: 38ch; font-size: clamp(1.0625rem, 1rem + .35vw, 1.2rem); line-height: 1.5; color: var(--ink-muted); }
+.priv-lista { list-style: none; margin: 0; padding: 28px 0 0; border-top: 1px solid color-mix(in srgb, var(--ink-text) 20%, transparent); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 22px 32px; }
+.priv-lista li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 14px; align-items: start; line-height: 1.45; color: var(--ink-muted); }
+.priv-lista svg { width: 24px; height: 24px; color: var(--primary-on-ink); }
+.priv-lista b { font-weight: 650; color: var(--ink-text); }
+.priv .after { margin: 24px 0 0; color: var(--ink-muted); }
+.priv .after a { display: inline-flex; align-items: center; min-height: 44px; }
+.priv-nota .legend { margin: 30px auto 0; max-width: 32ch; text-align: center; font: 500 .75rem/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-muted); }
+
+/* O trecho da nota na privacidade: maior que a do hero, girado para o outro lado. Estado-base: tarja cobrindo e "Descartado" à vista. */
+.receipt--trecho { width: min(100%, 340px); margin-inline: auto; transform: rotate(2deg); transform-origin: 50% 50%; }
+.receipt--trecho .paper { padding: 22px 20px 26px; font-size: 13px; }
+.receipt--trecho .sum { padding: 4px 0; }
+.receipt--trecho .cpf { margin: 12px 0; padding: 12px 0; }
+.receipt--trecho .cpf .val { height: 20px; }
+.receipt--trecho .ds { font-size: 11px; }
+@media (min-width: 960px) {
+  .receipt--trecho { width: 380px; }
+  .receipt--trecho .paper { padding: 26px 24px 30px; font-size: 14px; }
+  .receipt--trecho .ds { font-size: 12px; }
+}
+/* M10: a tarja cobre o CPF 250 ms depois de a linha dele aparecer inteira acima do quinto de baixo da tela (520 ms, ease-in-out: ela
+   atravessa a linha) e "Descartado" surge em 800 ms.
+   Só com JS (sem ele, o trecho já está no estado final) e pausado até o script do Nota.astro pôr .ver: nada anima fora da tela. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .receipt--trecho .tarja { animation: marca 520ms var(--ease-in-out) 250ms backwards; }
+  .js .receipt--trecho .ds { animation: fade-sobe 300ms var(--ease-out) 800ms backwards; }
+  .js .receipt--trecho:not(.ver) :is(.tarja, .ds) { animation-play-state: paused; }
+}
 
 /* Planos */
 .plans { display: grid; gap: 16px; margin-top: 28px; }
