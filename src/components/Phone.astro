@@ -4,10 +4,10 @@
 // O <slot> recebe camadas por cima da tela (ex.: .sobre com o feixe do leitor no passo 2 do "Como funciona").
 import Tela from './Tela.astro';
 
-interface Props { nome: string; alt: string; platform?: 'ios' | 'android'; crop?: boolean; eager?: boolean; class?: string; sizes?: string }
-const { nome, alt, platform = 'ios', crop = false, eager = false, class: cls = '', sizes } = Astro.props;
+interface Props { nome: string; alt: string; platform?: 'ios' | 'android'; eager?: boolean; class?: string; sizes?: string }
+const { nome, alt, platform = 'ios', eager = false, class: cls = '', sizes } = Astro.props;
 ---
-<div class:list={['phone', platform === 'android' && 'phone--android', crop && 'phone--crop', cls]}>
+<div class:list={['phone', platform === 'android' && 'phone--android', cls]}>
   <Tela nome={nome} alt={alt} platform={platform} eager={eager} sizes={sizes} />
   <slot />
 </div>

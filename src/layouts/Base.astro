@@ -137,17 +137,25 @@ const email = 'despensa.lista@gmail.com';
       </div>
     </footer>
     <script is:inline>
-      // Animações leves de entrada: só liga quando o navegador deixa e a pessoa não pediu menos movimento.
+      // "Dispara quando aparece", o único da página: o movimento de [data-aparece] fica pausado no CSS (.js ...:not(.ver)) até o
+      // alvo aparecer, e aí ganha .ver uma vez. data-aparece: fração do alvo à vista (0 a 1); data-alvo: seletor de um filho a observar
+      // (sem ele, o próprio elemento); data-margem: rootMargin. Se apareceu pela rolagem (e não já na carga), ganha também .tarde.
+      // Sem movimento, nada a esperar: tudo já está no estado final. Sem IntersectionObserver, roda logo.
       (function () {
-        var d = document.documentElement;
-        var itens = document.querySelectorAll('[data-reveal],[data-reveal-group]');
-        if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
-          d.classList.remove('js'); return;
-        }
-        var io = new IntersectionObserver(function (es) {
-          es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
-        itens.forEach(function (el) { io.observe(el); });
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        document.querySelectorAll('[data-aparece]').forEach(function (el) {
+          if (!('IntersectionObserver' in window)) { el.classList.add('ver'); return; }
+          var limiar = +el.dataset.aparece, alvo = el.dataset.alvo ? el.querySelector(el.dataset.alvo) : el, carga = true;
+          var io = new IntersectionObserver(function (es) {
+            if (es[0].isIntersecting && es[0].intersectionRatio >= limiar - .01) {
+              if (!carga) el.classList.add('tarde');
+              el.classList.add('ver');
+              io.disconnect();
+            }
+            carga = false;
+          }, { threshold: limiar, rootMargin: el.dataset.margem || '0px' });
+          io.observe(alvo);
+        });
       })();
     </script>
   </body>

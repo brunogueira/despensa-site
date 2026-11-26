@@ -50,7 +50,6 @@
   /* Verde para texto sobre a faixa de tinta (--ink-bg), igual nos dois temas: o --primary do claro daria 2,4:1 ali. */
   --primary-on-ink: #92c3a5;
   --shadow-1: 0 1px 2px var(--shadow-soft);
-  --shadow-2: 0 14px 30px -14px var(--shadow);
   --shadow-phone: 0 40px 60px -28px var(--shadow), 0 14px 26px -14px var(--shadow);
   --r-sm: 10px; --r-md: 14px; --r-lg: 20px; --r-xl: 28px;
   --gutter: 16px;
@@ -62,8 +61,10 @@
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
   /* Curva de entrada do movimento (forte no começo, assenta devagar). Nunca ease-in. */
   --ease-out: cubic-bezier(.23, 1, .32, 1);
-  /* Curva para o que se move dentro da tela (o fio do "Como funciona"). */
+  /* Curva para o que se move dentro da tela (o fio do "Como funciona", a tarja da privacidade). */
   --ease-in-out: cubic-bezier(.77, 0, .175, 1);
+  /* A mesma ideia, mais suave: a linha do gráfico de preços anda num ritmo parecido com o tempo do eixo (M13). */
+  --ease-in-out-suave: cubic-bezier(.65, 0, .35, 1);
 }
 /* Tema escuro: segue o aparelho (sem escolha ou "automático") ou vem do botão (data-theme no <html>). */
 @media (prefers-color-scheme: dark) {
@@ -181,7 +182,11 @@ nav.main a:hover { background: var(--surface); }
 /* Botões e selos */
 .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 20px; border-radius: var(--r-md); font: inherit; font-weight: 600; text-decoration: none; border: 0; background: var(--primary); color: var(--on-primary); }
 .btn:hover { background: var(--primary-strong); }
-.btn:active { transform: scale(.98); }
+/* Retorno de toque (M11): só com movimento liberado. */
+@media (prefers-reduced-motion: no-preference) {
+  .btn { transition: transform 160ms var(--ease-out); }
+  .btn:active { transform: scale(.97); }
+}
 .stores { display: flex; flex-wrap: wrap; gap: 12px; }
 .stores.center-stores { justify-content: center; }
 .store { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 6px 16px 6px 12px; border-radius: var(--r-md); background: var(--card); color: var(--text); border: 1px solid var(--text-2); text-decoration: none; }
@@ -193,13 +198,9 @@ nav.main a:hover { background: var(--surface); }
 .store.soon small { letter-spacing: .06em; text-transform: uppercase; font-weight: 700; }
 a.store:hover { background: var(--surface); }
 
-/* Cartão base */
+/* Cartão base (só em /planos). Não é clicável: não se mexe no hover. */
 .card { background: var(--card); border: 1px solid var(--divider); border-radius: var(--r-lg); padding: 20px; box-shadow: var(--shadow-1); }
 @media (min-width: 600px) { .card { padding: 24px; } }
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .card { transition: transform 180ms, box-shadow 180ms; }
-  .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
-}
 
 /* Moldura do celular */
 .phone { --w: 260px; position: relative; width: var(--w); padding: 9px; background: var(--frame); border-radius: 46px; box-shadow: var(--shadow-phone), inset 0 0 0 1px var(--frame-edge); }
@@ -212,14 +213,10 @@ a.store:hover { background: var(--surface); }
 }
 :root[data-theme="dark"] .phone img.tela-clara.tem-escura { display: none; }
 :root[data-theme="dark"] .phone img.tela-escura { display: block; }
-.phone--crop { border-radius: 46px 46px 0 0; padding-bottom: 0; }
-.phone--crop img { aspect-ratio: 600 / 820; object-fit: cover; object-position: top; border-radius: 37px 37px 0 0; }
 /* Variante Android: cantos mais retos, borda fina e furo da câmera (desenho genérico, sem marca) */
 .phone--android { position: relative; padding: 7px; border-radius: 32px; }
 .phone--android img { aspect-ratio: 600 / 1200; border-radius: 26px; }
 .phone--android::after { content: ""; position: absolute; top: 17px; left: 50%; width: 11px; height: 11px; margin-left: -5.5px; border-radius: 50%; background: var(--frame); box-shadow: inset 0 0 0 1px var(--frame-edge); }
-.phone--android.phone--crop { border-radius: 32px 32px 0 0; padding-bottom: 0; }
-.phone--android.phone--crop img { border-radius: 26px 26px 0 0; }
 
 /* Hero: o título em duas vozes, a nota sendo lida e o celular com a lista (docs/lp-premium/proposta.md, M1 a M6).
    O estado-base de tudo é o final; o movimento fica no bloco prefers-reduced-motion: no-preference mais abaixo. */
@@ -302,12 +299,14 @@ a.store:hover { background: var(--surface); }
   .px-tel .phone { animation: fade-sobe 700ms var(--ease-out) 120ms backwards; }
   .px-nota .receipt { animation: nota-entra 700ms var(--ease-out) 260ms backwards; }
   .lendo { --t0: 1000ms; --dur: 1400ms; }
+  .lendo.tarde { --t0: 250ms; }
   .lendo .beam { animation: varre var(--dur) linear var(--t0) backwards; }
   .lendo .mk { animation: marca 300ms var(--ease-out) backwards; animation-delay: calc(var(--t0) + var(--hit, .5) * var(--dur)); }
   .lendo .ck { animation: check-entra 240ms var(--ease-out) backwards; animation-delay: calc(var(--t0) + var(--hit, .5) * var(--dur)); }
   .lendo .tarja { animation: marca 380ms var(--ease-out) backwards; animation-delay: calc(var(--t0) + var(--hit, .6) * var(--dur)); }
   .lendo .ds { animation: fade-sobe 300ms var(--ease-out) backwards; animation-delay: calc(var(--t0) + var(--hit, .6) * var(--dur) + 260ms); }
-  /* Com JS, a leitura espera a nota aparecer (o script do Nota.astro põe .ver). Sem JS, segue o tempo da carga e termina no estado final. */
+  /* Com JS, a leitura espera a nota aparecer (data-aparece: o script de Base.astro põe .ver, e .tarde se ela apareceu pela rolagem).
+     Sem JS, segue o tempo da carga e termina no estado final. */
   .js .lendo:not(.ver) :is(.beam, .mk, .ck, .tarja, .ds) { animation-play-state: paused; }
 }
 /* Paralaxe (M6): só as duas camadas que se movem ganham camada própria, e só onde o script as move. */
@@ -494,11 +493,11 @@ a.store:hover { background: var(--surface); }
 .ficha .num { margin: 2px 0 0; font: 500 clamp(2.5rem, 1.6rem + 3vw, 3.75rem)/1 var(--serif); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--paper-accent); }
 @media (min-width: 600px) { .ficha .paper { padding: 24px 24px 28px; font-size: 13px; } }
 /* M13: a linha se desenha em 900 ms quando a ficha aparece; 200 ms depois de terminar, o marca-texto passa no ponto do menor.
-   Curva ease-in-out suave: a linha anda num ritmo parecido com o tempo do eixo (com ease-out, metade dela já estaria feita aos 200 ms).
-   stroke-dashoffset é a exceção a transform e opacity declarada na proposta: um caminho só, uma vez, e pausado até o script do
-   FichaPreco.astro pôr .ver (60% da ficha à vista): nada se desenha fora da tela. Sem JS ou com "reduzir movimento", já desenhada. */
+   Curva --ease-in-out-suave: a linha anda num ritmo parecido com o tempo do eixo (com ease-out, metade dela já estaria feita aos 200 ms).
+   stroke-dashoffset é a exceção a transform e opacity declarada na proposta: um caminho só, uma vez, e pausado até o script de
+   Base.astro pôr .ver (data-aparece, 60% da ficha à vista): nada se desenha fora da tela. Sem JS ou com "reduzir movimento", já desenhada. */
 @media (prefers-reduced-motion: no-preference) {
-  .js .ficha .linha { stroke-dasharray: var(--len) var(--len); animation: traca 900ms cubic-bezier(.65, 0, .35, 1) backwards; }
+  .js .ficha .linha { stroke-dasharray: var(--len) var(--len); animation: traca 900ms var(--ease-in-out-suave) backwards; }
   .js .ficha .mk-pt { animation: marca 300ms var(--ease-out) 1100ms backwards; }
   .js .ficha:not(.ver) :is(.linha, .mk-pt) { animation-play-state: paused; }
 }
@@ -556,7 +555,7 @@ a.store:hover { background: var(--surface); }
 }
 /* M10: a tarja cobre o CPF 250 ms depois de a linha dele aparecer inteira acima do quinto de baixo da tela (520 ms, ease-in-out: ela
    atravessa a linha) e "Descartado" surge em 800 ms.
-   Só com JS (sem ele, o trecho já está no estado final) e pausado até o script do Nota.astro pôr .ver: nada anima fora da tela. */
+   Só com JS (sem ele, o trecho já está no estado final) e pausado até o script de Base.astro pôr .ver (data-aparece): nada anima fora da tela. */
 @media (prefers-reduced-motion: no-preference) {
   .js .receipt--trecho .tarja { animation: marca 520ms var(--ease-in-out) 250ms backwards; }
   .js .receipt--trecho .ds { animation: fade-sobe 300ms var(--ease-out) 800ms backwards; }
@@ -613,12 +612,13 @@ a.store:hover { background: var(--surface); }
 details.q { background: var(--card); border: 1px solid var(--divider); border-radius: var(--r-lg); margin-bottom: 8px; }
 details.q summary { cursor: pointer; padding: 10px 20px; min-height: 48px; font-weight: 650; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-radius: var(--r-lg); }
 details.q summary::-webkit-details-marker { display: none; }
-details.q summary::after { content: ""; flex: none; width: 10px; height: 10px; border-right: 2px solid var(--text-2); border-bottom: 2px solid var(--text-2); transform: rotate(45deg) translateY(-2px); transition: transform 150ms; }
+details.q summary::after { content: ""; flex: none; width: 10px; height: 10px; border-right: 2px solid var(--text-2); border-bottom: 2px solid var(--text-2); transform: rotate(45deg) translateY(-2px); }
 details.q[open] summary::after { transform: rotate(225deg); }
+@media (prefers-reduced-motion: no-preference) { details.q summary::after { transition: transform 160ms var(--ease-out); } }
 details.q p { padding: 0 20px; margin: 0 0 16px; color: var(--text-2); }
 
 /* CTA final */
-.cta-card { position: relative; overflow: hidden; text-align: center; background: var(--card); border: 1px solid var(--divider); border-radius: var(--r-xl); padding: clamp(32px, 5vw, 48px) 20px; }
+.cta-card { position: relative; overflow: hidden; text-align: center; background: radial-gradient(90% 120% at 50% 0%, var(--primary-soft), var(--card) 70%); border: 1px solid var(--divider); border-radius: var(--r-xl); padding: clamp(32px, 5vw, 48px) 20px; }
 .cta-card h2 { margin-bottom: 20px; }
 .cta-sec { padding-block: 0 clamp(40px, 5vw, 56px); }
 
@@ -661,7 +661,9 @@ footer.site li a:hover { text-decoration: underline; }
 .page-head .lead { max-width: 52ch; margin-inline: auto; }
 ul.check { list-style: none; padding: 0; margin: 16px 0 0; }
 ul.check li { padding-left: 1.6em; position: relative; margin-bottom: 8px; }
-ul.check li::before { content: "✓"; position: absolute; left: 0; color: var(--primary); font-weight: 800; }
+/* Check de traço em SVG (o mesmo dos Topicos.astro), pintado com a cor do tema pela máscara: nunca o caractere "✓". */
+ul.check li::before { content: ""; position: absolute; left: 0; top: .25em; width: 1.05em; height: 1.05em; background: var(--primary); -webkit-mask: var(--check) center / contain no-repeat; mask: var(--check) center / contain no-repeat; }
+ul.check { --check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E"); }
 .plans.three { max-width: 820px; margin-inline: auto; }
 .prices { display: grid; gap: 16px; margin-top: 28px; }
 @media (min-width: 640px) { .prices { grid-template-columns: repeat(2, minmax(0, 340px)); justify-content: center; } }
@@ -687,21 +689,3 @@ ul.check li::before { content: "✓"; position: absolute; left: 0; color: var(--
 }
 
 @media (min-width: 900px) { .privacy .sec-head { margin-bottom: 20px; } }
-
-
-/* ===== Redesign: entrada ao rolar ===== */
-/* Entrada ao rolar (só quando o JS liga a classe .js e a pessoa não pediu menos movimento) */
-@media (prefers-reduced-motion: no-preference) {
-  .js [data-reveal], .js [data-reveal-group] > * { opacity: 0; translate: 0 22px; transition: opacity 700ms cubic-bezier(.2, .7, .2, 1), translate 700ms cubic-bezier(.2, .7, .2, 1); }
-  .js [data-reveal].in, .js [data-reveal-group].in > * { opacity: 1; translate: 0 0; }
-  .js [data-reveal-group].in > :nth-child(2) { transition-delay: 90ms; }
-  .js [data-reveal-group].in > :nth-child(3) { transition-delay: 180ms; }
-  .js [data-reveal-group].in > :nth-child(4) { transition-delay: 270ms; }
-}
-
-/* Cartões: detalhes */
-.pgrid .card, .plan { position: relative; }
-
-/* CTA final */
-.cta-card { background: radial-gradient(90% 120% at 50% 0%, var(--primary-soft), var(--card) 70%); }
-
