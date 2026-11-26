@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Glyph from '../components/Glyph.astro';
+import Nota from '../components/Nota.astro';
 import Phone from '../components/Phone.astro';
 import StoreButtons from '../components/StoreButtons.astro';
 
@@ -56,27 +57,46 @@ const svg = (d: string) => d;
   title="Despensa: compre melhor, a lista de compras da casa que lê a nota fiscal"
   description="Compre melhor. Escaneie a nota, a Despensa guarda os preços e mostra onde cada item sai mais barato. Lista de compras da casa que lê a nota fiscal, para iPhone, com Android a caminho."
   jsonLd={ld}
+  italico
 >
   <section class="hero">
-    <div class="hero-bg" aria-hidden="true"><span class="blob b-a"></span><span class="blob b-b"></span></div>
-    <div class="hero-mark" aria-hidden="true"><Glyph /></div>
     <div class="wrap">
       <div>
-        <p class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>Para iPhone e Android</p>
-        <h1><span class="accent">Compre melhor.</span> Escaneie a nota, a Despensa guarda os preços.</h1>
-        <p class="lead">Lista de compras da casa que lê a nota fiscal.</p>
-        <StoreButtons />
-        <p class="muted small note">Leitura de notas do Paraná, de Pernambuco, do Rio de Janeiro, do Rio Grande do Sul e de São Paulo.</p>
+        <h1>
+          <span class="ln l1 big"><span>Compre <em>melhor.</em></span></span>{' '}
+          <span class="ln l2 rest"><span><b>Escaneie a nota</b>, a Despensa guarda os preços.</span></span>
+        </h1>
+        <p class="lead fade f1">Lista de compras da casa que lê a nota fiscal.</p>
+        <div class="fade f2"><StoreButtons /></div>
+        <p class="uf fade f3"><span aria-hidden="true">Lê notas do <i>PR</i> · <i>PE</i> · <i>RJ</i> · <i>RS</i> · <i>SP</i></span><span class="sr">Leitura de notas do Paraná, de Pernambuco, do Rio de Janeiro, do Rio Grande do Sul e de São Paulo.</span></p>
       </div>
-      <div>
-        <div class="trio">
-          <Phone class="l" platform="android" nome="compra-detalhe" alt="Compra no app, em um Android, com a nota fiscal já lida: mercado, total e itens" eager />
-          <Phone class="c" nome="lista" alt="Tela do app, em um iPhone, com a lista de compras da casa" eager />
-          <Phone class="r" platform="android" nome="precos" alt="Preço de um produto, em um Android, com o menor preço já pago e o histórico" eager />
+      <div class="stage-box">
+        <div class="stage">
+          {/* A nota vem antes no HTML (o leitor de tela lê a nota e depois a lista); o z-index a mantém por cima do celular. */}
+          <div class="px px-nota" data-depth="14"><Nota /></div>
+          <div class="px px-tel" data-depth="6">
+            <Phone nome="lista" alt={telas[0].ios} sizes="(min-width: 561px) 272px, 180px" eager />
+          </div>
         </div>
-        <p class="muted small trio-cap">Telas com dados de exemplo, no iPhone e no Android.</p>
       </div>
     </div>
+    <script is:inline>
+      // M6: nota e celular se deslocam no mesmo sentido, contra o ponteiro, a nota mais (até 7 px) que o celular (até 3 px): profundidade.
+      // Suavizado. Só com mouse ou trackpad e com movimento liberado;
+      // o laço de quadros só roda enquanto há diferença a percorrer. Posição relativa à janela: nenhuma leitura de layout a cada movimento.
+      (function () {
+        if (!matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches) return;
+        var hero = document.currentScript.parentNode, px = hero.querySelectorAll('.px'), tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
+        function quadro() {
+          cx += (tx - cx) * .08; cy += (ty - cy) * .08;
+          px.forEach(function (l) { var k = -l.dataset.depth; l.style.translate = (cx * k).toFixed(2) + 'px ' + (cy * k).toFixed(2) + 'px'; });
+          raf = Math.abs(tx - cx) + Math.abs(ty - cy) > .002 ? requestAnimationFrame(quadro) : 0;
+        }
+        function mira(x, y) { tx = x; ty = y; if (!raf) raf = requestAnimationFrame(quadro); }
+        hero.addEventListener('pointermove', function (e) { mira(e.clientX / innerWidth - .5, e.clientY / innerHeight - .5); });
+        hero.addEventListener('pointerleave', function () { mira(0, 0); });
+      })();
+    </script>
   </section>
 
   <section class="trust" aria-label="Nossas promessas">
