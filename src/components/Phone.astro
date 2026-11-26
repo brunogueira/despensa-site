@@ -4,8 +4,9 @@
 // platform: 'ios' (capturas 600x1304) ou 'android' (600x1200; moldura mais reta e furo da câmera, desenho próprio).
 import { getImage } from 'astro:assets';
 
-interface Props { nome: string; alt: string; platform?: 'ios' | 'android'; crop?: boolean; eager?: boolean; class?: string }
-const { nome, alt, platform = 'ios', crop = false, eager = false, class: cls = '' } = Astro.props;
+// sizes: largura exibida, para o navegador escolher entre as duas larguras do webp (o padrão serve às molduras de 210 a 240 px).
+interface Props { nome: string; alt: string; platform?: 'ios' | 'android'; crop?: boolean; eager?: boolean; class?: string; sizes?: string }
+const { nome, alt, platform = 'ios', crop = false, eager = false, class: cls = '', sizes = '(min-width: 900px) 240px, 210px' } = Astro.props;
 
 const todas = import.meta.glob<{ default: ImageMetadata }>('../assets/telas/**/*.png', { eager: true });
 const achar = (n: string) => todas[`../assets/telas/${platform}/${n}.png`]?.default;
@@ -23,7 +24,6 @@ async function conjunto(img: ImageMetadata) {
 const c = await conjunto(claro);
 const e = escuro ? await conjunto(escuro) : undefined;
 const height = platform === 'android' ? 1200 : 1304;
-const sizes = '(min-width: 900px) 240px, 210px';
 ---
 <div class:list={['phone', platform === 'android' && 'phone--android', crop && 'phone--crop', cls]}>
   {/* Duas <img> em vez de <picture>: o <source media> segue só o aparelho e não obedece ao botão de tema.
