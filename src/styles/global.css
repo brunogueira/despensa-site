@@ -385,8 +385,8 @@ a.store:hover { background: var(--surface); }
 @media (min-width: 960px) {
   .com-js .how-grid { grid-template-columns: minmax(0, 1fr) 380px; column-gap: clamp(48px, 7vw, 96px); row-gap: 0; align-items: start; }
   .com-js .how-head { grid-column: 1; grid-row: 1; }
-  .com-js .steps { --pt: 17vh; grid-column: 1; grid-row: 2; }
-  /* Cada passo ocupa mais ou menos dois terços da janela: o celular fica parado enquanto o passo cruza o meio da tela. */
+  .com-js .steps { --pt: 10vh; grid-column: 1; grid-row: 2; }
+  /* Folga de 10vh acima e abaixo de cada passo: o celular fica parado enquanto o passo cruza o meio da tela, sem vazio demais entre os passos. */
   .com-js .steps li { padding-bottom: var(--pt); }
   /* O último passo ganha folga embaixo: com ele no meio da tela, o celular ainda está inteiro e parado (o palco só sobe no fim da grade). */
   .com-js .steps li:last-child { padding-bottom: max(var(--pt), calc(50vh - 90px)); }
