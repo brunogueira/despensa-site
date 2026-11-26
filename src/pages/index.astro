@@ -1,9 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
-import Glyph from '../components/Glyph.astro';
+import FichaPreco from '../components/FichaPreco.astro';
 import Nota from '../components/Nota.astro';
 import Phone from '../components/Phone.astro';
+import Recibo from '../components/Recibo.astro';
 import Tela from '../components/Tela.astro';
+import Topicos from '../components/Topicos.astro';
 import StoreButtons from '../components/StoreButtons.astro';
 
 const ld = {
@@ -17,10 +19,30 @@ const ld = {
   inLanguage: 'pt-BR',
 };
 
-const ic = {
-  lista: 'M4 6h16M4 12h16M4 18h10',
-  preco: 'M4 18l5-6 4 3 7-9',
+// Preços, compras e casa: os tópicos de cada bloco (eram os do bento de recursos), em linhas finas (Topicos.astro).
+const topicos = {
+  precos: ['Preço atual por produto e por mercado.', 'Nomes de produtos já limpos, sem aquele código esquisito da nota.'],
+  gasto: ['Gasto do mês e histórico de compras.', 'Corrija nomes de mercados e itens quando quiser.'],
+  casa: ['Itens agrupados por categoria, com quantidade e unidade.', 'Várias listas: mercado, feira, farmácia, churrasco.', 'Listas só suas, que mais ninguém da casa vê.'],
+  convite: ['O código vale por 30 minutos e você aprova quem entra.', 'Permissão só para ver ou também para editar.', 'Quem é convidado não vê as compras, os preços nem os outros itens da casa.'],
 };
+// Planos em recibo: os mesmos valores de /planos (src/pages/planos.astro). Mude lá e aqui juntos; nada de preço ou recurso a mais.
+const planos = [
+  {
+    id: 'plano-gratis', nome: 'Grátis', sub: 'Para a casa se apaixonar.', marca: true,
+    itens: [['Pessoas na casa', 'até 3'], ['Listas ativas', 'até 5'], ['Convidados por lista', 'até 5'], ['Leitura de notas', 'sem limite'], ['Histórico de preços', '3 meses'], ['Exportar em CSV', 'tudo']],
+    total: { rotulo: 'Total', valor: 'R$ 0,00' },
+  },
+  {
+    id: 'plano-completo', nome: 'Completo', sub: 'Tudo do plano grátis, e mais.', carimbo: 'Em breve',
+    itens: [['Pessoas na casa', 'até 10'], ['Listas ativas', 'ilimitadas'], ['Convidados por lista', 'até 50'], ['Histórico de preços', 'completo'], ['Comparar mercados', 'com gráficos'], ['Alertas de preço', 'em breve']],
+    linha: ['No plano anual', 'R$ 71,99 por ano'],
+    total: { rotulo: 'A partir de', valor: 'R$ 6,00', por: 'por mês' },
+  },
+] as const;
+// Além do que cola() junta, "para", "uma", "num" e "só" também não ficam sozinhos no fim da linha.
+// (Chamada só no template: cola é declarada mais abaixo.)
+const junta = (t: string) => cola(t).replace(/(?<=^|\s)(para|uma|num|só)\s/gi, '$1\u00a0');
 // Os três passos do "Como funciona". tela: a captura do passo (src/assets/telas/<aparelho>/<tela>.png), a mesma no iPhone e no Android.
 // linha: o trecho da nota que ecoa o print (decorativo, fora da leitura de tela); os valores são os das capturas, todos de exemplo.
 const passos = [
@@ -256,60 +278,45 @@ const perguntas = [
     </script>
   </section>
 
-  <section id="recursos">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <span class="eyebrow">Recursos</span>
-        <h2>O que a Despensa faz por você</h2>
+  {/* Preços (M13): a ficha de papel com o histórico de um produto, com o menor preço em destaque e a linha que se desenha (sem celular:
+       a tela de preços já fecha o Como funciona, logo acima).
+       Embaixo, as compras e o gasto do mês. Linhas finas no lugar de cartões. id="recursos": o menu e o rodapé apontam para cá. */}
+  <section class="precos" id="recursos" aria-labelledby="precos-h">
+    <div class="wrap precos-grid">
+      <div class="precos-cab">
+        <span class="eyebrow">Histórico de preços</span>
+        <h2 id="precos-h">O&nbsp;arroz <em>subiu?</em></h2>
+        <p class="sub">{junta('Cada nota alimenta o histórico. Veja a tendência de cada produto e em qual mercado ele sai mais barato.')}</p>
       </div>
-      <div class="bento" data-reveal-group>
-        <article class="card b1">
-          <div class="txt">
-            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ic.lista} /></svg></span>
-            <h3>Uma lista só para a casa toda</h3>
-            <p>Todo mundo que mora junto vê e edita a mesma lista, em tempo real. Quem está no mercado marca o que já pegou.</p>
-            <ul>
-              <li>Itens agrupados por categoria, com quantidade e unidade.</li>
-              <li>Várias listas: mercado, feira, farmácia, churrasco.</li>
-              <li>Listas só suas, que mais ninguém da casa vê.</li>
-            </ul>
-          </div>
-          <Phone nome="lista" alt="Lista Mercado da semana no app: item em aberto e itens já no carrinho, com o total estimado" />
-        </article>
-        <article class="card b2">
-          <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={ic.preco} /></svg></span>
-          <h3>Preços que contam uma história</h3>
-          <p>Cada nota alimenta o histórico. Veja a tendência de cada produto e em qual mercado ele sai mais barato.</p>
-          <ul>
-            <li>Preço atual por produto e por mercado.</li>
-            <li>Nomes de produtos já limpos, sem aquele código esquisito da nota.</li>
-          </ul>
-        </article>
-        <article class="card b3">
-          <div class="txt">
-            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h14v17l-2.3-1.5L14.3 21 12 19.5 9.7 21l-2.4-1.5L5 21zM9 9h6M9 13h6" /></svg></span>
-            <h3>Suas compras, num só lugar</h3>
-            <p>Veja quanto a casa gastou no mês, em quais mercados, e abra qualquer compra para conferir item por item.</p>
-            <ul>
-              <li>Gasto do mês e histórico de compras.</li>
-              <li>Corrija nomes de mercados e itens quando quiser.</li>
-            </ul>
-          </div>
-          <Phone platform="android" nome="compras" alt="Gastos no app, em um Android: total gasto no mês e para onde foi o dinheiro" />
-        </article>
-        <article class="card b4">
-          <div class="txt">
-            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M8 8l4-4 4 4M5 14v5h14v-5" /></svg></span>
-            <h3>Convide só para uma lista</h3>
-            <p>Precisa de ajuda numa compra, ou vai fazer um churrasco com a turma? Gere um código e convide uma pessoa para aquela lista, sem abrir o resto da casa.</p>
-            <ul>
-              <li>O código vale por 30 minutos e você aprova quem entra.</li>
-              <li>Permissão só para ver ou também para editar.</li>
-              <li>Quem é convidado não vê as compras, os preços nem os outros itens da casa.</li>
-            </ul>
-          </div>
-          <Phone nome="casa" alt="Casa no app, aberta pela aba Você: as pessoas da casa e o convite" />
-        </article>
+      <div class="precos-ficha"><FichaPreco /></div>
+      <Topicos class="precos-top" itens={topicos.precos.map(junta)} />
+    </div>
+    <div class="wrap gasto">
+      <div class="gasto-txt">
+        <h3>Suas compras, num&nbsp;só&nbsp;lugar</h3>
+        <p class="sub">{junta('Veja quanto a casa gastou no mês, em quais mercados, e abra qualquer compra para conferir item por item.')}</p>
+        <Topicos itens={topicos.gasto.map(junta)} />
+      </div>
+      <div class="gasto-tel">
+        <Phone platform="android" nome="compras" alt="Gastos no app, em um Android: total gasto no mês e para onde foi o dinheiro" sizes="(min-width: 960px) 260px, 240px" />
+      </div>
+    </div>
+  </section>
+
+  {/* A casa: a lista compartilhada e o convite por lista, com a tela real da casa (a demonstração de sincronização, M14, ficou para depois). */}
+  <section class="casa" aria-labelledby="casa-h">
+    <div class="wrap casa-grid">
+      <div class="casa-txt">
+        <span class="eyebrow">A casa</span>
+        <h2 id="casa-h">A&nbsp;casa toda na&nbsp;<em>mesma lista.</em></h2>
+        <p class="sub">{junta('Todo mundo que mora junto vê e edita a mesma lista, em tempo real.')}</p>
+        <Topicos itens={topicos.casa.map(junta)} />
+        <h3>Convide&nbsp;só para&nbsp;uma&nbsp;lista</h3>
+        <p class="sub">{junta('Precisa de ajuda numa compra, ou vai fazer um churrasco com a turma? Gere um código e convide uma pessoa para aquela lista, sem abrir o resto da casa.')}</p>
+        <Topicos itens={topicos.convite.map(junta)} />
+      </div>
+      <div class="casa-tel">
+        <Phone nome="casa" alt="Casa no app, aberta pela aba Você: as pessoas da casa e o convite" sizes="(min-width: 960px) 300px, 240px" />
       </div>
     </div>
   </section>
@@ -340,26 +347,15 @@ const perguntas = [
     </div>
   </section>
 
-  <section id="planos">
+  {/* Planos em recibo (proposta, seção 8, item 7): cada plano é uma nota, com os itens em mono, o pontilhado e o total. */}
+  <section class="planos" id="planos" aria-labelledby="planos-h">
     <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <span class="eyebrow">Planos</span>
-        <h2>Comece de graça</h2>
+      <span class="eyebrow">Planos</span>
+      <h2 id="planos-h">Comece <em>de&nbsp;graça.</em></h2>
+      <div class="recibos">
+        {planos.map((p) => <Recibo {...p} sub={junta(p.sub)} />)}
       </div>
-      <div class="plans" style="margin-top:0" data-reveal-group>
-        <div class="card plan">
-          <h3>Grátis para começar</h3>
-          <p class="price-big">R$ 0</p>
-          <p class="muted" style="margin:0">Baixe e comece a usar sem pagar nada: lista da casa, convites, leitura de notas e exportação em CSV.</p>
-        </div>
-        <div class="card plan full">
-          <span class="pill sm">Em breve</span>
-          <h3 style="margin-top:8px">Plano completo</h3>
-          <p class="price-big"><small>a partir de </small>R$ 6,00<small> por mês</small></p>
-          <p class="muted" style="margin:0">Histórico de preços completo, comparação entre mercados com gráficos, mais listas, pessoas e convidados. No plano anual.</p>
-        </div>
-      </div>
-      <p style="margin:12px 0 0"><a class="link-btn" href="/planos">Ver planos e preços</a></p>
+      <p class="planos-mais"><a class="link-btn" href="/planos">Ver planos e preços</a></p>
     </div>
   </section>
 
@@ -376,13 +372,11 @@ const perguntas = [
     </div>
   </section>
 
-  <section class="cta-sec">
-    <div class="wrap">
-      <div class="cta-card" data-reveal>
-        <div class="cta-mark" aria-hidden="true"><Glyph /></div>
-        <h2>Leve a Despensa para o mercado.</h2>
-        <StoreButtons center />
-      </div>
+  {/* Chamada final: sem cartão, aberta pelo picote da nota. As palavras curtas ficam grudadas: nenhuma linha termina em "a", "para" ou "o". */}
+  <section class="fim" aria-labelledby="fim-h">
+    <div class="wrap fim-grid">
+      <h2 id="fim-h">Leve a&nbsp;Despensa para&nbsp;o&nbsp;<em>mercado.</em></h2>
+      <StoreButtons />
     </div>
   </section>
 </Base>
