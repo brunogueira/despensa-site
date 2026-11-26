@@ -1,0 +1,32 @@
+---
+// Uma tela do app: a captura real (clara e, quando existir, a escura), otimizada (webp, 2 larguras) pelo astro:assets.
+// Vai dentro de uma moldura .phone (Phone.astro, ou o palco do "Como funciona", que empilha três telas na mesma moldura).
+// nome: arquivo em src/assets/telas/<platform>/<nome>.png; a versão escura é escuro-<nome>.png.
+// platform: 'ios' (capturas 600x1304) ou 'android' (600x1200).
+import { getImage } from 'astro:assets';
+
+// sizes: largura exibida, para o navegador escolher entre as duas larguras do webp (o padrão serve às molduras de 210 a 240 px).
+interface Props { nome: string; alt: string; platform?: 'ios' | 'android'; eager?: boolean; sizes?: string }
+const { nome, alt, platform = 'ios', eager = false, sizes = '(min-width: 900px) 240px, 210px' } = Astro.props;
+
+const todas = import.meta.glob<{ default: ImageMetadata }>('../assets/telas/**/*.png', { eager: true });
+const achar = (n: string) => todas[`../assets/telas/${platform}/${n}.png`]?.default;
+const claro = achar(nome);
+if (!claro) throw new Error(`Captura não encontrada: ${platform}/${nome}`);
+const escuro = achar(`escuro-${nome}`);
+
+async function conjunto(img: ImageMetadata) {
+  const [p, g] = await Promise.all([
+    getImage({ src: img, format: 'webp', width: 300, quality: 82 }),
+    getImage({ src: img, format: 'webp', width: 600, quality: 82 }),
+  ]);
+  return { srcset: `${p.src} 300w, ${g.src} 600w`, src: g.src };
+}
+const c = await conjunto(claro);
+const e = escuro ? await conjunto(escuro) : undefined;
+const height = platform === 'android' ? 1200 : 1304;
+---
+{/* Duas <img> em vez de <picture>: o <source media> segue só o aparelho e não obedece ao botão de tema.
+     O CSS mostra a do tema efetivo; a outra fica com display: none (fora da leitura e, se lazy, nem baixa). */}
+<img class:list={['tela-clara', e && 'tem-escura']} src={c.src} srcset={c.srcset} sizes={sizes} width="600" height={height} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={eager ? 'high' : undefined} />
+{e && <img class="tela-escura" src={e.src} srcset={e.srcset} sizes={sizes} width="600" height={height} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" fetchpriority={eager ? 'high' : undefined} />}
