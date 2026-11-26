@@ -34,7 +34,7 @@ const passos = [
   },
   {
     t: 'Leia a nota fiscal',
-    d: 'No caixa, aponte a câmera para o QR da nota (NFC-e), ou cole o link ou a chave. A Despensa busca os itens e os preços na Fazenda do estado e preenche a compra. Você só confere.',
+    d: 'Aponte a câmera para o QR Code da nota (NFC-e) ou cole o link ou a chave, e a Despensa busca os itens e os preços na Fazenda do estado.',
     linha: ['Supermercado Central', 'R$ 400,08'],
     tela: 'compra-detalhe',
     ios: 'Compra aberta no iPhone, com a nota já lida: mercado, total, forma de pagamento e itens',
@@ -49,6 +49,8 @@ const passos = [
     android: 'Preço de um produto no Android: último, menor e maior preço pagos, média e histórico ao longo do tempo',
   },
 ];
+// Palavra curta (artigo, preposição, "e", "ou") fica grudada na seguinte: nenhuma linha dos passos termina com ela sozinha.
+const cola = (t: string) => t.replace(/(?<=^|\s)([aeoAEO]|ou|as|os|da|de|do|em|na|no)\s/g, '$1\u00a0').replace('QR Code', 'QR\u00a0Code');
 const aparelhos = [
   { id: 'ios', nome: 'iPhone' },
   { id: 'android', nome: 'Android' },
@@ -148,7 +150,7 @@ const perguntas = [
             {i < passos.length - 1 && <span class="fio" aria-hidden="true"></span>}
             <span class="no" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <h3>{p.t}</h3>
-            <p class="d">{p.d}</p>
+            <p class="d">{cola(p.d)}</p>
             <p class="line" aria-hidden="true"><span>{p.linha[0]}</span><span class="dl"></span><b>{p.linha[1]}</b></p>
             <div class="inline-phone">
               {aparelhos.map((a) => (
@@ -162,38 +164,67 @@ const perguntas = [
       </ol>
     </div>
     <script is:inline>
-      // "Como funciona": o passo que cruza o meio da tela (faixa de 10% no centro) vira o ativo. Ele decide a tela do celular fixo
-      // (data-passo no palco), o fio e os pontos (M9). Funciona também com "reduzir movimento": aí as trocas são instantâneas.
+      // "Como funciona": o passo que contém a linha do meio da tela vira o ativo. Ele decide a tela do celular fixo
+      // (data-passo no palco), o fio e os pontos (M9). Funciona também com "reduzir movimento": aí a troca de tela é um fade curto.
       // Sem IntersectionObserver, nada muda: a página fica no layout estreito, um celular por passo.
       (function () {
         var sec = document.currentScript.parentNode, palco = sec.querySelector('.palco');
-        var lis = [].slice.call(sec.querySelectorAll('.steps > li'));
-        // Aparelho: a escolha vale só nesta sessão (sessionStorage); se o armazenamento falhar, fica no iPhone.
-        try { var ap = sessionStorage.getItem('aparelho'), r = ap && document.getElementById('ap-' + ap); if (r) r.checked = true; } catch (e) {}
+        var ol = sec.querySelector('.steps'), lis = [].slice.call(ol.children);
+        // Aparelho: a escolha vale só nesta sessão (sessionStorage). Sem escolha, quem visita de um Android começa no Android;
+        // sem JS (ou se o armazenamento falhar) fica no iPhone.
+        var ap = null;
+        try { ap = sessionStorage.getItem('aparelho'); } catch (e) {}
+        if (!ap && /Android/i.test(navigator.userAgent)) ap = 'android';
+        var r0 = ap && document.getElementById('ap-' + ap);
+        if (r0) r0.checked = true;
         sec.querySelectorAll('input[name="aparelho"]').forEach(function (r) {
           r.addEventListener('change', function () {
             palco.setAttribute('data-trocou', '');
             try { sessionStorage.setItem('aparelho', r.value); } catch (e) {}
           });
         });
+        // Ao chegar no alternador (ponteiro ou foco), baixa as telas do aparelho que não está à mostra, só as do tema e do layout
+        // atuais (palco no desktop, um celular por passo no estreito): a moldura não entra vazia na primeira troca.
+        var ap0 = sec.querySelector('.ap'), baixou = {};
+        function preCarregar() {
+          var outro = sec.querySelector('#ap-android').checked ? 'ios' : 'android';
+          if (baixou[outro]) return;
+          baixou[outro] = true;
+          var onde = getComputedStyle(palco).display === 'none' ? '.inline-phone' : '.palco';
+          sec.querySelectorAll(onde + ' .so-' + outro + ' img').forEach(function (img) {
+            if (getComputedStyle(img).display === 'none') return;
+            var i = new Image();
+            i.sizes = img.sizes; i.srcset = img.srcset; i.src = img.src;
+          });
+        }
+        ap0.addEventListener('pointerenter', preCarregar);
+        ap0.addEventListener('focusin', preCarregar);
         if (!('IntersectionObserver' in window)) return;
+        var atual = 0;
         function marcar(n) {
+          if (n === atual) return;
+          atual = n;
           palco.setAttribute('data-passo', n);
           lis.forEach(function (li, i) { li.classList.toggle('on', i + 1 === n); li.classList.toggle('feito', i + 1 < n); });
+        }
+        // O passo ativo sai da geometria, não da entrada que o observador avisou: o li que contém o meio da tela. Acima da lista
+        // (ela começa abaixo do meio) é o 1; depois dela, o último. Assim a rolagem pode inverter a qualquer hora sem prender o passo.
+        function passoNoMeio() {
+          var y = innerHeight / 2, r = ol.getBoundingClientRect();
+          if (r.top > y) return 1;
+          if (r.bottom <= y) return lis.length;
+          for (var i = 0; i < lis.length; i++) {
+            var b = lis[i].getBoundingClientRect();
+            if (b.top <= y && b.bottom > y) return i + 1;
+          }
+          return atual || 1;
         }
         sec.classList.add('com-js');
         marcar(1);
         // As transições só ligam depois do primeiro quadro: a troca do estado-base (tudo preenchido) para o passo 1 não anima.
         requestAnimationFrame(function () { requestAnimationFrame(function () { sec.classList.add('pronto'); }); });
-        // A lista inteira também é observada: se ela sai da faixa (um salto pelo menu, por exemplo), o passo vira o 1 (a lista ficou
-        // abaixo do meio da tela) ou o último (ficou acima), em vez de ficar preso no que estava.
-        var ol = sec.querySelector('.steps');
-        var io = new IntersectionObserver(function (es) {
-          es.forEach(function (e) {
-            if (e.target === ol) { if (!e.isIntersecting && e.rootBounds) marcar(e.boundingClientRect.top >= e.rootBounds.bottom ? 1 : lis.length); }
-            else if (e.isIntersecting) marcar(lis.indexOf(e.target) + 1);
-          });
-        }, { rootMargin: '-45% 0px -45% 0px' });
+        // Faixa de altura zero no meio da tela: o observador avisa sempre que a borda de um passo (ou da lista) cruza essa linha.
+        var io = new IntersectionObserver(function () { marcar(passoNoMeio()); }, { rootMargin: '-50% 0px -50% 0px' });
         io.observe(ol);
         lis.forEach(function (li) { io.observe(li); });
         // Tela estreita: o feixe varre a tela de compra do passo 2 quando 60% dela aparece; volta a varrer só depois de sair de vista.

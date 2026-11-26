@@ -317,7 +317,8 @@ a.store:hover { background: var(--surface); }
 /* Como funciona (docs/lp-premium/proposta.md, M7 a M9): três passos ligados por um fio e, no desktop, um celular fixo que troca de tela
    conforme o passo que está no meio da tela. Estado-base, sem JS: fio preenchido, pontos com check e um celular por passo, em uma coluna.
    O script da seção (index.astro) põe .com-js (passo ativo, palco fixo no desktop) e, um quadro depois, .pronto (liga as transições).
-   Movimento só com transform e opacity, dentro de prefers-reduced-motion: no-preference. */
+   Movimento só com transform e opacity (exceção: a cor do rótulo do alternador), dentro de prefers-reduced-motion: no-preference;
+   com reduce, só o fade de 120 ms da troca de tela. */
 .how { padding-block: clamp(72px, 11vw, 150px); border-top: 1px solid var(--divider); }
 /* minmax(0, 1fr): a coluna não cresce até o trecho da nota (texto que não quebra); o nome longo é que é cortado. */
 .how-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; }
@@ -357,6 +358,7 @@ a.store:hover { background: var(--surface); }
 .steps .line span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .steps .line .dl { flex: 1 0 12px; border-bottom: 1px dotted var(--text-2); transform: translateY(-3px); }
 .steps .line b { flex: none; font-weight: 700; color: var(--primary); white-space: nowrap; }
+@media (max-width: 359px) { .steps .line { gap: 6px; font-size: .6875rem; letter-spacing: 0; } .steps .line .dl { flex-basis: 10px; } }
 .inline-phone { margin-top: 10px; }
 .inline-phone .phone { --w: 220px; }
 /* Camada por cima da tela de um Phone (o feixe do passo 2 na tela estreita): do tamanho da tela, cortada nos cantos dela. */
@@ -392,9 +394,9 @@ a.store:hover { background: var(--surface); }
   .com-js .how-stage { --wp: clamp(220px, calc(46vh - 84px), 300px); --alto: calc(134px + (var(--wp) - 18px) * 2.1733); grid-column: 2; grid-row: 1 / span 2; position: sticky; top: max(76px, calc(32px + (100vh - var(--alto)) / 2)); flex-direction: column; flex-wrap: nowrap; gap: 20px; }
   .com-js .palco { display: block; }
   .com-js .inline-phone { display: none; }
-  /* Foco no passo ativo sem perder o contraste AA: o h3 (texto grande) fica a 58% e o trecho da nota a 72%; o parágrafo não muda. */
+  /* Foco no passo ativo sem perder o contraste AA: só o h3 (texto grande) esmaece, a 58% (3,5:1 no claro). Parágrafo e trecho da nota
+     não mudam (o valor em verde, 12 px, esmaecido cairia abaixo de 4,5:1). */
   .com-js .steps li:not(.on) h3 { opacity: .58; }
-  .com-js .steps li:not(.on) .line { opacity: .72; }
 }
 
 /* Movimento do "Como funciona": troca de tela (M7), feixe no passo 2 (M8), fio, pontos e foco (M9), alternador. */
@@ -403,15 +405,24 @@ a.store:hover { background: var(--surface); }
   .pronto .palco[data-passo="1"] .s1, .pronto .palco[data-passo="2"] .s2, .pronto .palco[data-passo="3"] .s3 { transition: opacity 260ms var(--ease-out), transform 260ms var(--ease-out); }
   .palco[data-passo="2"] .beam, .lendo-tela .beam { animation: varre 1300ms linear 120ms backwards; }
   .palco[data-trocou] .phone { animation: fade-sobe 240ms var(--ease-out); }
-  .pronto .steps :is(h3, .line) { transition: opacity 400ms var(--ease-out); }
+  .pronto .steps h3 { transition: opacity 400ms var(--ease-out); }
   .pronto .steps .fio::after { transition: transform 600ms var(--ease-in-out); }
   .pronto .steps .dot::before { transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out); }
   /* O ponto do novo passo enche quando o fio chega nele. */
   .pronto .steps li.on .dot::before { transition-delay: 380ms; }
   .pronto .steps .dot svg { transition: opacity 240ms var(--ease-out), transform 240ms var(--ease-out); }
   .pronto .ap-thumb { transition: transform 240ms var(--ease-out); }
+  /* O rótulo muda de cor junto com o polegar (mesma duração e curva): o texto nunca fica claro sobre o fundo claro no caminho. */
   .ap label { transition: transform 160ms var(--ease-out); }
+  .pronto .ap label { transition: transform 160ms var(--ease-out), color 240ms var(--ease-out); }
   .ap label:active { transform: scale(.97); }
+}
+/* Com "reduzir movimento": nada se desloca, mas a troca de tela do celular fixo continua um fade de 120 ms (M7), só de opacidade.
+   O !important vence a regra global que zera as transições (é mais específico). */
+@media (prefers-reduced-motion: reduce) {
+  .palco .s { transform: none; }
+  .pronto .palco .s { transition: opacity 0s linear 120ms !important; }
+  .pronto .palco[data-passo="1"] .s1, .pronto .palco[data-passo="2"] .s2, .pronto .palco[data-passo="3"] .s3 { transition: opacity 120ms linear !important; }
 }
 
 /* Recursos (bento) */
