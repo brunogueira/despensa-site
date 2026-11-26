@@ -3,6 +3,7 @@
 // É ilustração, com dados de exemplo (os mesmos das telas do app). O CPF nunca aparece: só uma máscara sem dígitos, coberta pela tarja.
 // O feixe do leitor varre a nota e cada linha reage quando ele passa (M3 a M5 de docs/lp-premium/proposta.md).
 // O estado-base é o final (marcas, checks e tarja já no lugar); o movimento só existe com prefers-reduced-motion: no-preference.
+// Com JS, a leitura espera a nota aparecer (60% dela na tela): no celular ela começa abaixo da dobra.
 import Glyph from './Glyph.astro';
 
 interface Props { class?: string }
@@ -16,39 +17,50 @@ const itens = [
 ];
 ---
 <div class:list={['receipt', 'lendo', cls]}>
-  <div class="rshadow">
-    <div class="paper" role="img" aria-label="Nota fiscal de exemplo sendo lida: itens com preço e o CPF coberto por uma tarja, com a indicação de descartado">
-      <div class="beam" aria-hidden="true"></div>
-      <div class="hd" aria-hidden="true">
-        <Glyph />
-        <div><b>Supermercado Central</b><small>11/10/2026 · dados de exemplo</small></div>
-      </div>
-      <div aria-hidden="true">
-        {itens.map(([nome, preco]) => (
-          <div class="r" data-hit>
-            <svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-            <span>{nome}</span><span class="dl"></span><b class="pr"><span class="mk"></span>{preco}</b>
-          </div>
-        ))}
-        <div class="more">+ 8 produtos</div>
-        <div class="sum"><span>Subtotal</span><span>406,08</span></div>
-        <div class="sum"><span>Desconto</span><span>- 6,00</span></div>
-        <div class="cpf" data-hit><span class="lb">CPF</span><span class="val"><s>···.···.···-··</s><i class="tarja"></i></span><span class="ds">Descartado</span></div>
-        <div class="tot" data-hit><span>Total pago</span><b class="pr"><span class="mk"></span>R$ 400,08</b></div>
-      </div>
+  <div class="rshadow" aria-hidden="true"></div>
+  <div class="paper" role="img" aria-label="Nota fiscal de exemplo sendo lida: itens com preço e o CPF coberto por uma tarja, com a indicação de descartado">
+    <div class="beam-box" aria-hidden="true"><div class="beam"></div></div>
+    <div class="hd" aria-hidden="true">
+      <Glyph />
+      <div><b>Supermercado Central</b><small>11/10/2026 · dados de exemplo</small></div>
+    </div>
+    <div aria-hidden="true">
+      {itens.map(([nome, preco]) => (
+        <div class="r" data-hit>
+          <svg class="ck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+          <span>{nome}</span><span class="dl"></span><b class="pr"><span class="mk"></span>{preco}</b>
+        </div>
+      ))}
+      <div class="more">+ 8 produtos</div>
+      <div class="sum"><span>Subtotal</span><span>406,08</span></div>
+      <div class="sum"><span>Desconto</span><span>- 6,00</span></div>
+      <div class="cpf" data-hit><span class="lb">CPF</span><span class="val"><s>···.···.···-··</s><i class="tarja"></i></span><span class="ds">Descartado</span></div>
+      <div class="tot" data-hit><span>Total pago</span><b class="pr"><span class="mk"></span>R$ 400,08</b></div>
     </div>
   </div>
 </div>
 <script is:inline>
   // Quando o feixe "lê" cada linha: a posição real dela na nota (0 a 1) vira --hit, que atrasa a marca, o check e a tarja.
-  // Mede uma vez (o papel tem largura fixa e fonte do sistema). Sem movimento, nada a medir.
+  // Mede uma vez (o papel tem largura fixa e fonte do sistema). Sem movimento, nada a medir nem a esperar.
+  // A leitura fica pausada (CSS: .js .lendo:not(.ver)) até 60% da nota aparecer. Já visível na carga, segue a coreografia;
+  // se aparecer pela rolagem, o feixe começa logo (--t0 de 250 ms).
   (function (s) {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    var p = s.previousElementSibling.querySelector('.paper'), h = p.offsetHeight;
+    var r = s.previousElementSibling, p = r.querySelector('.paper'), h = p.offsetHeight, carga = true;
     p.querySelectorAll('[data-hit]').forEach(function (el) {
       var y = el.offsetHeight / 2, n = el;
       while (n && n !== p) { y += n.offsetTop; n = n.offsetParent; }
       el.style.setProperty('--hit', Math.min(1, y / h).toFixed(3));
     });
+    if (!('IntersectionObserver' in window)) { r.classList.add('ver'); return; }
+    var io = new IntersectionObserver(function (es) {
+      if (es[0].intersectionRatio >= .59) {
+        if (!carga) r.style.setProperty('--t0', '250ms');
+        r.classList.add('ver');
+        io.disconnect();
+      }
+      carga = false;
+    }, { threshold: .6 });
+    io.observe(r);
   })(document.currentScript);
 </script>

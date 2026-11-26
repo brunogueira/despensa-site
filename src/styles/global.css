@@ -247,11 +247,12 @@ a.store:hover { background: var(--surface); }
 .px-nota { left: 0; top: 70px; z-index: 3; }
 .stage .phone { --w: 272px; }
 
-/* Nota fiscal (Nota.astro): papel térmico com borda serrilhada, o rolo do glifo. A sombra fica no pai parado; o que se move são os filhos. */
-.receipt { width: 292px; transform: rotate(-3deg); transform-origin: 30% 20%; }
-.rshadow { filter: drop-shadow(0 22px 22px var(--shadow)) drop-shadow(0 2px 3px var(--shadow-soft)); }
+/* Nota fiscal (Nota.astro): papel térmico com borda serrilhada, o rolo do glifo.
+   A sombra é de um irmão parado com a mesma forma (.rshadow, atrás do papel): nada que se move fica dentro do filtro. */
+.receipt { position: relative; width: 292px; transform: rotate(-3deg); transform-origin: 30% 20%; }
+.rshadow { position: absolute; inset: 0; background: var(--paper); filter: drop-shadow(0 22px 22px var(--shadow)) drop-shadow(0 2px 3px var(--shadow-soft)); }
 .paper { position: relative; background: var(--paper); color: var(--paper-ink); padding: 20px 18px 24px; font: 500 12px/1.4 var(--mono); letter-spacing: .02em; }
-.paper::after { content: ""; position: absolute; left: 0; right: 0; top: calc(100% - 1px); height: 9px; background: var(--paper); -webkit-mask: conic-gradient(from -45deg at bottom, transparent, black 1deg 89deg, transparent 90deg) 50% / 18px 100%; mask: conic-gradient(from -45deg at bottom, transparent, black 1deg 89deg, transparent 90deg) 50% / 18px 100%; }
+.paper::after, .rshadow::after { content: ""; position: absolute; left: 0; right: 0; top: calc(100% - 1px); height: 9px; background: var(--paper); -webkit-mask: conic-gradient(from -45deg at bottom, transparent, black 1deg 89deg, transparent 90deg) 50% / 18px 100%; mask: conic-gradient(from -45deg at bottom, transparent, black 1deg 89deg, transparent 90deg) 50% / 18px 100%; }
 .paper .hd { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px dashed color-mix(in srgb, var(--paper-ink) 28%, transparent); margin-bottom: 12px; }
 .paper .hd svg { width: 18px; height: auto; color: var(--paper-accent); flex: none; }
 .paper .hd b { display: block; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
@@ -271,8 +272,10 @@ a.store:hover { background: var(--surface); }
 .paper .ds { font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--paper-accent); }
 .paper .tot { display: flex; justify-content: space-between; align-items: baseline; font-size: 14px; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; padding-top: 4px; font-variant-numeric: tabular-nums; }
 .paper .tot .pr { font-size: 15px; }
-/* O feixe do leitor: uma linha verde com um rastro acima. Invisível parado; só aparece durante a varredura. */
-.beam { position: absolute; left: -4px; right: -4px; top: 0; height: 100%; pointer-events: none; z-index: 5; opacity: 0; }
+/* O feixe do leitor: uma linha verde com um rastro acima. Invisível parado; só aparece durante a varredura.
+   A caixa parada do tamanho do papel corta o rastro em cima e embaixo (não vaza sobre o fundo) e deixa o brilho dos lados. */
+.beam-box { position: absolute; inset: 0; clip-path: inset(0 -20px); pointer-events: none; z-index: 5; }
+.beam { position: absolute; left: -4px; right: -4px; top: 0; height: 100%; opacity: 0; }
 .beam::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--paper-accent); box-shadow: 0 0 14px 1px var(--paper-accent); }
 .beam::after { content: ""; position: absolute; left: 4px; right: 4px; bottom: calc(100% - 2px); height: 70px; background: linear-gradient(to top, color-mix(in srgb, var(--paper-accent) 26%, transparent), transparent); }
 
@@ -293,6 +296,8 @@ a.store:hover { background: var(--surface); }
   .lendo .ck { animation: check-entra 240ms var(--ease-out) backwards; animation-delay: calc(var(--t0) + var(--hit, .5) * var(--dur)); }
   .lendo .tarja { animation: marca 380ms var(--ease-out) backwards; animation-delay: calc(var(--t0) + var(--hit, .6) * var(--dur)); }
   .lendo .ds { animation: fade-sobe 300ms var(--ease-out) backwards; animation-delay: calc(var(--t0) + var(--hit, .6) * var(--dur) + 260ms); }
+  /* Com JS, a leitura espera a nota aparecer (o script do Nota.astro põe .ver). Sem JS, segue o tempo da carga e termina no estado final. */
+  .js .lendo:not(.ver) :is(.beam, .mk, .ck, .tarja, .ds) { animation-play-state: paused; }
 }
 /* Paralaxe (M6): só as duas camadas que se movem ganham camada própria, e só onde o script as move. */
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) { .px { will-change: translate; } }
