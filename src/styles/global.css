@@ -278,6 +278,8 @@ a.store:hover { background: var(--surface); }
   .steps li { display: block; padding: 20px 24px; background: var(--card); border: 1px solid var(--divider); border-radius: var(--r-lg); box-shadow: var(--shadow-1); }
   .steps li:not(:last-child)::before { left: auto; right: -24px; top: 48px; bottom: auto; width: 24px; height: 0; background: none; border-top: 2px dotted var(--text-2); }
   .steps .num { margin-bottom: 16px; }
+  /* Nas três colunas o título do passo fica menor, para caber numa linha e os parágrafos alinharem (até o layout novo do cartão 716). */
+  .steps h3 { font-size: clamp(1.5rem, .4rem + 2vw, 2rem); }
 }
 
 /* Destaque (faixa ink) */
@@ -376,8 +378,10 @@ footer.site li a:hover { text-decoration: underline; }
 
 /* Páginas de texto */
 .prose { max-width: 720px; padding: 48px 0 72px; }
-.prose h1 { font-size: clamp(1.8rem, 5vw, 2.5rem); line-height: 1.1; letter-spacing: -0.02em; }
-.prose h2 { font-size: 1.5rem; line-height: 1.2; margin-top: 2em; letter-spacing: -0.015em; }
+/* Três níveis que se distinguem pelo tamanho (o peso é o mesmo 500 em todos): h1 36 a 48 px, h2 28 px, h3 19,2 px. */
+.prose h1 { font-size: clamp(2.25rem, 1.5rem + 3vw, 3rem); line-height: 1.05; letter-spacing: -0.025em; }
+.prose h2 { font-size: 1.75rem; line-height: 1.15; margin-top: 2em; letter-spacing: -0.02em; }
+.prose h3 { font-size: 1.2rem; line-height: 1.3; margin-top: 1.6em; letter-spacing: -0.005em; }
 .prose table { border-collapse: collapse; width: 100%; font-size: .95rem; display: block; overflow-x: auto; }
 .prose th, .prose td { border: 1px solid var(--divider); padding: 8px 10px; text-align: left; vertical-align: top; }
 .prose blockquote { margin: 1.2em 0; padding: 4px 18px; border-left: 4px solid var(--primary); background: var(--surface); border-radius: 0 12px 12px 0; }
@@ -386,7 +390,9 @@ footer.site li a:hover { text-decoration: underline; }
 
 /* /planos */
 .page-head { padding-block: clamp(40px, 7vw, 80px) 0; }
-.page-head h1 { font-size: clamp(2.25rem, 1.4rem + 3.6vw, 3.75rem); }
+/* O h1 da página fica sempre acima do h2 (44 a 88 px contra 32 a 52 px): os h2 das seções seguintes usam uma escala menor que a da LP. */
+.page-head h1 { font-size: clamp(2.75rem, 1.2rem + 6vw, 5.5rem); }
+.page-head ~ section h2 { font-size: clamp(2rem, 1.2rem + 3vw, 3.25rem); line-height: 1.05; }
 .page-head .lead { max-width: 52ch; margin-inline: auto; }
 ul.check { list-style: none; padding: 0; margin: 16px 0 0; }
 ul.check li { padding-left: 1.6em; position: relative; margin-bottom: 8px; }
