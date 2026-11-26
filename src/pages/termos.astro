@@ -1,7 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
-import { Content } from '../content/termos.md';
+import TextoLegal from '../components/TextoLegal.astro';
+import * as texto from '../content/termos.md';
 ---
 <Base title="Termos de uso | Despensa" description="Os termos de uso do app Despensa, em linguagem simples." path="/termos">
-  <div class="wrap"><article class="prose"><Content /></article></div>
+  <div class="wrap"><TextoLegal texto={texto} /></div>
 </Base>
