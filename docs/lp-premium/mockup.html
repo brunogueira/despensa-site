@@ -189,7 +189,7 @@ nav a.nl { display: inline-flex; align-items: center; min-height: 44px; padding:
 .how h2 em, .priv h2 em { font-style: italic; font-weight: 400; color: var(--primary); }
 .how-grid { display: grid; gap: 40px; }
 @media (min-width: 960px) { .how-grid { grid-template-columns: minmax(0, 1fr) 380px; column-gap: 96px; align-items: start; } .how-head { grid-column: 1; } .steps { grid-column: 1; } .how-stage { grid-column: 2; grid-row: 1 / span 2; } }
-.how-head { max-width: 22ch; }
+.how h2 { max-width: 14ch; text-wrap: balance; }
 .steps { list-style: none; margin: 0; padding: 0; }
 .steps li { position: relative; padding: 0 0 clamp(36px, 6vw, 56px) 48px; display: flex; flex-direction: column; gap: 10px; }
 @media (min-width: 960px) { .steps li { min-height: 58vh; justify-content: center; padding-bottom: 8vh; transition: opacity 400ms var(--ease-out); } .steps li:not(.on) { opacity: .38; } }
