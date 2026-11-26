@@ -35,7 +35,7 @@ const planos = [
   },
   {
     id: 'plano-completo', nome: 'Completo', sub: 'Tudo do plano grátis, e mais.', carimbo: 'Em breve',
-    itens: [['Pessoas na casa', 'até 10'], ['Listas ativas', 'ilimitadas'], ['Convidados por lista', 'até 50'], ['Histórico de preços', 'completo'], ['Comparação entre mercados', 'com gráficos'], ['Alertas de preço', 'em breve']],
+    itens: [['Pessoas na casa', 'até 10'], ['Listas ativas', 'ilimitadas'], ['Convidados por lista', 'até 50'], ['Histórico de preços', 'completo'], ['Comparar mercados', 'com gráficos'], ['Alertas de preço', 'em breve']],
     linha: ['No plano anual', 'R$ 71,99 por ano'],
     total: { rotulo: 'A partir de', valor: 'R$ 6,00', por: 'por mês' },
   },
@@ -278,20 +278,18 @@ const perguntas = [
     </script>
   </section>
 
-  {/* Preços (M13): a ficha de papel com o histórico de um produto, em que a linha se desenha, e o celular com a tela real de preços.
+  {/* Preços (M13): a ficha de papel com o histórico de um produto, com o menor preço em destaque e a linha que se desenha (sem celular:
+       a tela de preços já fecha o Como funciona, logo acima).
        Embaixo, as compras e o gasto do mês. Linhas finas no lugar de cartões. id="recursos": o menu e o rodapé apontam para cá. */}
   <section class="precos" id="recursos" aria-labelledby="precos-h">
     <div class="wrap precos-grid">
       <div class="precos-cab">
-        <span class="eyebrow">Preços</span>
+        <span class="eyebrow">Histórico de preços</span>
         <h2 id="precos-h">O&nbsp;arroz <em>subiu?</em></h2>
         <p class="sub">{junta('Cada nota alimenta o histórico. Veja a tendência de cada produto e em qual mercado ele sai mais barato.')}</p>
       </div>
       <div class="precos-ficha"><FichaPreco /></div>
       <Topicos class="precos-top" itens={topicos.precos.map(junta)} />
-      <div class="precos-tel">
-        <Phone nome="precos" alt={passos[2].ios} sizes="(min-width: 960px) 300px, 240px" />
-      </div>
     </div>
     <div class="wrap gasto">
       <div class="gasto-txt">

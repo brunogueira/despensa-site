@@ -35,6 +35,11 @@ const pm = pts[iMenor];
       <Glyph />
       <div><b>Arroz tipo 1 5kg</b><small>Mercearia · {compras.length} compras · dados de exemplo</small></div>
     </div>
+    {/* O número grande da seção (proposta, seção 6, item 3): o menor já pago, em serifa e no verde do papel. */}
+    <div class="destaque" aria-hidden="true">
+      <p class="rot">Menor já pago · Bom Preço · {compras[iMenor][0]}</p>
+      <p class="num">R$ {brl(menor)}</p>
+    </div>
     <div class="graf-box" aria-hidden="true">
       <p class="rot">Preço ao longo do tempo</p>
       <svg class="graf" viewBox={`0 0 ${W} ${H}`} fill="none">
@@ -48,7 +53,7 @@ const pm = pts[iMenor];
     </div>
     <div class="vals" aria-hidden="true">
       <p><span>Último · Central</span><span class="dl"></span><b>{brl(ultimo)}</b></p>
-      <p class="menor"><span>Menor já pago · Bom Preço</span><span class="dl"></span><b>{brl(menor)}</b></p>
+      <p><span>Maior</span><span class="dl"></span><b>{brl(maior)}</b></p>
       <p><span>Média</span><span class="dl"></span><b>{brl(media)}</b></p>
     </div>
   </div>
