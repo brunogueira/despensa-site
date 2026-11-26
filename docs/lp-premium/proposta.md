@@ -4,7 +4,7 @@ Cartão: brunogueira/despensa#713 (fase 1: análise e proposta). Autoria: ux.
 Estado: proposta para o Bruno decidir. Nada de `src/` foi alterado.
 Mockup: `docs/lp-premium/mockup.html` (hero e duas seções, claro e escuro, com o movimento principal funcionando).
 
-Como ver o mockup: `cd docs/lp-premium && python3 -m http.server 4471`, depois abrir `http://127.0.0.1:4471/mockup.html`. Para forçar um tema: `?tema=dark` ou `?tema=light`. O botão "Ver a leitura de novo" repete a varredura da nota (existe só no mockup, para facilitar a revisão).
+Como ver o mockup: `cd docs/lp-premium && python3 -m http.server 4471`, depois abrir `http://127.0.0.1:4471/mockup.html`. Para forçar um tema: `?tema=dark` ou `?tema=light`. Para ver a leitura da nota de novo, recarregue a página.
 
 Medições feitas em 26/11/2026 no navegador embutido (desktop 1280 px e celular 375x812, nos dois temas), mais leitura de todo o código da LP (`index.astro`, `global.css`, `Base.astro`, `Phone.astro`, `StoreButtons.astro`, `Glyph.astro`).
 
